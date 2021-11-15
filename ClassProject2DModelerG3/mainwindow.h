@@ -30,6 +30,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    QString currentFilePath;
     //Vector<Shape> objects;
 };
 

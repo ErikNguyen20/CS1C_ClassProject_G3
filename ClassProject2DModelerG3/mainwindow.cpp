@@ -48,6 +48,8 @@ void MainWindow::on_loginButton_clicked()
                 statusBar()->showMessage("Successful");
             }
         }
+
+        accounts.close();
     }
     if(!successfulLogin)
     {
@@ -63,7 +65,7 @@ void MainWindow::on_registerButton_clicked()
     {
         QTextStream oFile(&accounts);
         oFile << ui->usernameTextEdit->toPlainText() << endl;
-        oFile << ui->passwordTextEdit->toPlainText() << endl << endl;
+        oFile << ui->passwordTextEdit->toPlainText() << endl;
 
         accounts.close();
         statusBar()->showMessage("Successful created new account!");
@@ -106,31 +108,24 @@ void MainWindow::on_actionOpen_triggered()
                 QString textFontStyle;
                 QString textFontWeight;
 
+                //Shape* shapePtr;
+
                 iFile >> title >> shapeId;
                 iFile >> title >> shapeType;
                 iFile >> title;
                 iFile.skipWhiteSpace();
                 QString shapeDimensions = iFile.readLine();
+
                 QRegularExpression pattern;
                 pattern.setPattern("\\W+");
                 QStringList dimensionsList = shapeDimensions.split(pattern);
+
                 int dimensionAr[dimensionsList.size()];
                 for(int index = 0; index < dimensionsList.size(); index++)
                 {
                     bool ok;
                     dimensionAr[index] = dimensionsList.at(index).toInt(&ok,10);
                 }
-
-                for(int index = 0; index < dimensionsList.size(); index++)
-                {
-                    QString displayNum;
-                    ui->textEdit->setPlainText(ui->textEdit->toPlainText() + displayNum.setNum(dimensionAr[index]) + '\n');
-                    //ui->textEdit->setPlainText(ui->textEdit->toPlainText() + dimensionsList[index] + '\n');
-                }
-
-                //Line Polyline
-
-                Shape* shapePtr;
 
                 if(shapeType == "Line" || shapeType == "Polyline")
                 {
