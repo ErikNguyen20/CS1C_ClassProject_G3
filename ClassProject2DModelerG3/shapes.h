@@ -29,6 +29,14 @@ enum Style
 enum Weight
 { Thin, Light, Normal, Bold };
 
+/********** STRUCT DEFINITIONS **********/
+
+struct Point
+{
+    int x;
+    int y;
+};
+
 /********** CLASS DEFINITIONS **********/
 
 class Shape
@@ -46,7 +54,7 @@ private:
 
 
 
-class Polygon : public Shape // Polygon extends Shape
+class PolyShape : public Shape // Polygon extends Shape
 {
 public:
 
@@ -65,11 +73,63 @@ private:
 
 
 
+class Line : public PolyShape // Line extends PolyShape
+{
+private:
+    Point start;
+    Point end;
+};
+
+class Polyline : public PolyShape // Polyline extends PolyShape
+{
+    
+};
+
+class Polygon : public PolyShape // Polygon extends PolyShape
+{
+    
+};
+
+class Rectangle : public PolyShape // Rectangle extends PolyShape
+{
+private:
+    Point origin;  // top left corner
+    double length;
+    double width;
+};
+
+class Square : public PolyShape // Square extends PolyShape
+{
+private:
+    Point origin;  // top left corner
+    double length;
+};
+
+class Ellipse : public PolyShape // Ellipse extends PolyShape
+{
+private:
+    Point origin;  // top left corner
+    double a;      // semi-major axis
+    double b;      // semi-minor axis
+};
+
+class Circle : public PolyShape // Circle extends PolyShape
+{
+private:
+    Point origin;  // top left corner
+    double r;      // radius
+};
+
+
+
 class Text : public Shape // Text extends Shape
 {
 public:
 
 private:
+    Point origin;  // top left corner
+    double length;
+    double width;
     QString textString;
     GlobalColor textColor;
     AlignmentFlag textAlign;
