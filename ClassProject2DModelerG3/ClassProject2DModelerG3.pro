@@ -26,7 +26,9 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    shapes.cpp
+    shapes.cpp \
+    polyshape.cpp \
+    text.cpp
 
 HEADERS += \
         mainwindow.h \

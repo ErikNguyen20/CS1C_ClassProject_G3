@@ -45,8 +45,10 @@ public:
     Shape();
     Shape(int id);
     Shape(const Shape &copy);
+    ~Shape();
 
-    int getID();
+    int getID() const;
+    void setID(int num);
 
 private:
     int shapeID;
@@ -57,6 +59,27 @@ private:
 class PolyShape : public Shape // Polygon extends Shape
 {
 public:
+    PolyShape();
+    PolyShape(const PolyShape &copy);
+    ~PolyShape();
+
+    // ACCESSORS
+    void setPenColor(GlobalColor color);
+    void setPenWidth(int width);
+    void setPenStyle(PenStyle style);
+    void setPenCapStyle(PenCapStyle style);
+    void setPenJoinStyle(PenJoinStyle style);
+    void setBrushColor(GlobalColor color);
+    void setBrushStyle(BrushStyle style);
+
+    // MUTATORS
+    GlobalColor getPenColor() const;
+    int getPenWidth() const;
+    PenStyle getPenStyle() const;
+    PenCapStyle getPenCapStyle() const;
+    PenJoinStyle getPenJoinStyle() const;
+    GlobalColor getBrushColor() const;
+    BrushStyle getBrushStyle() const;
 
 private:
     // PEN PROPERTIES
@@ -75,6 +98,18 @@ private:
 
 class Line : public PolyShape // Line extends PolyShape
 {
+public:
+    Line();
+    Line(const Line &copy);
+    ~Line();
+
+    void setPonts(Point start, Point end);
+    void setStartPoint(Point start);
+    void setEndPoint(Point end);
+
+    Point getStartPoint() const;
+    Point getEndPoint() const;
+
 private:
     Point start;
     Point end;
@@ -82,41 +117,86 @@ private:
 
 class Polyline : public PolyShape // Polyline extends PolyShape
 {
-    
+public:
+    Polyline();
+    ~Polyline();
+private:
+
 };
 
 class Polygon : public PolyShape // Polygon extends PolyShape
 {
-    
+public:
+    Polygon();
+    ~Polygon();
+private:
+
 };
 
-class Rectangle : public PolyShape // Rectangle extends PolyShape
+class OriginBasedShape : public PolyShape // OriginBasedShape extends PolyShape
 {
+public:
+    OriginBasedShape();
+    ~OriginBasedShape();
+
+    void setOrigin(Point origin);
+    Point getOrigin() const;
 private:
     Point origin;  // top left corner
+};
+
+class Rectangle : public OriginBasedShape // Rectangle extends OriginBasedShape
+{
+public:
+    Rectangle();
+    ~Rectangle();
+
+    virtual void setLength(double l);
+    virtual void setWidth(double w);
+
+    double getLength() const;
+    double getWidth() const;
+private:
     double length;
     double width;
 };
 
-class Square : public PolyShape // Square extends PolyShape
+class Square : public Rectangle // Square extends Rectangle
 {
-private:
-    Point origin;  // top left corner
-    double length;
+public:
+    Square();
+    ~Square();
+public:
+    void setLength(double l) override;
+    void setWidth(double w) override;
 };
 
-class Ellipse : public PolyShape // Ellipse extends PolyShape
+class Ellipse : public OriginBasedShape // Ellipse extends OriginBasedShape
 {
+public:
+    Ellipse();
+    ~Ellipse();
+
+    void setSemiMajor(double a);
+    void setSemiMinor(double b);
+
+    double getSemiMajor() const;
+    double getSemiMinor() const;
 private:
-    Point origin;  // top left corner
     double a;      // semi-major axis
     double b;      // semi-minor axis
 };
 
-class Circle : public PolyShape // Circle extends PolyShape
+class Circle : public OriginBasedShape // Circle extends OriginBasedShape
 {
+public:
+    Circle();
+    ~Circle();
+
+    void setRadius(double r);
+
+    double getRadius() const;
 private:
-    Point origin;  // top left corner
     double r;      // radius
 };
 
