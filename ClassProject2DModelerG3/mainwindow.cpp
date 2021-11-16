@@ -7,6 +7,7 @@ using std::endl;
 
 const QString ADMIN_USERNAME = "Admin";
 const QString ADMIN_PASSWORD = "Password";
+const QStringList SHAPE_TABLE = {"Line","Polyline","Polygon","Rectangle","Square","Ellipse","Circle","Text"};
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -91,10 +92,10 @@ void MainWindow::on_actionOpen_triggered()
             while(!iFile.atEnd())
             {
                 QString title;
-                QString shapeId;
+                int shapeId;
                 QString shapeType;
                 QString penColor;
-                QString penWidth;
+                int penWidth;
                 QString penStyle;
                 QString penCapStyle;
                 QString penJoinStyle;
@@ -103,7 +104,7 @@ void MainWindow::on_actionOpen_triggered()
                 QString textString;
                 QString textColor;
                 QString textAlignment;
-                QString textPointSize;
+                int textPointSize;
                 QString textFontFamily;
                 QString textFontStyle;
                 QString textFontWeight;
@@ -114,12 +115,13 @@ void MainWindow::on_actionOpen_triggered()
                 iFile >> title >> shapeType;
                 iFile >> title;
                 iFile.skipWhiteSpace();
-                QString shapeDimensions = iFile.readLine();
 
+                //Splits the Shape Dimensions Qstring into seperate Qstrings by digits.
                 QRegularExpression pattern;
                 pattern.setPattern("\\W+");
-                QStringList dimensionsList = shapeDimensions.split(pattern);
+                QStringList dimensionsList = iFile.readLine().split(pattern);
 
+                //Converts QStrings from the list into integers, storing them into dimensionAr
                 int dimensionAr[dimensionsList.size()];
                 for(int index = 0; index < dimensionsList.size(); index++)
                 {
@@ -127,6 +129,7 @@ void MainWindow::on_actionOpen_triggered()
                     dimensionAr[index] = dimensionsList.at(index).toInt(&ok,10);
                 }
 
+                //Read in specific properties to each shape type.
                 if(shapeType == "Line" || shapeType == "Polyline")
                 {
                     iFile >> title >> penColor;
@@ -137,11 +140,15 @@ void MainWindow::on_actionOpen_triggered()
                 }
                 else if(shapeType == "Text")
                 {
-                    iFile >> title >> textString;
+                    iFile >> title;
+                    iFile.skipWhiteSpace();
+                    textString = iFile.readLine();
                     iFile >> title >> textColor;
                     iFile >> title >> textAlignment;
                     iFile >> title >> textPointSize;
-                    iFile >> title >> textFontFamily;
+                    iFile >> title;
+                    iFile.skipWhiteSpace();
+                    textFontFamily = iFile.readLine();
                     iFile >> title >> textFontStyle;
                     iFile >> title >> textFontWeight;
                 }
@@ -155,11 +162,13 @@ void MainWindow::on_actionOpen_triggered()
                     iFile >> title >> brushColor;
                     iFile >> title >> brushStyle;
                 }
-                switch(SHAPE_TABLE.indexOf(shapeType)) //Could be shapeId or shapeType
+
+                //Create new derived shapes, then place them into a vector
+                switch(SHAPE_TABLE.indexOf(shapeType))
                 { //const QStringList SHAPE_TABLE = {"Line","Polyline","Polygon","Rectangle","Square","Ellipse","Circle","Text"};
                 case 0: //Line
                     //Create Line Object
-                    //shapePtr = new Line(shapeId,);
+                    //shapePtr = new Line(shapeId,...);
                     break;
                 case 1: //Polyline
                     // Create Polyline Object
@@ -177,12 +186,14 @@ void MainWindow::on_actionOpen_triggered()
                     //Create Ellipse Object
                     break;
                 case 6: //Circle
+                    //Create Circle Object
                     break;
                 case 7: //Text
+                    //Create Text Object
                     break;
                 };
 
-                //objects.append(shapePtr);
+                //newObjects.append(shapePtr);
             }
 
             //objects = newObjects;
