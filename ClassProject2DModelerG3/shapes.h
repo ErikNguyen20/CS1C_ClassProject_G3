@@ -184,28 +184,25 @@ public:
     Ellipse(const Ellipse &copy);
     ~Ellipse();
 
-    void setSemiMajor(double a);
-    void setSemiMinor(double b);
+    virtual void setSemiMajor(double semi);
+    virtual void setSemiMinor(double semi);
 
     double getSemiMajor() const;
     double getSemiMinor() const;
-private:
+protected:
     double a;      // semi-major axis
     double b;      // semi-minor axis
 };
 
-class Circle : public OriginBasedShape // Circle extends OriginBasedShape
+class Circle : public Ellipse // Circle extends Ellipse
 {
 public:
     Circle();
     Circle(const Circle &copy);
     ~Circle();
 
-    void setRadius(double r);
-
-    double getRadius() const;
-private:
-    double r;      // radius
+   void setSemiMajor(double semi) override;
+   void setSemiMinor(double semi) override;
 };
 
 

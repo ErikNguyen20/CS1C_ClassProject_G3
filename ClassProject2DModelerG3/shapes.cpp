@@ -20,6 +20,10 @@ void Shape::setID(int num)
 { shapeID = num; }
 
 
+// POLYSHAPE CLASS CODE
+// Included in polyshape.cpp
+
+
 // ORIGINBASEDSHAPE CLASS CODE
 
 OriginBasedShape::OriginBasedShape() : PolyShape(), origin{0, 0} {}
@@ -64,6 +68,13 @@ Point Line::getEndPoint() const
 { return endPoint; }
 
 
+// POLYLINE CLASS CODE
+
+
+// POLYGON CLASS CODE
+
+
+
 // RECTANGLE CLASS CODE
 
 Rectangle::Rectangle() : OriginBasedShape(), length(0), width(0) {}
@@ -84,6 +95,7 @@ double Rectangle::getLength() const
 double Rectangle::getWidth() const
 { return width; }
 
+
 // SQUARE CLASS CODE
 
 Square::Square() : Rectangle() {}
@@ -98,3 +110,41 @@ void Square::setLength(double l)
 void Square::setWidth(double w)
 { width = w; length = width; }
 
+
+// ELLIPSE CLASS CODE
+
+Ellipse::Ellipse() : OriginBasedShape(), a(0), b(0) {}
+
+Ellipse::Ellipse(const Ellipse &copy) : OriginBasedShape(copy), a(copy.getSemiMajor()), b(copy.getSemiMinor()) {}
+
+Ellipse::~Ellipse() {}
+
+void Ellipse::setSemiMajor(double semi)
+{ a = semi; }
+
+void Ellipse::setSemiMinor(double semi)
+{ b = semi; }
+
+double Ellipse::getSemiMajor() const
+{ return a; }
+
+double Ellipse::getSemiMinor() const
+{ return b; }
+
+
+// CIRCLE CLASS CODE
+
+Circle::Circle() : Ellipse() {}
+
+Circle::Circle(const Circle &copy) : Ellipse(copy) {}
+
+Circle::~Circle() {}
+
+void Circle::setSemiMajor(double semi)
+{ a = semi; b = a; }
+
+void Circle::setSemiMinor(double semi)
+{ b = semi; a = b;}
+
+// TEXT CLASS CODE
+// Included in text.cpp
