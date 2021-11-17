@@ -70,9 +70,39 @@ Point Line::getEndPoint() const
 
 // POLYLINE CLASS CODE
 
+Polyline::Polyline() : PolyShape(), pointCount(0)
+{ pointVector.reserve(2); }
+
+Polyline::Polyline(const Polyline &copy) : PolyShape(copy), pointVector(copy.getPoints()), pointCount(copy.getPointCount()) {}
+
+Polyline::~Polyline() {}
+
+void Polyline::addPoint(Point add)
+{
+    pointVector.push_back(add);
+    pointCount++;
+}
+
+void Polyline::removePoint()
+{
+    if(!pointVector.isEmpty())
+    {
+        pointVector.pop_back();
+        pointCount--;
+    }
+}
+
+QVector<Point> Polyline::getPoints() const
+{ return pointVector; }
+
+int Polyline::getPointCount() const
+{ return pointCount; }
 
 // POLYGON CLASS CODE
 
+Polygon::Polygon() {}
+Polygon::Polygon(const Polygon &copy) {}
+Polygon::~Polygon() {}
 
 
 // RECTANGLE CLASS CODE

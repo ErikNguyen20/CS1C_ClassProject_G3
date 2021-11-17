@@ -2,6 +2,7 @@
 #define SHAPES_H
 
 #include <QString>
+#include <QVector>
 
 /********** ENUM DEFINITIONS **********/
 
@@ -116,25 +117,36 @@ private:
     Point endPoint;
 };
 
+
+
 class Polyline : public PolyShape // Polyline extends PolyShape
 {
 public:
     Polyline();
     Polyline(const Polyline &copy);
     ~Polyline();
-private:
 
+    void addPoint(Point add);
+    void removePoint();
+
+    QVector<Point> getPoints() const;
+    int getPointCount() const;
+private:
+    QVector<Point> pointVector;
+    int pointCount;
 };
 
-class Polygon : public PolyShape // Polygon extends PolyShape
+
+class Polygon : public Polyline // Polygon extends PolyShape
 {
 public:
     Polygon();
     Polygon(const Polygon &copy);
     ~Polygon();
 private:
-
 };
+
+
 
 class OriginBasedShape : public PolyShape // OriginBasedShape extends PolyShape
 {
@@ -148,6 +160,8 @@ public:
 private:
     Point origin;  // top left corner
 };
+
+
 
 class Rectangle : public OriginBasedShape // Rectangle extends OriginBasedShape
 {
@@ -166,6 +180,8 @@ protected:
     double width;
 };
 
+
+
 class Square : public Rectangle // Square extends Rectangle
 {
 public:
@@ -176,6 +192,8 @@ public:
     void setLength(double l) override;
     void setWidth(double w) override;
 };
+
+
 
 class Ellipse : public OriginBasedShape // Ellipse extends OriginBasedShape
 {
@@ -193,6 +211,8 @@ protected:
     double a;      // semi-major axis
     double b;      // semi-minor axis
 };
+
+
 
 class Circle : public Ellipse // Circle extends Ellipse
 {
@@ -214,6 +234,29 @@ public:
     Text(const Text &copy);
     Text(QString text);
     ~Text();
+
+    void setOrigin(Point newOrigin);
+    void setLength(double l);
+    void setWdith(double w);
+    void setTextString(QString text);
+    void setTextColor(GlobalColor color);
+    void setTextAlign(AlignmentFlag align);
+    void setTextPointSize(int size);
+    void setTextFontFam(QString text);
+    void setTextFontStyle(Style style);
+    void setTextFontWeight(Weight weight);
+
+    Point getOrigin() const;
+    double getLength() const;
+    double getWidth() const;
+    QString getTextString() const;
+    GlobalColor getTextColor() const;
+    AlignmentFlag getTextAlign() const;
+    int getTextPointSize() const;
+    QString getTextFontFam() const;
+    Style getTextFontStyle() const;
+    Weight getTextFontWeight() const;
+
 private:
     Point origin;  // top left corner
     double length;
