@@ -193,7 +193,16 @@ void vector<T>::push_back(T val) {
 
 template<typename T>
 void vector<T>::reserve(int newalloc) {
-    
+    if(newalloc <= space) {
+        return;
+    }
+    T *p = new T[newalloc];
+    for (int i = 0; i < size_v; i++) {
+        p[i] = elem[i]
+    }
+    delete[] elem;
+    elem = p;
+    space = newalloc;
 }
 
 #endif
