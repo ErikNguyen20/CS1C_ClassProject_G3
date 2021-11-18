@@ -100,8 +100,8 @@ int Polyline::getPointCount() const
 
 // POLYGON CLASS CODE
 
-Polygon::Polygon() {}
-Polygon::Polygon(const Polygon &copy) {}
+Polygon::Polygon() : Polyline() {}
+Polygon::Polygon(const Polygon &copy) : Polyline(copy) {}
 Polygon::~Polygon() {}
 
 

@@ -18,7 +18,7 @@ Text::Text(QString text) : Shape(), origin{0, 0}, length(0), width(0), textStrin
 
 Text::~Text() {}
 
-void Text::setOrigin(Point newOrigin)
+void Text::setOrigin(QPoint newOrigin)
 { origin = newOrigin; }
 
 void Text::setLength(double l)
@@ -48,7 +48,7 @@ void Text::setTextFontStyle(Style style)
 void Text::setTextFontWeight(Weight weight)
 { textFontWeight = weight; }
 
-Point Text::getOrigin() const
+QPoint Text::getOrigin() const
 { return origin; }
 
 double Text::getLength() const
