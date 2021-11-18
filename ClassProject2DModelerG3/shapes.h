@@ -2,6 +2,7 @@
 #define SHAPES_H
 
 #include <QString>
+#include <QPoint>
 #include <QVector>
 
 /********** ENUM DEFINITIONS **********/
@@ -30,13 +31,6 @@ enum Style
 enum Weight
 { Thin, Light, Normal, Bold };
 
-/********** STRUCT DEFINITIONS **********/
-
-struct Point
-{
-    int x;
-    int y;
-};
 
 /********** CLASS DEFINITIONS **********/
 
@@ -102,19 +96,19 @@ class Line : public PolyShape // Line extends PolyShape
 public:
     Line();
     Line(const Line &copy);
-    Line(int id, Point start, Point end);
+    Line(int id, QPoint start, QPoint end);
     ~Line();
 
-    void setPonts(Point start, Point end);
-    void setStartPoint(Point start);
-    void setEndPoint(Point end);
+    void setPonts(QPoint start, QPoint end);
+    void setStartPoint(QPoint start);
+    void setEndPoint(QPoint end);
 
-    Point getStartPoint() const;
-    Point getEndPoint() const;
+    QPoint getStartPoint() const;
+    QPoint getEndPoint() const;
 
 private:
-    Point startPoint;
-    Point endPoint;
+    QPoint startPoint;
+    QPoint endPoint;
 };
 
 
@@ -126,13 +120,13 @@ public:
     Polyline(const Polyline &copy);
     ~Polyline();
 
-    void addPoint(Point add);
+    void addPoint(QPoint add);
     void removePoint();
 
-    QVector<Point> getPoints() const;
+    QVector<QPoint> getPoints() const;
     int getPointCount() const;
 private:
-    QVector<Point> pointVector;
+    QVector<QPoint> pointVector;
     int pointCount;
 };
 
@@ -155,10 +149,10 @@ public:
     OriginBasedShape(const OriginBasedShape &copy);
     ~OriginBasedShape();
 
-    void setOrigin(Point newOrigin);
-    Point getOrigin() const;
+    void setOrigin(QPoint newOrigin);
+    QPoint getOrigin() const;
 private:
-    Point origin;  // top left corner
+    QPoint origin;  // top left corner
 };
 
 
@@ -235,7 +229,7 @@ public:
     Text(QString text);
     ~Text();
 
-    void setOrigin(Point newOrigin);
+    void setOrigin(QPoint newOrigin);
     void setLength(double l);
     void setWdith(double w);
     void setTextString(QString text);
@@ -246,7 +240,7 @@ public:
     void setTextFontStyle(Style style);
     void setTextFontWeight(Weight weight);
 
-    Point getOrigin() const;
+    QPoint getOrigin() const;
     double getLength() const;
     double getWidth() const;
     QString getTextString() const;
@@ -258,7 +252,7 @@ public:
     Weight getTextFontWeight() const;
 
 private:
-    Point origin;  // top left corner
+    QPoint origin;  // top left corner
     double length;
     double width;
     QString textString;

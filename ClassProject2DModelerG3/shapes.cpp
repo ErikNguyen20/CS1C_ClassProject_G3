@@ -32,10 +32,10 @@ OriginBasedShape::OriginBasedShape(const OriginBasedShape &copy) : PolyShape(cop
 
 OriginBasedShape::~OriginBasedShape() {}
 
-void OriginBasedShape::setOrigin(Point newOrigin)
+void OriginBasedShape::setOrigin(QPoint newOrigin)
 { origin = newOrigin; }
 
-Point OriginBasedShape::getOrigin() const
+QPoint OriginBasedShape::getOrigin() const
 { return origin; }
 
 
@@ -47,24 +47,24 @@ Line::Line() : PolyShape(), startPoint{0, 0}, endPoint{0, 0} {}
 
 Line::Line(const Line &copy) : PolyShape(copy), startPoint(copy.getStartPoint()), endPoint(copy.getEndPoint()) {}
 
-Line::Line(int id, Point start, Point end) : PolyShape(), startPoint(start), endPoint(end)
+Line::Line(int id, QPoint start, QPoint end) : PolyShape(), startPoint(start), endPoint(end)
 { setID(id); }
 
 Line::~Line() {}
 
-void Line::setPonts(Point start, Point end)
+void Line::setPonts(QPoint start, QPoint end)
 { startPoint = start; endPoint = end; }
 
-void Line::setStartPoint(Point start)
+void Line::setStartPoint(QPoint start)
 { startPoint = start; }
 
-void Line::setEndPoint(Point end)
+void Line::setEndPoint(QPoint end)
 { endPoint = end; }
 
-Point Line::getStartPoint() const
+QPoint Line::getStartPoint() const
 { return startPoint; }
 
-Point Line::getEndPoint() const
+QPoint Line::getEndPoint() const
 { return endPoint; }
 
 
@@ -77,7 +77,7 @@ Polyline::Polyline(const Polyline &copy) : PolyShape(copy), pointVector(copy.get
 
 Polyline::~Polyline() {}
 
-void Polyline::addPoint(Point add)
+void Polyline::addPoint(QPoint add)
 {
     pointVector.push_back(add);
     pointCount++;
@@ -92,7 +92,7 @@ void Polyline::removePoint()
     }
 }
 
-QVector<Point> Polyline::getPoints() const
+QVector<QPoint> Polyline::getPoints() const
 { return pointVector; }
 
 int Polyline::getPointCount() const
