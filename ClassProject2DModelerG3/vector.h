@@ -91,7 +91,6 @@ vector<T>::vector() : size_v{ 0 }, elem{ nullptr }, space{ 0 } {}
 
 template<typename T>
 vector<T>::vector(int s) : size_v{ 0 }, elem{ new T[s] }, space{ s } {}
-}
 
 template<typename T>
 vector<T>::vector(const vector& v) : size_v{ v.size_v }, elem{ new T[v.space] }, space{ v.space }
