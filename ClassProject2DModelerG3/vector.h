@@ -90,10 +90,7 @@ template<typename T>
 vector<T>::vector() : size_v{ 0 }, elem{ nullptr }, space{ 0 } {}
 
 template<typename T>
-vector<T>::vector(int s) : size_v{ 0 }, elem{ new T[s] }, space{ s } {
-    for (int i = 0; i < size_v; i++) {
-        elem[i] = 0;
-    }
+vector<T>::vector(int s) : size_v{ 0 }, elem{ new T[s] }, space{ s } {}
 }
 
 template<typename T>
