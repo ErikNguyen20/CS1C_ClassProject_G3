@@ -162,6 +162,7 @@ void MainWindow::on_actionOpen_triggered()
                     iFile >> title >> brushColor;
                     iFile >> title >> brushStyle;
                 }
+                iFile.skipWhiteSpace();
 
                 //Create new derived shapes, then place them into a vector
                 switch(SHAPE_TABLE.indexOf(shapeType))

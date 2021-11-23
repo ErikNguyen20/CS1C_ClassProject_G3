@@ -32,7 +32,8 @@ SOURCES += \
 
 HEADERS += \
         mainwindow.h \
-    shapes.h
+    shapes.h \
+    vector.h
 
 FORMS += \
         mainwindow.ui
