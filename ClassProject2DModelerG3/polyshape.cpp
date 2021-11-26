@@ -6,11 +6,6 @@ PolyShape::PolyShape() : Shape(), penColor(white), penWidth(0), penStyle(NoPen),
                          penCapStyle(FlatCap), penJoinStyle(MiterJoin),
                          brushColor(white), brushStyle(SolidPattern) {}
 
-PolyShape::PolyShape(const PolyShape &copy) : Shape(copy), penColor(copy.getPenColor()),
-                                              penWidth(copy.getPenWidth()), penStyle(copy.getPenStyle()),
-                                              penCapStyle(copy.getPenCapStyle()), penJoinStyle(copy.getPenJoinStyle()),
-                                              brushColor(copy.getBrushColor()), brushStyle(copy.getBrushStyle()) {}
-
 PolyShape::~PolyShape() {}
 
 void PolyShape::setPenColor(GlobalColor color)
@@ -54,3 +49,4 @@ GlobalColor PolyShape::getBrushColor() const
 
 BrushStyle PolyShape::getBrushStyle() const
 { return brushStyle; }
+

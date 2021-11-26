@@ -3,6 +3,8 @@
 
 #include <QString>
 #include <QPoint>
+#include <QVector>
+#include <QtMath>
 #include <QVector> //Use templated vector.h
 
 /********** ENUM DEFINITIONS **********/
@@ -39,11 +41,21 @@ class Shape
 public:
     Shape();
     Shape(int id);
-    Shape(const Shape &copy);
+    Shape(const Shape &copy) = delete;
+    Shape& operator= (const Shape&) = delete;
     ~Shape();
+
+    bool operator== (const Shape& compare) const;
+    bool operator< (const Shape& compare) const;
 
     int getID() const;
     void setID(int num);
+
+    virtual void draw() const;
+    virtual void move() const;
+    virtual double perimeter() const;
+    virtual double area() const;
+
 
 private:
     int shapeID;
@@ -55,7 +67,8 @@ class PolyShape : public Shape // Polygon extends Shape
 {
 public:
     PolyShape();
-    PolyShape(const PolyShape &copy);
+    PolyShape(const PolyShape &copy) = delete;
+    PolyShape& operator= (const PolyShape&) = delete;
     ~PolyShape();
 
     // ACCESSORS
@@ -95,7 +108,8 @@ class Line : public PolyShape // Line extends PolyShape
 {
 public:
     Line();
-    Line(const Line &copy);
+    Line(const Line &copy) = delete;
+    Line& operator= (const Line&) = delete;
     Line(int id, QPoint start, QPoint end);
     ~Line();
 
@@ -105,6 +119,11 @@ public:
 
     QPoint getStartPoint() const;
     QPoint getEndPoint() const;
+
+    void draw() const override;
+    void move() const override;
+    double perimeter() const override;
+    double area() const override;
 
 private:
     QPoint startPoint;
@@ -117,7 +136,8 @@ class Polyline : public PolyShape // Polyline extends PolyShape
 {
 public:
     Polyline();
-    Polyline(const Polyline &copy);
+    Polyline(const Polyline &copy) = delete;
+    Polyline& operator= (const Polyline&) = delete;
     ~Polyline();
 
     void addPoint(QPoint add);
@@ -125,6 +145,12 @@ public:
 
     QVector<QPoint> getPoints() const;
     int getPointCount() const;
+
+    void draw() const override;
+    void move() const override;
+    double perimeter() const override;
+    double area() const override;
+
 private:
     QVector<QPoint> pointVector;
     int pointCount;
@@ -135,8 +161,14 @@ class Polygon : public Polyline // Polygon extends PolyShape
 {
 public:
     Polygon();
-    Polygon(const Polygon &copy);
-    ~Polygon();
+    Polygon(const Polygon &copy) = delete;
+    Polygon& operator= (const Polygon&) = delete;
+    virtual ~Polygon();
+
+    void draw() const override;
+    void move() const override;
+    double perimeter() const override;
+    double area() const override;
 private:
 };
 
@@ -146,7 +178,8 @@ class OriginBasedShape : public PolyShape // OriginBasedShape extends PolyShape
 {
 public:
     OriginBasedShape();
-    OriginBasedShape(const OriginBasedShape &copy);
+    OriginBasedShape(const OriginBasedShape &copy) = delete;
+    OriginBasedShape& operator= (const OriginBasedShape&) = delete;
     ~OriginBasedShape();
 
     void setOrigin(QPoint newOrigin);
@@ -161,17 +194,23 @@ class Rectangle : public OriginBasedShape // Rectangle extends OriginBasedShape
 {
 public:
     Rectangle();
-    Rectangle(const Rectangle &copy);
+    Rectangle(const Rectangle &copy) = delete;
+    Rectangle& operator= (const Rectangle&) = delete;
     virtual ~Rectangle();
 
-    virtual void setLength(double l);
-    virtual void setWidth(double w);
+    virtual void setLength(int l);
+    virtual void setWidth(int w);
 
     double getLength() const;
     double getWidth() const;
+
+    void draw() const override;
+    void move() const override;
+    double perimeter() const override;
+    double area() const override;
 protected:
-    double length; //make int
-    double width;  //make int
+    int length; //make int
+    int width;  //make int
 };
 
 
@@ -180,11 +219,12 @@ class Square : public Rectangle // Square extends Rectangle
 {
 public:
     Square();
-    Square(const Square &copy);
+    Square(const Square &copy) = delete;
+    Square& operator= (const Square&) = delete;
     ~Square();
 
-    void setLength(double l) override;
-    void setWidth(double w) override;
+    void setLength(int l) override;
+    void setWidth(int w) override;
 };
 
 
@@ -193,17 +233,23 @@ class Ellipse : public OriginBasedShape // Ellipse extends OriginBasedShape
 {
 public:
     Ellipse();
-    Ellipse(const Ellipse &copy);
+    Ellipse(const Ellipse &copy) = delete;
+    Ellipse& operator= (const Ellipse&) = delete;
     ~Ellipse();
 
-    virtual void setSemiMajor(double semi);
-    virtual void setSemiMinor(double semi);
+    virtual void setSemiMajor(int semi);
+    virtual void setSemiMinor(int semi);
 
     double getSemiMajor() const;
     double getSemiMinor() const;
+
+    void draw() const override;
+    void move() const override;
+    double perimeter() const override;
+    double area() const override;
 protected:
-    double a;      // semi-major axis <- make int
-    double b;      // semi-minor axis <- make int
+    int a;      // semi-major axis <- make int
+    int b;      // semi-minor axis <- make int
 };
 
 
@@ -212,11 +258,12 @@ class Circle : public Ellipse // Circle extends Ellipse
 {
 public:
     Circle();
-    Circle(const Circle &copy);
+    Circle(const Circle &copy) = delete;
+    Circle& operator= (const Circle&) = delete;
     ~Circle();
 
-   void setSemiMajor(double semi) override;
-   void setSemiMinor(double semi) override;
+   void setSemiMajor(int semi) override;
+   void setSemiMinor(int semi) override;
 };
 
 
@@ -225,7 +272,8 @@ class Text : public Shape // Text extends Shape
 {
 public:
     Text();
-    Text(const Text &copy);
+    Text(const Text &copy) = delete;
+    Text& operator= (const Text&) = delete;
     Text(QString text);
     ~Text();
 
@@ -262,7 +310,13 @@ private:
     QString textFontFam;
     Style textFontStyle; //Use QPoint Style enum
     Weight textFontWeight;
+
+    void draw() const override;
+    void move() const override;
+    double perimeter() const override;
+    double area() const override;
 };
 
 
 #endif // SHAPES_H
+

@@ -6,12 +6,6 @@ Text::Text() : Shape(), origin{0, 0}, length(0), width(0), textString(""),
                textColor(white), textAlign(AlignLeft), textPointSize(0), textFontFam(""),
                textFontStyle(StyleNormal), textFontWeight(Thin) {}
 
-Text::Text(const Text &copy) : Shape(copy), length(copy.getLength()), width(copy.getWidth()),
-                               textString(copy.getTextString()), textColor(copy.getTextColor()),
-                               textAlign(copy.getTextAlign()), textPointSize(copy.getTextPointSize()),
-                               textFontFam(copy.getTextFontFam()), textFontStyle(copy.getTextFontStyle()),
-                               textFontWeight(copy.getTextFontWeight()) {}
-
 Text::Text(QString text) : Shape(), origin{0, 0}, length(0), width(0), textString(text),
                            textColor(white), textAlign(AlignLeft), textPointSize(0), textFontFam(""),
                            textFontStyle(StyleNormal), textFontWeight(Thin) {}
@@ -77,3 +71,8 @@ Style Text::getTextFontStyle() const
 
 Weight Text::getTextFontWeight() const
 { return textFontWeight; }
+
+void Text::draw() const {}
+void Text::move() const {}
+double Text::perimeter() const { return 0; }
+double Text::area() const { return 0; }
