@@ -48,7 +48,7 @@ public:
     
     iterator end() { // points to one beyond the last element
         if (size_v == 0) {
-            return nullptr
+            return nullptr;
         }
         return &elem[size_v];
     }
@@ -169,9 +169,9 @@ template<typename T>
 void vector<T>::resize(int newsize)
 {
     reserve(newsize);
-    for (int i = size_v; i < newsize; i++) {
+    /*for (int i = size_v; i < newsize; i++) {
         elem[i] = 0;
-    }
+    }*/
     size_v = newsize;
 }
 
@@ -181,7 +181,7 @@ void vector<T>::push_back(T val) {
         reserve(8);
     }
     else if (size_v == space) {
-        reserve(2 * space)
+        reserve(2 * space);
     }
     elem[size_v] = val;
     size_v++;
@@ -194,7 +194,7 @@ void vector<T>::reserve(int newalloc) {
     }
     T *p = new T[newalloc];
     for (int i = 0; i < size_v; i++) {
-        p[i] = elem[i]
+        p[i] = elem[i];
     }
     delete[] elem;
     elem = p;

@@ -28,12 +28,14 @@ SOURCES += \
         mainwindow.cpp \
     shapes.cpp \
     polyshape.cpp \
-    text.cpp
+    text.cpp \
+    renderarea.cpp
 
 HEADERS += \
         mainwindow.h \
     shapes.h \
-    vector.h
+    vector.h \
+    renderarea.h
 
 FORMS += \
         mainwindow.ui

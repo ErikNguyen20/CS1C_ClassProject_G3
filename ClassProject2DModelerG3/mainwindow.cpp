@@ -7,6 +7,7 @@ using std::endl;
 
 const QString ADMIN_USERNAME = "Admin";
 const QString ADMIN_PASSWORD = "Password";
+const QString DEFAULT_WINDOW_NAME = "Untitled";
 const QStringList SHAPE_TABLE = {"Line","Polyline","Polygon","Rectangle","Square","Ellipse","Circle","Text"};
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -14,6 +15,11 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    ui->LoginBox->hide();
+    renderArea = new RenderArea(ui->renderCanvas);
+    renderArea->show();
+    renderArea->update();
+    //setWindowTitle(DEFAULT_WINDOW_NAME);
 }
 
 MainWindow::~MainWindow()
@@ -240,9 +246,13 @@ void MainWindow::on_actionSave_triggered()
 
 void MainWindow::on_actionSave_As_triggered()
 {
-    QString filePath = QFileDialog::getSaveFileName(this,"2D Modeler - Save-As",QDir::homePath(),"Text File (*.txt)") + ".txt"; //Concat .txt extension.
+    QString filePath = QFileDialog::getSaveFileName(this,"2D Modeler - Save-As",QDir::homePath(),"Text File (*.txt)");
     if(!filePath.isEmpty())
     {
+        if(!filePath.contains(".txt"))
+        {
+            filePath = filePath + ".txt";
+        }
         currentFilePath = filePath;
         on_actionSave_triggered();
     }

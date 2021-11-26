@@ -15,6 +15,9 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QGroupBox" name="LoginBox">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>450</x>
@@ -101,6 +104,16 @@
       <string>Register</string>
      </property>
     </widget>
+   </widget>
+   <widget class="QWidget" name="renderCanvas" native="true">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>10</y>
+      <width>1041</width>
+      <height>461</height>
+     </rect>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">

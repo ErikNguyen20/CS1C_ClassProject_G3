@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QFileDialog>
+#include "renderarea.h"
 
 namespace Ui {
 class MainWindow;
@@ -31,6 +32,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    RenderArea *renderArea;
     QString currentFilePath;
     //Vector<Shape> objects;
 };

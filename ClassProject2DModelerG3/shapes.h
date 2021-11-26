@@ -3,11 +3,11 @@
 
 #include <QString>
 #include <QPoint>
-#include <QVector>
+#include <QVector> //Use templated vector.h
 
 /********** ENUM DEFINITIONS **********/
 
-enum GlobalColor
+enum GlobalColor //QColor should be used
 { white, black, red, green, blue, cyan, magenta, yellow, gray };
 
 enum PenStyle
@@ -170,8 +170,8 @@ public:
     double getLength() const;
     double getWidth() const;
 protected:
-    double length;
-    double width;
+    double length; //make int
+    double width;  //make int
 };
 
 
@@ -202,8 +202,8 @@ public:
     double getSemiMajor() const;
     double getSemiMinor() const;
 protected:
-    double a;      // semi-major axis
-    double b;      // semi-minor axis
+    double a;      // semi-major axis <- make int
+    double b;      // semi-minor axis <- make int
 };
 
 
@@ -253,14 +253,14 @@ public:
 
 private:
     QPoint origin;  // top left corner
-    double length;
-    double width;
+    double length; //make int
+    double width;  //make int
     QString textString;
     GlobalColor textColor;
     AlignmentFlag textAlign;
     int textPointSize;
     QString textFontFam;
-    Style textFontStyle;
+    Style textFontStyle; //Use QPoint Style enum
     Weight textFontWeight;
 };
 
