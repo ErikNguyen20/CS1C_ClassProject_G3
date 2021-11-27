@@ -1,16 +1,28 @@
 #ifndef SHAPES_H
 #define SHAPES_H
 
+/********************************************************************/
+/*                          SHAPES.H                                */
+/********************************************************************/
+/* This header file contains the class definitions for all Shape-   */
+/* based classes.  Member function implimentations are included in  */
+/* shapes.cpp and shapemanip.cpp.                                   */
+/********************************************************************/
+
 #include <QString>
 #include <QPoint>
 #include <QVector>
 #include <QtMath>
 #include <QColor>
 #include <QFont>
-#include <QVector>
 
-//#include "vector.h"
+#include "vector.h"
 
+/********************************************************************/
+/*                     BACKEND CLASS DEFINITIONS                    */
+/********************************************************************/
+
+/******************** SHAPE CLASS DEFINITION ********************/
 
 class Shape
 {
@@ -38,6 +50,7 @@ private:
 };
 
 
+/******************** POLYSHAPE CLASS DEFINITION ********************/
 
 class PolyShape : public Shape // Polygon extends Shape
 {
@@ -79,6 +92,30 @@ private:
 };
 
 
+/******************** ORIGINBASEDSHAPE CLASS DEFINITION ********************/
+
+class OriginBasedShape : public PolyShape // OriginBasedShape extends PolyShape
+{
+public:
+    OriginBasedShape();
+    OriginBasedShape(const OriginBasedShape &copy) = delete;
+    OriginBasedShape& operator= (const OriginBasedShape&) = delete;
+    ~OriginBasedShape();
+
+    void move() const override;
+
+    void setOrigin(QPoint newOrigin);
+    QPoint getOrigin() const;
+private:
+    QPoint origin;  // top left corner
+};
+
+
+/********************************************************************/
+/*                    FRONTEND CLASS DEFINITIONS                    */
+/********************************************************************/
+
+/******************** LINE CLASS DEFINITION ********************/
 
 class Line : public PolyShape // Line extends PolyShape
 {
@@ -107,6 +144,7 @@ private:
 };
 
 
+/******************** POLYLINE CLASS DEFINITION ********************/
 
 class Polyline : public PolyShape // Polyline extends PolyShape
 {
@@ -133,6 +171,8 @@ protected:
 };
 
 
+/******************** POLYGON CLASS DEFINITION ********************/
+
 class Polygon : public Polyline // Polygon extends PolyShape
 {
 public:
@@ -149,22 +189,7 @@ private:
 };
 
 
-
-class OriginBasedShape : public PolyShape // OriginBasedShape extends PolyShape
-{
-public:
-    OriginBasedShape();
-    OriginBasedShape(const OriginBasedShape &copy) = delete;
-    OriginBasedShape& operator= (const OriginBasedShape&) = delete;
-    ~OriginBasedShape();
-
-    void setOrigin(QPoint newOrigin);
-    QPoint getOrigin() const;
-private:
-    QPoint origin;  // top left corner
-};
-
-
+/******************** RECTANGLE CLASS DEFINITION ********************/
 
 class Rectangle : public OriginBasedShape // Rectangle extends OriginBasedShape
 {
@@ -181,7 +206,6 @@ public:
     double getWidth() const;
 
     void draw() const override;
-    void move() const override;
     double perimeter() const override;
     double area() const override;
 protected:
@@ -190,6 +214,7 @@ protected:
 };
 
 
+/******************** SQUARE CLASS DEFINITION ********************/
 
 class Square : public Rectangle // Square extends Rectangle
 {
@@ -204,6 +229,7 @@ public:
 };
 
 
+/******************** ELLIPSE CLASS DEFINITION ********************/
 
 class Ellipse : public OriginBasedShape // Ellipse extends OriginBasedShape
 {
@@ -220,7 +246,6 @@ public:
     double getSemiMinor() const;
 
     void draw() const override;
-    void move() const override;
     double perimeter() const override;
     double area() const override;
 protected:
@@ -229,6 +254,7 @@ protected:
 };
 
 
+/******************** CIRCLE CLASS DEFINITION ********************/
 
 class Circle : public Ellipse // Circle extends Ellipse
 {
@@ -243,6 +269,7 @@ public:
 };
 
 
+/******************** TEXT CLASS DEFINITION ********************/
 
 class Text : public Shape // Text extends Shape
 {

@@ -1,16 +1,43 @@
+/********************************************************************/
+/*                          SHAPES.CPP                              */
+/********************************************************************/
+/* This source files contains class definitions for all Shape-based */
+/* classes.  The only functions not defined here are move() and     */
+/* draw(), which are included in shapemanip.cpp, since they are     */
+/* directly manipulaing the object from within the 2D rendering     */
+/* program.                                                         */
+/********************************************************************/
+/* A diagram showing inheritance has been included below:           */
+/*                                                                  */
+/*                           Shape                                  */
+/*                             |-------------------------|          */
+/*                         PolyShape                   Text         */
+/*           |-----------------|-----------|                        */
+/*      OriginBasedShape    Polyline      Line                      */
+/*       |---|---------|       |                                    */
+/*  Rectangle      Ellipse  Polygon                                 */
+/*      |             |                                             */
+/*   Square        Circle                                           */
+/*                                                                  */
+/********************************************************************/
+
 #include "shapes.h"
 
-/********** BASIC FUNCTION DEFINITIONS **********/
+/********************************************************************/
+/*                    BASIC FUNCTION DEFINITIONS                    */
+/********************************************************************/
+
 
 double DistanceBetween(const QPoint a, const QPoint b)
 {
     return sqrt( pow((b.x() - a.x()), 2) + pow((b.y() - a.y()), 2) );
 }
 
+/********************************************************************/
+/*                     BACKEND CLASS DEFINITIONS                    */
+/********************************************************************/
 
-/********** BACKEND CLASS DEFINITIONS **********/
-
-// SHAPE CLASS CODE
+/******************** SHAPE CLASS CODE ********************/
 
 Shape::Shape() : shapeID(0) {}
 
@@ -40,15 +67,59 @@ bool Shape::operator< (const Shape& compare) const
     { return false; }
 }
 
-void Shape::draw() const {}
-void Shape::move() const {}
+
+/******************** POLYSHAPE CLASS CODE ********************/
+
+PolyShape::PolyShape() : Shape(), penColor(Qt::white), penWidth(0), penStyle(Qt::NoPen),
+                         penCapStyle(Qt::FlatCap), penJoinStyle(Qt::MiterJoin),
+                         brushColor(Qt::white), brushStyle(Qt::SolidPattern) {}
+
+PolyShape::~PolyShape() {}
+
+void PolyShape::setPenColor(Qt::GlobalColor color)
+{ penColor = color; }
+
+void PolyShape::setPenWidth(int width)
+{ penWidth = width; }
+
+void PolyShape::setPenStyle(Qt::PenStyle style)
+{ penStyle = style; }
+
+void PolyShape::setPenCapStyle(Qt::PenCapStyle style)
+{ penCapStyle = style; }
+
+void PolyShape::setPenJoinStyle(Qt::PenJoinStyle style)
+{ penJoinStyle = style; }
+
+void PolyShape::setBrushColor(Qt::GlobalColor color)
+{ brushColor = color; }
+
+void PolyShape::setBrushStyle(Qt::BrushStyle style)
+{ brushStyle = style; }
+
+Qt::GlobalColor PolyShape::getPenColor() const
+{ return penColor; }
+
+int PolyShape::getPenWidth() const
+{ return penWidth; }
+
+Qt::PenStyle PolyShape::getPenStyle() const
+{ return penStyle; }
+
+Qt::PenCapStyle PolyShape::getPenCapStyle() const
+{ return penCapStyle; }
+
+Qt::PenJoinStyle PolyShape::getPenJoinStyle() const
+{ return penJoinStyle; }
+
+Qt::GlobalColor PolyShape::getBrushColor() const
+{ return brushColor; }
+
+Qt::BrushStyle PolyShape::getBrushStyle() const
+{ return brushStyle; }
 
 
-// POLYSHAPE CLASS CODE
-// Included in polyshape.cpp
-
-
-// ORIGINBASEDSHAPE CLASS CODE
+/******************** ORIGINBASEDSHAPE CLASS CODE ********************/
 
 OriginBasedShape::OriginBasedShape() : PolyShape(), origin{0, 0} {}
 
@@ -61,9 +132,11 @@ QPoint OriginBasedShape::getOrigin() const
 { return origin; }
 
 
-/********** FRONTEND CLASS DEFINITIONS **********/
+/********************************************************************/
+/*                    FRONTEND CLASS DEFINITIONS                    */
+/********************************************************************/
 
-// LINE CLASS CODE
+/******************** LINE CLASS CODE ********************/
 
 Line::Line() : PolyShape(), startPoint{0, 0}, endPoint{0, 0} {}
 
@@ -87,9 +160,6 @@ QPoint Line::getStartPoint() const
 QPoint Line::getEndPoint() const
 { return endPoint; }
 
-void Line::draw() const {}
-void Line::move() const {}
-
 double Line::perimeter() const
 {
    return DistanceBetween(startPoint, endPoint);
@@ -98,7 +168,7 @@ double Line::perimeter() const
 double Line::area() const { return 0; }
 
 
-// POLYLINE CLASS CODE
+/******************** POLYLINE CLASS CODE ********************/
 
 Polyline::Polyline() : PolyShape(), pointCount(0)
 { pointVector.reserve(2); }
@@ -120,9 +190,6 @@ void Polyline::removePoint()
     }
 }
 
-void Polyline::draw() const {}
-void Polyline::move() const {}
-
 double Polyline::perimeter() const
 {
     double perimeter = 0;
@@ -140,13 +207,10 @@ int Polyline::getPointCount() const
 { return pointCount; }
 
 
-// POLYGON CLASS CODE
+/******************** POLYGON CLASS CODE ********************/
 
 Polygon::Polygon() : Polyline() {}
 Polygon::~Polygon() {}
-
-void Polygon::draw() const {}
-void Polygon::move() const {}
 
 double Polygon::perimeter() const
 {
@@ -157,14 +221,22 @@ double Polygon::perimeter() const
     return perimeter;
 }
 
-// Incomplete Function
 double Polygon::area() const
 {
-    return 0;
+    double area = 0;
+    for(int count = 0; count < pointCount - 1; count++)
+    {
+      area += ( pointVector[count].x() * pointVector[count + 1].y() )
+              - ( pointVector[count + 1].x() * pointVector[count].y() );
+    }
+    area += ( pointVector[pointCount - 1].x() * pointVector[0].y() )
+            - ( pointVector[0].x() * pointVector[pointCount - 1].y() );
+    area = abs(area) / 2;
+    return area;
 }
 
 
-// RECTANGLE CLASS CODE
+/******************** RECTANGLE CLASS CODE ********************/
 
 Rectangle::Rectangle() : OriginBasedShape(), length(0), width(0) {}
 
@@ -182,9 +254,6 @@ double Rectangle::getLength() const
 double Rectangle::getWidth() const
 { return width; }
 
-void Rectangle::draw() const {}
-void Rectangle::move() const {}
-
 double Rectangle::perimeter() const
 { return length + length + width + width; }
 
@@ -192,7 +261,7 @@ double Rectangle::area() const
 { return length * width; }
 
 
-// SQUARE CLASS CODE
+/******************** SQUARE CLASS CODE ********************/
 
 Square::Square() : Rectangle() {}
 
@@ -205,7 +274,7 @@ void Square::setWidth(int w)
 { width = w; length = width; }
 
 
-// ELLIPSE CLASS CODE
+/******************** ELLIPSE CLASS CODE ********************/
 
 Ellipse::Ellipse() : OriginBasedShape(), a(0), b(0) {}
 
@@ -223,9 +292,6 @@ double Ellipse::getSemiMajor() const
 double Ellipse::getSemiMinor() const
 { return b; }
 
-void Ellipse::draw() const {}
-void Ellipse::move() const {}
-
 double Ellipse::perimeter() const
 { return M_PI * a * b; }
 
@@ -233,7 +299,7 @@ double Ellipse::area() const
 { return 2 * M_PI * sqrt((a * a) + (b * b) / 2 ); }
 
 
-// CIRCLE CLASS CODE
+/******************** CIRCLE CLASS CODE ********************/
 
 Circle::Circle() : Ellipse() {}
 
@@ -245,6 +311,76 @@ void Circle::setSemiMajor(int semi)
 void Circle::setSemiMinor(int semi)
 { b = semi; a = b;}
 
-// TEXT CLASS CODE
-// Included in text.cpp
+
+/******************** TEXT CLASS CODE ********************/
+
+Text::Text() : Shape(), origin{0, 0}, length(0), width(0), textString(""),
+               textColor(Qt::white), textAlign(Qt::AlignLeft), textPointSize(0), textFontFam(""),
+               textFontStyle(QFont::StyleNormal), textFontWeight(QFont::Thin) {}
+
+Text::Text(QString text) : Shape(), origin{0, 0}, length(0), width(0), textString(text),
+                           textColor(Qt::white), textAlign(Qt::AlignLeft), textPointSize(0), textFontFam(""),
+                           textFontStyle(QFont::StyleNormal), textFontWeight(QFont::Thin) {}
+
+Text::~Text() {}
+
+void Text::setOrigin(QPoint newOrigin)
+{ origin = newOrigin; }
+
+void Text::setLength(double l)
+{ length = l; }
+
+void Text::setWdith(double w)
+{ width = w; }
+
+void Text::setTextString(QString text)
+{ textString = text; }
+
+void Text::setTextColor(Qt::GlobalColor color)
+{ textColor = color; }
+
+void Text::setTextAlign(Qt::AlignmentFlag align)
+{ textAlign = align; }
+
+void Text::setTextPointSize(int size)
+{ textPointSize = size; }
+
+void Text::setTextFontFam(QString text)
+{ textFontFam = text; }
+
+void Text::setTextFontStyle(QFont::Style style)
+{ textFontStyle = style; }
+
+void Text::setTextFontWeight(QFont::Weight weight)
+{ textFontWeight = weight; }
+
+QPoint Text::getOrigin() const
+{ return origin; }
+
+double Text::getLength() const
+{ return length; }
+
+double Text::getWidth() const
+{ return width; }
+
+QString Text::getTextString() const
+{ return textString; }
+
+Qt::GlobalColor Text::getTextColor() const
+{ return textColor; }
+
+Qt::AlignmentFlag Text::getTextAlign() const
+{ return textAlign; }
+
+int Text::getTextPointSize() const
+{ return textPointSize; }
+
+QString Text::getTextFontFam() const
+{ return textFontFam; }
+
+QFont::Style Text::getTextFontStyle() const
+{ return textFontStyle; }
+
+QFont::Weight Text::getTextFontWeight() const
+{ return textFontWeight; }
 
