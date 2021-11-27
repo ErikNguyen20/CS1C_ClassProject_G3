@@ -2,51 +2,51 @@
 
 // POLYSHAPE CLASS CODE
 
-PolyShape::PolyShape() : Shape(), penColor(white), penWidth(0), penStyle(NoPen),
-                         penCapStyle(FlatCap), penJoinStyle(MiterJoin),
-                         brushColor(white), brushStyle(SolidPattern) {}
+PolyShape::PolyShape() : Shape(), penColor(Qt::white), penWidth(0), penStyle(Qt::NoPen),
+                         penCapStyle(Qt::FlatCap), penJoinStyle(Qt::MiterJoin),
+                         brushColor(Qt::white), brushStyle(Qt::SolidPattern) {}
 
 PolyShape::~PolyShape() {}
 
-void PolyShape::setPenColor(GlobalColor color)
+void PolyShape::setPenColor(Qt::GlobalColor color)
 { penColor = color; }
 
 void PolyShape::setPenWidth(int width)
 { penWidth = width; }
 
-void PolyShape::setPenStyle(PenStyle style)
+void PolyShape::setPenStyle(Qt::PenStyle style)
 { penStyle = style; }
 
-void PolyShape::setPenCapStyle(PenCapStyle style)
+void PolyShape::setPenCapStyle(Qt::PenCapStyle style)
 { penCapStyle = style; }
 
-void PolyShape::setPenJoinStyle(PenJoinStyle style)
+void PolyShape::setPenJoinStyle(Qt::PenJoinStyle style)
 { penJoinStyle = style; }
 
-void PolyShape::setBrushColor(GlobalColor color)
+void PolyShape::setBrushColor(Qt::GlobalColor color)
 { brushColor = color; }
 
-void PolyShape::setBrushStyle(BrushStyle style)
+void PolyShape::setBrushStyle(Qt::BrushStyle style)
 { brushStyle = style; }
 
-GlobalColor PolyShape::getPenColor() const
+Qt::GlobalColor PolyShape::getPenColor() const
 { return penColor; }
 
 int PolyShape::getPenWidth() const
 { return penWidth; }
 
-PenStyle PolyShape::getPenStyle() const
+Qt::PenStyle PolyShape::getPenStyle() const
 { return penStyle; }
 
-PenCapStyle PolyShape::getPenCapStyle() const
+Qt::PenCapStyle PolyShape::getPenCapStyle() const
 { return penCapStyle; }
 
-PenJoinStyle PolyShape::getPenJoinStyle() const
+Qt::PenJoinStyle PolyShape::getPenJoinStyle() const
 { return penJoinStyle; }
 
-GlobalColor PolyShape::getBrushColor() const
+Qt::GlobalColor PolyShape::getBrushColor() const
 { return brushColor; }
 
-BrushStyle PolyShape::getBrushStyle() const
+Qt::BrushStyle PolyShape::getBrushStyle() const
 { return brushStyle; }
 

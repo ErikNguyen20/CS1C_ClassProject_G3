@@ -42,8 +42,6 @@ bool Shape::operator< (const Shape& compare) const
 
 void Shape::draw() const {}
 void Shape::move() const {}
-double Shape::perimeter() const { return 0; }
-double Shape::area() const { return 0; }
 
 
 // POLYSHAPE CLASS CODE

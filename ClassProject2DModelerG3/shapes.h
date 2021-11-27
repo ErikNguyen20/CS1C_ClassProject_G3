@@ -5,36 +5,11 @@
 #include <QPoint>
 #include <QVector>
 #include <QtMath>
-#include <QVector> //Use templated vector.h
+#include <QColor>
+#include <QFont>
 
-/********** ENUM DEFINITIONS **********/
+#include "vector.h"
 
-enum GlobalColor //QColor should be used
-{ white, black, red, green, blue, cyan, magenta, yellow, gray };
-
-enum PenStyle
-{ NoPen, SolidLine, DashLine, DotLine, DashDotLine, DashDotDotLine };
-
-enum PenCapStyle
-{ FlatCap, SquareCap, RoundCap };
-
-enum PenJoinStyle
-{ MiterJoin, BevelJoin, RoundJoin };
-
-enum BrushStyle
-{ SolidPattern, HorPattern, VerPattern, NoBrush };
-
-enum AlignmentFlag
-{ AlignLeft, AlignRight, AlignTop, AlignBottom, AlignCenter };
-
-enum Style
-{ StyleNormal, StyleItalic, StyleOblique };
-
-enum Weight
-{ Thin, Light, Normal, Bold };
-
-
-/********** CLASS DEFINITIONS **********/
 
 class Shape
 {
@@ -53,8 +28,8 @@ public:
 
     virtual void draw() const;
     virtual void move() const;
-    virtual double perimeter() const;
-    virtual double area() const;
+    virtual double perimeter() const = 0;
+    virtual double area() const = 0;
 
 
 private:
@@ -72,34 +47,34 @@ public:
     ~PolyShape();
 
     // ACCESSORS
-    void setPenColor(GlobalColor color);
+    void setPenColor(Qt::GlobalColor color);
     void setPenWidth(int width);
-    void setPenStyle(PenStyle style);
-    void setPenCapStyle(PenCapStyle style);
-    void setPenJoinStyle(PenJoinStyle style);
-    void setBrushColor(GlobalColor color);
-    void setBrushStyle(BrushStyle style);
+    void setPenStyle(Qt::PenStyle style);
+    void setPenCapStyle(Qt::PenCapStyle style);
+    void setPenJoinStyle(Qt::PenJoinStyle style);
+    void setBrushColor(Qt::GlobalColor color);
+    void setBrushStyle(Qt::BrushStyle style);
 
     // MUTATORS
-    GlobalColor getPenColor() const;
+    Qt::GlobalColor getPenColor() const;
     int getPenWidth() const;
-    PenStyle getPenStyle() const;
-    PenCapStyle getPenCapStyle() const;
-    PenJoinStyle getPenJoinStyle() const;
-    GlobalColor getBrushColor() const;
-    BrushStyle getBrushStyle() const;
+    Qt::PenStyle getPenStyle() const;
+    Qt::PenCapStyle getPenCapStyle() const;
+    Qt::PenJoinStyle getPenJoinStyle() const;
+    Qt::GlobalColor getBrushColor() const;
+    Qt::BrushStyle getBrushStyle() const;
 
 private:
     // PEN PROPERTIES
-    GlobalColor penColor;
+    Qt::GlobalColor penColor;
     int penWidth;
-    PenStyle penStyle;
-    PenCapStyle penCapStyle;
-    PenJoinStyle penJoinStyle;
+    Qt::PenStyle penStyle;
+    Qt::PenCapStyle penCapStyle;
+    Qt::PenJoinStyle penJoinStyle;
 
     // BRUSH PROPERTIES
-    GlobalColor brushColor;
-    BrushStyle brushStyle;
+    Qt::GlobalColor brushColor;
+    Qt::BrushStyle brushStyle;
 };
 
 
@@ -281,35 +256,35 @@ public:
     void setLength(double l);
     void setWdith(double w);
     void setTextString(QString text);
-    void setTextColor(GlobalColor color);
-    void setTextAlign(AlignmentFlag align);
+    void setTextColor(Qt::GlobalColor color);
+    void setTextAlign(Qt::AlignmentFlag align);
     void setTextPointSize(int size);
     void setTextFontFam(QString text);
-    void setTextFontStyle(Style style);
-    void setTextFontWeight(Weight weight);
+    void setTextFontStyle(QFont::Style style);
+    void setTextFontWeight(QFont::Weight weight);
 
     QPoint getOrigin() const;
     double getLength() const;
     double getWidth() const;
     QString getTextString() const;
-    GlobalColor getTextColor() const;
-    AlignmentFlag getTextAlign() const;
+    Qt::GlobalColor getTextColor() const;
+    Qt::AlignmentFlag getTextAlign() const;
     int getTextPointSize() const;
     QString getTextFontFam() const;
-    Style getTextFontStyle() const;
-    Weight getTextFontWeight() const;
+    QFont::Style getTextFontStyle() const;
+    QFont::Weight getTextFontWeight() const;
 
 private:
     QPoint origin;  // top left corner
     double length; //make int
     double width;  //make int
     QString textString;
-    GlobalColor textColor;
-    AlignmentFlag textAlign;
+    Qt::GlobalColor textColor;
+    Qt::AlignmentFlag textAlign;
     int textPointSize;
     QString textFontFam;
-    Style textFontStyle; //Use QPoint Style enum
-    Weight textFontWeight;
+    QFont::Style textFontStyle; //Use QPoint Style enum
+    QFont::Weight textFontWeight;
 
     void draw() const override;
     void move() const override;

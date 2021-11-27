@@ -3,12 +3,12 @@
 // TEXT CLASS CODE
 
 Text::Text() : Shape(), origin{0, 0}, length(0), width(0), textString(""),
-               textColor(white), textAlign(AlignLeft), textPointSize(0), textFontFam(""),
-               textFontStyle(StyleNormal), textFontWeight(Thin) {}
+               textColor(Qt::white), textAlign(Qt::AlignLeft), textPointSize(0), textFontFam(""),
+               textFontStyle(QFont::StyleNormal), textFontWeight(QFont::Thin) {}
 
 Text::Text(QString text) : Shape(), origin{0, 0}, length(0), width(0), textString(text),
-                           textColor(white), textAlign(AlignLeft), textPointSize(0), textFontFam(""),
-                           textFontStyle(StyleNormal), textFontWeight(Thin) {}
+                           textColor(Qt::white), textAlign(Qt::AlignLeft), textPointSize(0), textFontFam(""),
+                           textFontStyle(QFont::StyleNormal), textFontWeight(QFont::Thin) {}
 
 Text::~Text() {}
 
@@ -24,10 +24,10 @@ void Text::setWdith(double w)
 void Text::setTextString(QString text)
 { textString = text; }
 
-void Text::setTextColor(GlobalColor color)
+void Text::setTextColor(Qt::GlobalColor color)
 { textColor = color; }
 
-void Text::setTextAlign(AlignmentFlag align)
+void Text::setTextAlign(Qt::AlignmentFlag align)
 { textAlign = align; }
 
 void Text::setTextPointSize(int size)
@@ -36,10 +36,10 @@ void Text::setTextPointSize(int size)
 void Text::setTextFontFam(QString text)
 { textFontFam = text; }
 
-void Text::setTextFontStyle(Style style)
+void Text::setTextFontStyle(QFont::Style style)
 { textFontStyle = style; }
 
-void Text::setTextFontWeight(Weight weight)
+void Text::setTextFontWeight(QFont::Weight weight)
 { textFontWeight = weight; }
 
 QPoint Text::getOrigin() const
@@ -54,10 +54,10 @@ double Text::getWidth() const
 QString Text::getTextString() const
 { return textString; }
 
-GlobalColor Text::getTextColor() const
+Qt::GlobalColor Text::getTextColor() const
 { return textColor; }
 
-AlignmentFlag Text::getTextAlign() const
+Qt::AlignmentFlag Text::getTextAlign() const
 { return textAlign; }
 
 int Text::getTextPointSize() const
@@ -66,10 +66,10 @@ int Text::getTextPointSize() const
 QString Text::getTextFontFam() const
 { return textFontFam; }
 
-Style Text::getTextFontStyle() const
+QFont::Style Text::getTextFontStyle() const
 { return textFontStyle; }
 
-Weight Text::getTextFontWeight() const
+QFont::Weight Text::getTextFontWeight() const
 { return textFontWeight; }
 
 void Text::draw() const {}
