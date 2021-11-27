@@ -7,8 +7,9 @@
 #include <QtMath>
 #include <QColor>
 #include <QFont>
+#include <QVector>
 
-#include "vector.h"
+//#include "vector.h"
 
 
 class Shape
@@ -98,7 +99,7 @@ public:
     void draw() const override;
     void move() const override;
     double perimeter() const override;
-    double area() const override;
+    double area() const override = 0;
 
 private:
     QPoint startPoint;
@@ -126,7 +127,7 @@ public:
     double perimeter() const override;
     double area() const override;
 
-private:
+protected:
     QVector<QPoint> pointVector;
     int pointCount;
 };
@@ -288,8 +289,6 @@ private:
 
     void draw() const override;
     void move() const override;
-    double perimeter() const override;
-    double area() const override;
 };
 
 

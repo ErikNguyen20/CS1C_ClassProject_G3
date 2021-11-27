@@ -89,7 +89,12 @@ QPoint Line::getEndPoint() const
 
 void Line::draw() const {}
 void Line::move() const {}
-double Line::perimeter() const { return 0; }
+
+double Line::perimeter() const
+{
+   return DistanceBetween(startPoint, endPoint);
+}
+
 double Line::area() const { return 0; }
 
 
@@ -117,7 +122,15 @@ void Polyline::removePoint()
 
 void Polyline::draw() const {}
 void Polyline::move() const {}
-double Polyline::perimeter() const { return 0; }
+
+double Polyline::perimeter() const
+{
+    double perimeter = 0;
+    for(int count = 0; count < pointCount - 1; count++)
+    { perimeter += DistanceBetween(pointVector[count], pointVector[count + 1]); }
+    return perimeter;
+}
+
 double Polyline::area() const { return 0; }
 
 QVector<QPoint> Polyline::getPoints() const
@@ -126,6 +139,7 @@ QVector<QPoint> Polyline::getPoints() const
 int Polyline::getPointCount() const
 { return pointCount; }
 
+
 // POLYGON CLASS CODE
 
 Polygon::Polygon() : Polyline() {}
@@ -133,8 +147,21 @@ Polygon::~Polygon() {}
 
 void Polygon::draw() const {}
 void Polygon::move() const {}
-double Polygon::perimeter() const { return 0; }
-double Polygon::area() const { return 0; }
+
+double Polygon::perimeter() const
+{
+    double perimeter = 0;
+    for(int count = 0; count < pointCount - 1; count++)
+    { perimeter += DistanceBetween(pointVector[count], pointVector[count + 1]); }
+    perimeter += DistanceBetween(pointVector[pointCount - 1], pointVector[0]);
+    return perimeter;
+}
+
+// Incomplete Function
+double Polygon::area() const
+{
+    return 0;
+}
 
 
 // RECTANGLE CLASS CODE

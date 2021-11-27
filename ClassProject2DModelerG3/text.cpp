@@ -74,5 +74,3 @@ QFont::Weight Text::getTextFontWeight() const
 
 void Text::draw() const {}
 void Text::move() const {}
-double Text::perimeter() const { return 0; }
-double Text::area() const { return 0; }
