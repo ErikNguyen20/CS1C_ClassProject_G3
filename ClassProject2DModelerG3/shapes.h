@@ -28,6 +28,7 @@
 #include <QtMath>
 #include <QColor>
 #include <QFont>
+#include <QPainter>
 
 #include "vector.h"
 
@@ -44,19 +45,22 @@ public:
     Shape(int id);
     Shape(const Shape &copy) = delete;
     Shape& operator= (const Shape&) = delete;
-    ~Shape();
+    virtual ~Shape();
 
     bool operator== (const Shape& compare) const;
     bool operator< (const Shape& compare) const;
 
     int getID() const;
     void setID(int num);
+    void setQPainter(QPainter *qpainter);
 
     virtual void draw() const = 0;
     virtual void move(int deltaX, int deltaY) = 0;
     virtual double perimeter() const = 0;
     virtual double area() const = 0;
 
+protected:
+    QPainter *painter;
 
 private:
     int shapeID;

@@ -30,7 +30,20 @@ void OriginBasedShape::move(int deltaX, int deltaY)
 
 /******************** LINE CLASS CODE ********************/
 
-void Line::draw() const {}
+void Line::draw() const
+{
+    QPen newPen;
+
+    newPen.setCapStyle(getPenCapStyle());
+    newPen.setColor(getPenColor());
+    newPen.setStyle(getPenStyle());
+    newPen.setJoinStyle(getPenJoinStyle());
+    newPen.setWidth(getPenWidth());
+
+    painter->setPen(newPen);
+    painter->drawLine(startPoint, endPoint);
+}
+
 void Line::move(int deltaX, int deltaY)
 {
     startPoint.setX(startPoint.x() + deltaX);

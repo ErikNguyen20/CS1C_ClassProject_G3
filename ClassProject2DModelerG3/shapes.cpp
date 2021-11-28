@@ -39,7 +39,7 @@ double DistanceBetween(const QPoint a, const QPoint b)
 
 /******************** SHAPE CLASS CODE ********************/
 
-Shape::Shape() : shapeID(0) {}
+Shape::Shape() : painter{nullptr}, shapeID(0) {}
 
 Shape::Shape(int id) : shapeID(id) {}
 
@@ -50,6 +50,9 @@ int Shape::getID() const
 
 void Shape::setID(int num)
 { shapeID = num; }
+
+void Shape::setQPainter(QPainter *qpainter)
+{ painter = qpainter;}
 
 bool Shape::operator== (const Shape& compare) const
 {

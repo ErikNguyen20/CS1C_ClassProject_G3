@@ -30,6 +30,7 @@ void RenderArea::paintEvent(QPaintEvent * /* event */)
     //for(int index = 0; index < shapes.size(); index ++)
     //{
         //Shape* shape = shapes[index];
+        // shape->setQPainter(painter);
 
         painter.save();
 
@@ -38,15 +39,7 @@ void RenderArea::paintEvent(QPaintEvent * /* event */)
         QPen newPen;
         QBrush newBrush;
         //case Line:
-            //newPen.setCapStyle(Qt::FlatCap/*shape->penCapStyle*/);
-            //newPen.setColor(Qt::blue/*shape->penColor*/);
-            //newPen.setStyle(Qt::DashDotLine/*shape->penStyle*/);
-            //newPen.setJoinStyle(Qt::MiterJoin/*shape->penJoinStyle*/);
-            //newPen.setWidth(2/*shape->penWidth*/);
-                //QPoint a(20,90);
-                //QPoint b(100,20);
-            //painter.setPen(newPen);
-            //painter.drawLine(a,b/*shape->startPoint,shape->endPoint*/);
+        // shape->draw();
             //break;
         /*case Polyline:
             newPen.setCapStyle(shape->penCapStyle);
