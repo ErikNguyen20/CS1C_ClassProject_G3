@@ -11,8 +11,7 @@
 
 /******************** SHAPE CLASS CODE ********************/
 
-void Shape::draw() const {}
-void Shape::move() const {}
+// No draw() or move() function definitions for this class.
 
 
 /******************** POLYSHAPE CLASS CODE ********************/
@@ -23,24 +22,41 @@ void Shape::move() const {}
 /******************** ORIGINBASEDSHAPE CLASS CODE ********************/
 
 // Draw() functions are defined by the individual shape classes
-void OriginBasedShape::move() const {}
+void OriginBasedShape::move(int deltaX, int deltaY)
+{
+    origin.setX(origin.x() + deltaX);
+    origin.setY(origin.y() + deltaY);
+}
 
 /******************** LINE CLASS CODE ********************/
 
 void Line::draw() const {}
-void Line::move() const {}
+void Line::move(int deltaX, int deltaY)
+{
+    startPoint.setX(startPoint.x() + deltaX);
+    startPoint.setY(startPoint.y() + deltaY);
+    endPoint.setX(endPoint.x() + deltaX);
+    endPoint.setY(endPoint.y() + deltaY);
+}
 
 
 /******************** POLYLINE CLASS CODE ********************/
 
 void Polyline::draw() const {}
-void Polyline::move() const {}
+void Polyline::move(int deltaX, int deltaY)
+{
+    for(int count = 0; count < pointCount; count++)
+    {
+        pointVector[count].setX(pointVector[count].x() + deltaX);
+        pointVector[count].setY(pointVector[count].y() + deltaY);
+    }
+}
 
 
 /******************** POLYGON CLASS CODE ********************/
 
 void Polygon::draw() const {}
-void Polygon::move() const {}
+// Move() function is defined by Polyline
 
 
 /******************** RECTANGLE CLASS CODE ********************/
@@ -68,4 +84,8 @@ void Ellipse::draw() const {}
 /******************** TEXT CLASS CODE ********************/
 
 void Text::draw() const {}
-void Text::move() const {}
+void Text::move(int deltaX, int deltaY)
+{
+    origin.setX(origin.x() + deltaX);
+    origin.setY(origin.y() + deltaY);
+}

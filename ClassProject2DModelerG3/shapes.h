@@ -8,6 +8,19 @@
 /* based classes.  Member function implimentations are included in  */
 /* shapes.cpp and shapemanip.cpp.                                   */
 /********************************************************************/
+/* A diagram showing inheritance has been included below:           */
+/*                                                                  */
+/*                           Shape                                  */
+/*                             |-------------------------|          */
+/*                         PolyShape                   Text         */
+/*           |-----------------|-----------|                        */
+/*      OriginBasedShape    Polyline      Line                      */
+/*       |---|---------|       |                                    */
+/*  Rectangle      Ellipse  Polygon                                 */
+/*      |             |                                             */
+/*   Square        Circle                                           */
+/*                                                                  */
+/********************************************************************/
 
 #include <QString>
 #include <QPoint>
@@ -39,8 +52,8 @@ public:
     int getID() const;
     void setID(int num);
 
-    virtual void draw() const;
-    virtual void move() const;
+    virtual void draw() const = 0;
+    virtual void move(int deltaX, int deltaY) = 0;
     virtual double perimeter() const = 0;
     virtual double area() const = 0;
 
@@ -102,7 +115,7 @@ public:
     OriginBasedShape& operator= (const OriginBasedShape&) = delete;
     ~OriginBasedShape();
 
-    void move() const override;
+    void move(int deltaX, int deltaY) override;
 
     void setOrigin(QPoint newOrigin);
     QPoint getOrigin() const;
@@ -134,7 +147,7 @@ public:
     QPoint getEndPoint() const;
 
     void draw() const override;
-    void move() const override;
+    void move(int deltaX, int deltaY) override;
     double perimeter() const override;
     double area() const override = 0;
 
@@ -161,7 +174,7 @@ public:
     int getPointCount() const;
 
     void draw() const override;
-    void move() const override;
+    void move(int deltaX, int deltaY) override;
     double perimeter() const override;
     double area() const override;
 
@@ -182,7 +195,6 @@ public:
     virtual ~Polygon();
 
     void draw() const override;
-    void move() const override;
     double perimeter() const override;
     double area() const override;
 private:
@@ -315,7 +327,7 @@ private:
     QFont::Weight textFontWeight;
 
     void draw() const override;
-    void move() const override;
+    void move(int deltaX, int deltaY) override;
 };
 
 
