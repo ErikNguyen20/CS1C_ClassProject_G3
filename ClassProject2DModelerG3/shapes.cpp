@@ -39,7 +39,7 @@ double DistanceBetween(const QPoint a, const QPoint b)
 
 /******************** SHAPE CLASS CODE ********************/
 
-Shape::Shape() : painter{nullptr}, shapeID(0) {}
+Shape::Shape() : shapeID(0) {}
 
 Shape::Shape(int id) : shapeID(id) {}
 
@@ -50,9 +50,6 @@ int Shape::getID() const
 
 void Shape::setID(int num)
 { shapeID = num; }
-
-void Shape::setQPainter(QPainter *qpainter)
-{ painter = qpainter;}
 
 bool Shape::operator== (const Shape& compare) const
 {
@@ -76,6 +73,15 @@ bool Shape::operator< (const Shape& compare) const
 PolyShape::PolyShape() : Shape(), penColor(Qt::white), penWidth(0), penStyle(Qt::NoPen),
                          penCapStyle(Qt::FlatCap), penJoinStyle(Qt::MiterJoin),
                          brushColor(Qt::white), brushStyle(Qt::SolidPattern) {}
+
+PolyShape::PolyShape(Qt::GlobalColor penColor,int penWidth,Qt::PenStyle penStyle,Qt::PenCapStyle penCapStyle,Qt::PenJoinStyle penJoinStyle)
+    : penColor(penColor), penWidth(penWidth), penStyle(penStyle),
+      penCapStyle(penCapStyle), penJoinStyle(penJoinStyle) {}
+
+PolyShape::PolyShape(Qt::GlobalColor penColor,int penWidth,Qt::PenStyle penStyle,Qt::PenCapStyle penCapStyle,Qt::PenJoinStyle penJoinStyle,Qt::GlobalColor brushColor,Qt::BrushStyle brushStyle)
+    : penColor(penColor), penWidth(penWidth), penStyle(penStyle),
+      penCapStyle(penCapStyle), penJoinStyle(penJoinStyle),
+      brushColor(brushColor), brushStyle(brushStyle) {}
 
 PolyShape::~PolyShape() {}
 
@@ -126,6 +132,9 @@ Qt::BrushStyle PolyShape::getBrushStyle() const
 
 OriginBasedShape::OriginBasedShape() : PolyShape(), origin{0, 0} {}
 
+OriginBasedShape::OriginBasedShape(QPoint origin, Qt::GlobalColor penColor,int penWidth,Qt::PenStyle penStyle,Qt::PenCapStyle penCapStyle,Qt::PenJoinStyle penJoinStyle,Qt::GlobalColor brushColor,Qt::BrushStyle brushStyle)
+    : PolyShape(penColor,penWidth,penStyle,penCapStyle,penJoinStyle,brushColor,brushStyle), origin(origin) {}
+
 OriginBasedShape::~OriginBasedShape() {}
 
 void OriginBasedShape::setOrigin(QPoint newOrigin)
@@ -144,6 +153,10 @@ QPoint OriginBasedShape::getOrigin() const
 Line::Line() : PolyShape(), startPoint{0, 0}, endPoint{0, 0} {}
 
 Line::Line(int id, QPoint start, QPoint end) : PolyShape(), startPoint(start), endPoint(end)
+{ setID(id); }
+
+Line::Line(int id, QPoint start, QPoint end, Qt::GlobalColor penColor,int penWidth,Qt::PenStyle penStyle,Qt::PenCapStyle penCapStyle,Qt::PenJoinStyle penJoinStyle)
+    : PolyShape(penColor,penWidth,penStyle,penCapStyle,penJoinStyle), startPoint(start), endPoint(end)
 { setID(id); }
 
 Line::~Line() {}
@@ -176,6 +189,20 @@ double Line::area() const { return 0; }
 Polyline::Polyline() : PolyShape(), pointCount(0)
 { pointVector.reserve(2); }
 
+Polyline::Polyline(int id, vector<QPoint>& points, Qt::GlobalColor penColor,int penWidth,Qt::PenStyle penStyle,Qt::PenCapStyle penCapStyle,Qt::PenJoinStyle penJoinStyle)
+    : PolyShape(penColor,penWidth,penStyle,penCapStyle,penJoinStyle), pointVector(std::move(points))
+{
+    setID(id);
+    pointCount = pointVector.size();
+}
+
+Polyline::Polyline(int id, vector<QPoint>& points, Qt::GlobalColor penColor,int penWidth,Qt::PenStyle penStyle,Qt::PenCapStyle penCapStyle,Qt::PenJoinStyle penJoinStyle,Qt::GlobalColor brushColor,Qt::BrushStyle brushStyle)
+    : PolyShape(penColor,penWidth,penStyle,penCapStyle,penJoinStyle,brushColor,brushStyle), pointVector(std::move(points))
+{
+    setID(id);
+    pointCount = pointVector.size();
+}
+
 Polyline::~Polyline() {}
 
 void Polyline::addPoint(QPoint add)
@@ -186,9 +213,9 @@ void Polyline::addPoint(QPoint add)
 
 void Polyline::removePoint()
 {
-    if(!pointVector.isEmpty())
+    if(pointVector.size() > 0)
     {
-        pointVector.pop_back();
+        pointVector.erase(pointVector.end());
         pointCount--;
     }
 }
@@ -203,7 +230,7 @@ double Polyline::perimeter() const
 
 double Polyline::area() const { return 0; }
 
-QVector<QPoint> Polyline::getPoints() const
+vector<QPoint> Polyline::getPoints() const
 { return pointVector; }
 
 int Polyline::getPointCount() const
@@ -213,6 +240,10 @@ int Polyline::getPointCount() const
 /******************** POLYGON CLASS CODE ********************/
 
 Polygon::Polygon() : Polyline() {}
+
+Polygon::Polygon(int id, vector<QPoint>& points, Qt::GlobalColor penColor,int penWidth,Qt::PenStyle penStyle,Qt::PenCapStyle penCapStyle,Qt::PenJoinStyle penJoinStyle,Qt::GlobalColor brushColor,Qt::BrushStyle brushStyle)
+    : Polyline(id,points,penColor,penWidth,penStyle,penCapStyle,penJoinStyle,brushColor,brushStyle) {}
+
 Polygon::~Polygon() {}
 
 double Polygon::perimeter() const
@@ -243,6 +274,12 @@ double Polygon::area() const
 
 Rectangle::Rectangle() : OriginBasedShape(), length(0), width(0) {}
 
+Rectangle::Rectangle(int id, QPoint origin, int length, int width, Qt::GlobalColor penColor,int penWidth,Qt::PenStyle penStyle,Qt::PenCapStyle penCapStyle,Qt::PenJoinStyle penJoinStyle,Qt::GlobalColor brushColor,Qt::BrushStyle brushStyle)
+    : OriginBasedShape(origin, penColor,penWidth,penStyle,penCapStyle,penJoinStyle,brushColor,brushStyle), length(length), width(width)
+{
+    setID(id);
+}
+
 Rectangle::~Rectangle() {}
 
 void Rectangle::setLength(int l)
@@ -251,10 +288,10 @@ void Rectangle::setLength(int l)
 void Rectangle::setWidth(int w)
 { width = w; }
 
-double Rectangle::getLength() const
+int Rectangle::getLength() const
 { return length; }
 
-double Rectangle::getWidth() const
+int Rectangle::getWidth() const
 { return width; }
 
 double Rectangle::perimeter() const
@@ -267,6 +304,9 @@ double Rectangle::area() const
 /******************** SQUARE CLASS CODE ********************/
 
 Square::Square() : Rectangle() {}
+
+Square::Square(int id, QPoint origin, int length, Qt::GlobalColor penColor,int penWidth,Qt::PenStyle penStyle,Qt::PenCapStyle penCapStyle,Qt::PenJoinStyle penJoinStyle,Qt::GlobalColor brushColor,Qt::BrushStyle brushStyle)
+    : Rectangle(id, origin, length, length, penColor, penWidth, penStyle, penCapStyle, penJoinStyle, brushColor, brushStyle) {}
 
 Square::~Square() {}
 
@@ -281,6 +321,11 @@ void Square::setWidth(int w)
 
 Ellipse::Ellipse() : OriginBasedShape(), a(0), b(0) {}
 
+Ellipse::Ellipse(int id, QPoint origin, int a, int b, Qt::GlobalColor penColor,int penWidth,Qt::PenStyle penStyle,Qt::PenCapStyle penCapStyle,Qt::PenJoinStyle penJoinStyle,Qt::GlobalColor brushColor,Qt::BrushStyle brushStyle)
+    : OriginBasedShape(origin, penColor,penWidth,penStyle,penCapStyle,penJoinStyle,brushColor,brushStyle), a(a), b(b)
+{
+    setID(id);
+}
 Ellipse::~Ellipse() {}
 
 void Ellipse::setSemiMajor(int semi)
@@ -289,10 +334,10 @@ void Ellipse::setSemiMajor(int semi)
 void Ellipse::setSemiMinor(int semi)
 { b = semi; }
 
-double Ellipse::getSemiMajor() const
+int Ellipse::getSemiMajor() const
 { return a; }
 
-double Ellipse::getSemiMinor() const
+int Ellipse::getSemiMinor() const
 { return b; }
 
 double Ellipse::perimeter() const
@@ -305,6 +350,9 @@ double Ellipse::area() const
 /******************** CIRCLE CLASS CODE ********************/
 
 Circle::Circle() : Ellipse() {}
+
+Circle::Circle(int id, QPoint origin, int a, Qt::GlobalColor penColor,int penWidth,Qt::PenStyle penStyle,Qt::PenCapStyle penCapStyle,Qt::PenJoinStyle penJoinStyle,Qt::GlobalColor brushColor,Qt::BrushStyle brushStyle)
+    : Ellipse(id, origin, a, a, penColor, penWidth, penStyle, penCapStyle, penJoinStyle, brushColor, brushStyle) {}
 
 Circle::~Circle() {}
 
@@ -325,15 +373,23 @@ Text::Text(QString text) : Shape(), origin{0, 0}, length(0), width(0), textStrin
                            textColor(Qt::white), textAlign(Qt::AlignLeft), textPointSize(0), textFontFam(""),
                            textFontStyle(QFont::StyleNormal), textFontWeight(QFont::Thin) {}
 
+Text::Text(int id, QPoint origin, int length, int width, QString textstring, Qt::GlobalColor textColor, Qt::AlignmentFlag textAlign, int textPointSize, QString textFontFam, QFont::Style textFontStyle, QFont::Weight textFontWeight)
+    : origin(origin), length(length), width(width), textString(textstring),
+      textColor(textColor), textAlign(textAlign), textPointSize(textPointSize), textFontFam(textFontFam),
+      textFontStyle(textFontStyle), textFontWeight(textFontWeight)
+{
+    setID(id);
+}
+
 Text::~Text() {}
 
 void Text::setOrigin(QPoint newOrigin)
 { origin = newOrigin; }
 
-void Text::setLength(double l)
+void Text::setLength(int l)
 { length = l; }
 
-void Text::setWdith(double w)
+void Text::setWidth(int w)
 { width = w; }
 
 void Text::setTextString(QString text)
@@ -360,10 +416,10 @@ void Text::setTextFontWeight(QFont::Weight weight)
 QPoint Text::getOrigin() const
 { return origin; }
 
-double Text::getLength() const
+int Text::getLength() const
 { return length; }
 
-double Text::getWidth() const
+int Text::getWidth() const
 { return width; }
 
 QString Text::getTextString() const
@@ -387,3 +443,8 @@ QFont::Style Text::getTextFontStyle() const
 QFont::Weight Text::getTextFontWeight() const
 { return textFontWeight; }
 
+double Text::perimeter() const
+{ return length + length + width + width; }
+
+double Text::area() const
+{ return length * width; }

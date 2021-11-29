@@ -12,14 +12,13 @@ class RenderArea : public QWidget
     Q_OBJECT
 
 public:
-    enum Shape {Line, Polyline, Polygon, Rectangle, Square, Ellipse, Circle, Text};
 
     RenderArea(QWidget *parent = 0);
 
     QSize minimumSizeHint() const override;
     QSize sizeHint() const override;
 
-    void SetShapes(const vector<Shape*>& newShapes);
+    void SetShapes(vector<Shape*> newShapes);
 
 protected:
 

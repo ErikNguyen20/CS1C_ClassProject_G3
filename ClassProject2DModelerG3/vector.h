@@ -19,8 +19,8 @@ public:
     explicit vector(int s); // alternate constructor
     vector(const vector&); // copy constructor
     vector& operator=(const vector&); // copy assignment
-    vector(const vector&&); // move constructor
-    vector& operator=(const vector&&); // move assignment
+    vector(vector&&); // move constructor
+    vector& operator=(vector&&); // move assignment
     ~vector(); // destructor
     T& operator[] (int n); // access: return reference
     const T& operator[] (int n) const; // access: return reference
@@ -110,7 +110,7 @@ vector<T>& vector<T>::operator=(const vector& v)
 }
 
 template<typename T>
-vector<T>::vector(const vector&& v)
+vector<T>::vector(vector&& v)
 {
     elem = v.elem;
 
@@ -121,7 +121,7 @@ vector<T>::vector(const vector&& v)
 }
 
 template<typename T>
-vector<T>& vector<T>::operator=(const vector&& v)
+vector<T>& vector<T>::operator=(vector&& v)
 {
     delete[] elem;
 

@@ -10,136 +10,28 @@ RenderArea::RenderArea(QWidget *parent)
 
 QSize RenderArea::minimumSizeHint() const
 {
-    return QSize(100, 100);
+    return QSize(200, 100);
 }
 
 QSize RenderArea::sizeHint() const
 {
-    return QSize(400, 200);
+    return QSize(2000, 1000);
 }
 
-void RenderArea::SetShapes(const vector<Shape*>& newShapes)
+void RenderArea::SetShapes(vector<Shape*> newShapes)
 {
-    shapes = newShapes;
+    shapes = std::move(newShapes);
+    update();
 }
+
+/******************** Paint Event (Triggers on update) ********************/
 
 void RenderArea::paintEvent(QPaintEvent * /* event */)
 {
     QPainter painter(this);
 
-    //for(int index = 0; index < shapes.size(); index ++)
-    //{
-        //Shape* shape = shapes[index];
-        // shape->setQPainter(painter);
-
-        painter.save();
-
-        //switch(Line/*shapes[index]->shapeEnum*/)
-        //{
-        QPen newPen;
-        QBrush newBrush;
-        //case Line:
-        // shape->draw();
-            //break;
-        /*case Polyline:
-            newPen.setCapStyle(shape->penCapStyle);
-            newPen.setColor(shape->penColor);
-            newPen.setStyle(shape->penStyle);
-            newPen.setJoinStyle(shape->penJoinStyle);
-            newPen.setWidth(shape->penWidth);
-
-            painter.setPen(newPen);
-            painter.drawPolyline(shape->pointVector, shape->pointCount);
-            break;
-        case Polygon:
-            newPen.setCapStyle(shape->penCapStyle);
-            newPen.setColor(shape->penColor);
-            newPen.setStyle(shape->penStyle);
-            newPen.setJoinStyle(shape->penJoinStyle);
-            newPen.setWidth(shape->penWidth);
-
-            newBrush.setColor(shape->brushColor);
-            newBrush.setStyle(shape->brushStyle);
-
-            painter.setPen(newPen);
-            painter.setBrush(newBrush);
-            painter.drawPolygon(shape->pointVector, shape->pointCount);
-            break;
-        case Rectangle:
-            newPen.setCapStylpathe(shape->penCapStyle);
-            newPen.setColor(shape->penColor);
-            newPen.setStyle(shape->penStyle);
-            newPen.setJoinStyle(shape->penJoinStyle);
-            newPen.setWidth(shape->penWidth);
-
-            newBrush.setColor(shape->brushColor);
-            newBrush.setStyle(shape->brushStyle);
-
-            painter.setPen(newPen);
-            painter.setBrush(newBrush);
-            painter.drawRect(shape->origin.x(),shape->origin.y(),shape->length,shape->width);
-            break;
-        case Square:
-            newPen.setCapStyle(shape->penCapStyle);
-            newPen.setColor(shape->penColor);
-            newPen.setStyle(shape->penStyle);
-            newPen.setJoinStyle(shape->penJoinStyle);
-            newPen.setWidth(shape->penWidth);
-
-            newBrush.setColor(shape->brushColor);
-            newBrush.setStyle(shape->brushStyle);
-
-            painter.setPen(newPen);
-            painter.setBrush(newBrush);
-            painter.drawRect(shape->origin.x(),shape->origin.y(),shape->length,shape->width);
-            break;
-        case Ellipse:
-            newPen.setCapStyle(shape->penCapStyle);
-            newPen.setColor(shape->penColor);
-            newPen.setStyle(shape->penStyle);
-            newPen.setJoinStyle(shape->penJoinStyle);
-            newPen.setWidth(shape->penWidth);
-
-            newBrush.setColor(shape->brushColor);
-            newBrush.setStyle(shape->brushStyle);
-
-            painter.setPen(newPen);
-            painter.setBrush(newBrush);
-            painter.drawEllipse(shape->origin,shape->a,shape->b);
-            break;
-        case Circle:
-            newPen.setCapStyle(shape->penCapStyle);
-            newPen.setColor(shape->penColor);
-            newPen.setStyle(shape->penStyle);
-            newPen.setJoinStyle(shape->penJoinStyle);
-            newPen.setWidth(shape->penWidth);
-
-            newBrush.setColor(shape->brushColor);
-            newBrush.setStyle(shape->brushStyle);
-
-            painter.setPen(newPen);
-            painter.setBrush(newBrush);
-            painter.drawEllipse(shape->origin,shape->a,shape->b);
-            break;
-        case Text:*/
-            QFont newFont;
-            newFont.setFamily("Comic Sans MS" /*shape->textFontFam*/);
-            newFont.setWeight(QFont::Normal/*shape->textFontWeight*/);
-            newFont.setStyle(QFont::StyleItalic/*shape->textFontStyle*/);
-            newFont.setPointSize(10/*shape->textPointSize*/);
-
-            painter.setPen(Qt::blue/*shape->textColor*/);
-            painter.setFont(newFont);
-
-            painter.drawText(240,425,500,50,Qt::AlignCenter,"Class Project 2 - 2D Graphics Modeler" /*shape->origin.x(),shape->origin.y(),shape->length,shape->width,shape->textAlign,shape->textString*/);
-            //break;
-        //}
-
-        painter.restore();
-    //}
-
-    painter.setRenderHint(QPainter::Antialiasing, false);
-    painter.setPen(palette().dark().color());
-    painter.setBrush(Qt::NoBrush);
-    painter.drawRect(QRect(0, 0, width() - 1, height() - 1));
+    for(int index = 0; index < shapes.size(); index ++)
+    {
+        shapes[index]->draw(painter);
+    }
 }

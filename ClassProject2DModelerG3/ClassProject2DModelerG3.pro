@@ -28,13 +28,16 @@ SOURCES += \
         mainwindow.cpp \
     shapemanip.cpp \
     shapes.cpp \
-    renderarea.cpp
+    renderarea.cpp \
+    loginwindow.cpp
 
 HEADERS += \
         mainwindow.h \
     shapes.h \
     vector.h \
-    renderarea.h
+    renderarea.h \
+    loginwindow.h
 
 FORMS += \
-        mainwindow.ui
+        mainwindow.ui \
+    loginwindow.ui

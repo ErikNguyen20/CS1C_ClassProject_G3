@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QFileDialog>
 #include "renderarea.h"
+#include "loginwindow.h"
 
 namespace Ui {
 class MainWindow;
@@ -20,21 +21,19 @@ public:
 private slots:
     void on_actionLogin_triggered();
 
-    void on_loginButton_clicked();
-
-    void on_registerButton_clicked();
-
     void on_actionOpen_triggered();
 
     void on_actionSave_triggered();
 
     void on_actionSave_As_triggered();
 
+    void on_actionNew_triggered();
+
 private:
     Ui::MainWindow *ui;
     RenderArea *renderArea;
+    loginwindow *loginWindow;
     QString currentFilePath;
-    //Vector<Shape> objects;
 };
 
 #endif // MAINWINDOW_H

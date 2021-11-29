@@ -24,13 +24,12 @@
 // Draw() functions are defined by the individual shape classes
 void OriginBasedShape::move(int deltaX, int deltaY)
 {
-    origin.setX(origin.x() + deltaX);
-    origin.setY(origin.y() + deltaY);
+    setOrigin(QPoint(getOrigin().x() + deltaX, getOrigin().y() + deltaY));
 }
 
 /******************** LINE CLASS CODE ********************/
 
-void Line::draw() const
+void Line::draw(QPainter& qpainter) const
 {
     QPen newPen;
 
@@ -40,22 +39,31 @@ void Line::draw() const
     newPen.setJoinStyle(getPenJoinStyle());
     newPen.setWidth(getPenWidth());
 
-    painter->setPen(newPen);
-    painter->drawLine(startPoint, endPoint);
+    qpainter.setPen(newPen);
+    qpainter.drawLine(getStartPoint(), getEndPoint());
 }
 
 void Line::move(int deltaX, int deltaY)
 {
-    startPoint.setX(startPoint.x() + deltaX);
-    startPoint.setY(startPoint.y() + deltaY);
-    endPoint.setX(endPoint.x() + deltaX);
-    endPoint.setY(endPoint.y() + deltaY);
+    setStartPoint(QPoint(getStartPoint().x() + deltaX, getStartPoint().y() + deltaY));
+    setEndPoint(QPoint(getEndPoint().x() + deltaX, getEndPoint().y() + deltaY));
 }
 
 
 /******************** POLYLINE CLASS CODE ********************/
 
-void Polyline::draw() const {}
+void Polyline::draw(QPainter& qpainter) const
+{
+    QPen newPen;
+    newPen.setCapStyle(getPenCapStyle());
+    newPen.setColor(getPenColor());
+    newPen.setStyle(getPenStyle());
+    newPen.setJoinStyle(getPenJoinStyle());
+    newPen.setWidth(getPenWidth());
+
+    qpainter.setPen(newPen);
+    qpainter.drawPolyline(pointVector.begin(),getPointCount());
+}
 void Polyline::move(int deltaX, int deltaY)
 {
     for(int count = 0; count < pointCount; count++)
@@ -68,13 +76,45 @@ void Polyline::move(int deltaX, int deltaY)
 
 /******************** POLYGON CLASS CODE ********************/
 
-void Polygon::draw() const {}
+void Polygon::draw(QPainter& qpainter) const
+{
+    QPen newPen;
+    QBrush newBrush;
+    newPen.setCapStyle(getPenCapStyle());
+    newPen.setColor(getPenColor());
+    newPen.setStyle(getPenStyle());
+    newPen.setJoinStyle(getPenJoinStyle());
+    newPen.setWidth(getPenWidth());
+
+    newBrush.setColor(getBrushColor());
+    newBrush.setStyle(getBrushStyle());
+
+    qpainter.setPen(newPen);
+    qpainter.setBrush(newBrush);
+    qpainter.drawPolygon(pointVector.begin(), getPointCount());
+}
 // Move() function is defined by Polyline
 
 
 /******************** RECTANGLE CLASS CODE ********************/
 
-void Rectangle::draw() const {}
+void Rectangle::draw(QPainter& qpainter) const
+{
+    QPen newPen;
+    QBrush newBrush;
+    newPen.setCapStyle(getPenCapStyle());
+    newPen.setColor(getPenColor());
+    newPen.setStyle(getPenStyle());
+    newPen.setJoinStyle(getPenJoinStyle());
+    newPen.setWidth(getPenWidth());
+
+    newBrush.setColor(getBrushColor());
+    newBrush.setStyle(getBrushStyle());
+
+    qpainter.setPen(newPen);
+    qpainter.setBrush(newBrush);
+    qpainter.drawRect(getOrigin().x(),getOrigin().y(),getLength(),getWidth());
+}
 // Move() function is defined by OriginBasedShape
 
 
@@ -85,7 +125,23 @@ void Rectangle::draw() const {}
 
 /******************** ELLIPSE CLASS CODE ********************/
 
-void Ellipse::draw() const {}
+void Ellipse::draw(QPainter& qpainter) const
+{
+    QPen newPen;
+    QBrush newBrush;
+    newPen.setCapStyle(getPenCapStyle());
+    newPen.setColor(getPenColor());
+    newPen.setStyle(getPenStyle());
+    newPen.setJoinStyle(getPenJoinStyle());
+    newPen.setWidth(getPenWidth());
+
+    newBrush.setColor(getBrushColor());
+    newBrush.setStyle(getBrushStyle());
+
+    qpainter.setPen(newPen);
+    qpainter.setBrush(newBrush);
+    qpainter.drawEllipse(getOrigin(),getSemiMajor(),getSemiMinor());
+}
 // Move() function is defined by OriginBasedShape
 
 
@@ -96,7 +152,19 @@ void Ellipse::draw() const {}
 
 /******************** TEXT CLASS CODE ********************/
 
-void Text::draw() const {}
+void Text::draw(QPainter& qpainter) const
+{
+    QFont newFont;
+    newFont.setFamily(getTextFontFam());
+    newFont.setWeight(getTextFontWeight());
+    newFont.setStyle(getTextFontStyle());
+    newFont.setPointSize(getTextPointSize());
+
+    qpainter.setPen(getTextColor());
+    qpainter.setFont(newFont);
+
+    qpainter.drawText(getOrigin().x(),getOrigin().y(),getLength(),getWidth(),getTextAlign(),getTextString());
+}
 void Text::move(int deltaX, int deltaY)
 {
     origin.setX(origin.x() + deltaX);
