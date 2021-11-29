@@ -5,13 +5,12 @@
 #include <iostream>
 #include <QTextStream>
 #include <QFile>
+#include <QMessageBox>
 
 using std::endl;
 
 /******************** CONSTANTS ********************/
 
-const QString ADMIN_USERNAME = "Admin";
-const QString ADMIN_PASSWORD = "Password";
 const QString DEFAULT_WINDOW_NAME = "Untitled";
 const QStringList SHAPE_LIST = {"Line","Polyline","Polygon","Rectangle","Square","Ellipse","Circle","Text"};
 const QStringList GLOBALCOLOR_LIST = {"white","black","red","green","blue","cyan","magenta","yellow","gray"};
@@ -26,16 +25,14 @@ const QStringList QFONTWEIGHT_LIST = {"Thin","Light","Normal","Bold"};
 
 /******************** Function Prototypes ********************/
 
-bool Login(QString username, QString password);
-
-Qt::GlobalColor QStringToGlobalColor(const QString& color);
-Qt::PenStyle QStringToPenStyle(const QString& penstyle);
-Qt::PenCapStyle QStringToPenCapStyle(const QString& pencapstyle);
-Qt::PenJoinStyle QStringToPenJoinStyle(const QString& penjoinstyle);
-Qt::BrushStyle QStringToBrushStyle(const QString& brushstyle);
-Qt::AlignmentFlag QStringToAlignmentFlag(const QString& alignmentflag);
-QFont::Style QStringToQFontStyle(const QString& qfontstyle);
-QFont::Weight QStringToQFontWeight(const QString& qfontweight);
+Qt::GlobalColor QStringToGlobalColor(const QString& color,bool& success);
+Qt::PenStyle QStringToPenStyle(const QString& penstyle,bool& success);
+Qt::PenCapStyle QStringToPenCapStyle(const QString& pencapstyle,bool& success);
+Qt::PenJoinStyle QStringToPenJoinStyle(const QString& penjoinstyle,bool& success);
+Qt::BrushStyle QStringToBrushStyle(const QString& brushstyle,bool& success);
+Qt::AlignmentFlag QStringToAlignmentFlag(const QString& alignmentflag,bool& success);
+QFont::Style QStringToQFontStyle(const QString& qfontstyle,bool& success);
+QFont::Weight QStringToQFontWeight(const QString& qfontweight,bool& success);
 
 
 
@@ -64,9 +61,9 @@ MainWindow::~MainWindow()
 //Login Button in the toolbar <- can change location later
 void MainWindow::on_actionLogin_triggered()
 {
-    loginWindow = new loginwindow(Login);
-    loginWindow->setWindowTitle("Administrator Login");
+    loginWindow = new loginwindow();
     loginWindow->show();
+    connect(&(*loginWindow),SIGNAL(loginSuccessful()),this,SLOT(Login()));
 }
 
 /*void MainWindow::on_loginButton_clicked()
@@ -192,10 +189,10 @@ void MainWindow::on_actionOpen_triggered()
                     iFile >> title >> penCapStyle;
                     iFile >> title >> penJoinStyle;
 
-                    penColorEnum = QStringToGlobalColor(penColor);
-                    penStyleEnum = QStringToPenStyle(penStyle);
-                    penCapStyleEnum = QStringToPenCapStyle(penCapStyle);
-                    penJoinStyleEnum = QStringToPenJoinStyle(penJoinStyle);
+                    penColorEnum = QStringToGlobalColor(penColor,successfulParse);
+                    penStyleEnum = QStringToPenStyle(penStyle,successfulParse);
+                    penCapStyleEnum = QStringToPenCapStyle(penCapStyle,successfulParse);
+                    penJoinStyleEnum = QStringToPenJoinStyle(penJoinStyle,successfulParse);
                 }
                 else if(shapeType == "Text")
                 {
@@ -211,10 +208,10 @@ void MainWindow::on_actionOpen_triggered()
                     iFile >> title >> textFontStyle;
                     iFile >> title >> textFontWeight;
 
-                    textColorEnum = QStringToGlobalColor(textColor);
-                    textAlignmentEnum = QStringToAlignmentFlag(textAlignment);
-                    textFontStyleEnum = QStringToQFontStyle(textFontStyle);
-                    textFontWeightEnum = QStringToQFontWeight(textFontWeight);
+                    textColorEnum = QStringToGlobalColor(textColor,successfulParse);
+                    textAlignmentEnum = QStringToAlignmentFlag(textAlignment,successfulParse);
+                    textFontStyleEnum = QStringToQFontStyle(textFontStyle,successfulParse);
+                    textFontWeightEnum = QStringToQFontWeight(textFontWeight,successfulParse);
                 }
                 else
                 {
@@ -226,12 +223,12 @@ void MainWindow::on_actionOpen_triggered()
                     iFile >> title >> brushColor;
                     iFile >> title >> brushStyle;
 
-                    penColorEnum = QStringToGlobalColor(penColor);
-                    penStyleEnum = QStringToPenStyle(penStyle);
-                    penCapStyleEnum = QStringToPenCapStyle(penCapStyle);
-                    penJoinStyleEnum = QStringToPenJoinStyle(penJoinStyle);
-                    brushColorEnum = QStringToGlobalColor(brushColor);
-                    brushStyleEnum = QStringToBrushStyle(brushStyle);
+                    penColorEnum = QStringToGlobalColor(penColor,successfulParse);
+                    penStyleEnum = QStringToPenStyle(penStyle,successfulParse);
+                    penCapStyleEnum = QStringToPenCapStyle(penCapStyle,successfulParse);
+                    penJoinStyleEnum = QStringToPenJoinStyle(penJoinStyle,successfulParse);
+                    brushColorEnum = QStringToGlobalColor(brushColor,successfulParse);
+                    brushStyleEnum = QStringToBrushStyle(brushStyle,successfulParse);
                 }
                 iFile.skipWhiteSpace();
 
@@ -242,7 +239,8 @@ void MainWindow::on_actionOpen_triggered()
                 shapeTypeIndex = SHAPE_LIST.indexOf(shapeType);
 
                 if(((shapeTypeIndex == 4 || shapeTypeIndex == 6) && (dimensionsList.size()%2 == 0)) ||
-                   ((shapeTypeIndex != 4 && shapeTypeIndex != 6) && (dimensionsList.size()%2 == 1)))
+                   ((shapeTypeIndex != 4 && shapeTypeIndex != 6) && (dimensionsList.size()%2 == 1)) ||
+                     !successfulParse)
                 {
                     successfulParse = false; //Invalid number of dimensions
                 }
@@ -379,21 +377,22 @@ void MainWindow::on_actionOpen_triggered()
             if(successfulParse)
             {
                 //Renders the objects on the canvas and sets the path.
+                currentShapes = newObjects;
                 renderArea->SetShapes(newObjects);
                 currentFilePath = filePath;
                 setWindowTitle(file.fileName());
 
-                statusBar()->showMessage("Successfully parsed file.");
+                statusBar()->showMessage("Successfully opened file.");
             }
             else
             {
-                statusBar()->showMessage("Failed to parse file.");
+                QMessageBox::warning(this, "Open File", "File is corrupted.");
             }
             file.close();
         }
         else
         {
-            statusBar()->showMessage("Failed to open file.");
+            QMessageBox::warning(this, "Open File", "Failed to open file.");
         }
     }
 }
@@ -414,6 +413,7 @@ void MainWindow::on_actionSave_triggered()
         {
             QTextStream oFile(&saveFile);
             //Save Shape Data Here.
+            //(Iterate through the instance datamember of 'currentShapes' (vector of Shape*))
 
 
 
@@ -422,7 +422,7 @@ void MainWindow::on_actionSave_triggered()
         }
         else
         {
-            statusBar()->showMessage("Failed to save.");
+            QMessageBox::warning(this, "Save", "Failed to save to file.");
         }
     }
 }
@@ -448,6 +448,7 @@ void MainWindow::on_actionSave_As_triggered()
 void MainWindow::on_actionNew_triggered()
 {
     vector<Shape*> emptyVector;
+    currentShapes = emptyVector;
     renderArea->SetShapes(emptyVector);
     currentFilePath.clear();
     setWindowTitle(DEFAULT_WINDOW_NAME);
@@ -456,24 +457,16 @@ void MainWindow::on_actionNew_triggered()
 
 /******************** Login Function ********************/
 
-bool Login(QString username, QString password)
+void MainWindow::Login()
 {
-    if (username == ADMIN_USERNAME && password == ADMIN_PASSWORD)
-    {
-        //Add code to enable the admin features in ui.
-        return true;
-    }
-    else
-    {
-        return false;
-    }
+    //Add code to enable ui features.
 }
 
 
 
 /******************** QString to Enum Conversion Function Definitions ********************/
 
-Qt::GlobalColor QStringToGlobalColor(const QString& color)
+Qt::GlobalColor QStringToGlobalColor(const QString& color,bool& success)
 {
     switch(GLOBALCOLOR_LIST.indexOf(color))
         //const QStringList GLOBALCOLOR_LIST = {"white","black","red","green","blue","cyan","magenta","yellow","gray"};
@@ -497,11 +490,12 @@ Qt::GlobalColor QStringToGlobalColor(const QString& color)
     case 8:
         return Qt::gray;
     default:
+        success = false;
         return Qt::white; //Default
     };
 }
 
-Qt::PenStyle QStringToPenStyle(const QString& penstyle)
+Qt::PenStyle QStringToPenStyle(const QString& penstyle,bool& success)
 {
     switch(PENSTYLE_LIST.indexOf(penstyle))
         //const QStringList PENSTYLE_LIST = {"NoPen","SolidLine","DashLine","DotLine","DashDotLine","DashDotDotLine"};
@@ -519,11 +513,12 @@ Qt::PenStyle QStringToPenStyle(const QString& penstyle)
     case 5:
         return Qt::DashDotDotLine;
     default:
+        success = false;
         return Qt::NoPen; //Default
     };
 }
 
-Qt::PenCapStyle QStringToPenCapStyle(const QString& pencapstyle)
+Qt::PenCapStyle QStringToPenCapStyle(const QString& pencapstyle,bool& success)
 {
     switch(PENCAPSTYLE_LIST.indexOf(pencapstyle))
         //const QStringList PENCAPSTYLE_LIST = {"FlatCap","SquareCap","RoundCap"};
@@ -535,11 +530,12 @@ Qt::PenCapStyle QStringToPenCapStyle(const QString& pencapstyle)
     case 2:
         return Qt::RoundCap;
     default:
+        success = false;
         return Qt::FlatCap; //Default
     };
 }
 
-Qt::PenJoinStyle QStringToPenJoinStyle(const QString& penjoinstyle)
+Qt::PenJoinStyle QStringToPenJoinStyle(const QString& penjoinstyle,bool& success)
 {
     switch(PENJOINSTYLE_LIST.indexOf(penjoinstyle))
         //const QStringList PENJOINSTYLE_LIST = {"MiterJoin","BevelJoin","RoundJoin"};
@@ -551,11 +547,12 @@ Qt::PenJoinStyle QStringToPenJoinStyle(const QString& penjoinstyle)
     case 2:
         return Qt::RoundJoin;
     default:
+        success = false;
         return Qt::MiterJoin; //Default
     };
 }
 
-Qt::BrushStyle QStringToBrushStyle(const QString& brushstyle)
+Qt::BrushStyle QStringToBrushStyle(const QString& brushstyle,bool& success)
 {
     switch(BRUSHSTYLE_LIST.indexOf(brushstyle))
         //const QStringList BRUSHSTYLE_LIST = {"SolidPattern","HorPattern","VerPattern","NoBrush"};
@@ -569,11 +566,12 @@ Qt::BrushStyle QStringToBrushStyle(const QString& brushstyle)
     case 3:
         return Qt::NoBrush;
     default:
+        success = false;
         return Qt::NoBrush; //Default
     };
 }
 
-Qt::AlignmentFlag QStringToAlignmentFlag(const QString& alignmentflag)
+Qt::AlignmentFlag QStringToAlignmentFlag(const QString& alignmentflag,bool& success)
 {
     switch(ALIGNMENTFLAG_LIST.indexOf(alignmentflag))
         //const QStringList ALIGNMENTFLAG_LIST = {"AlignLeft","AlignRight","AlignTop","AlignBottom","AlignCenter"};
@@ -587,11 +585,12 @@ Qt::AlignmentFlag QStringToAlignmentFlag(const QString& alignmentflag)
     case 3:
         return Qt::AlignCenter;
     default:
+        success = false;
         return Qt::AlignCenter; //Default
     };
 }
 
-QFont::Style QStringToQFontStyle(const QString& qfontstyle)
+QFont::Style QStringToQFontStyle(const QString& qfontstyle,bool& success)
 {
     switch(QFONTSTYLE_LIST.indexOf(qfontstyle))
         //const QStringList QFONTSTYLE_LIST = {"StyleNormal","StyleItalic","StyleOblique"};
@@ -603,11 +602,12 @@ QFont::Style QStringToQFontStyle(const QString& qfontstyle)
     case 2:
         return QFont::StyleOblique;
     default:
+        success = false;
         return QFont::StyleNormal; //Default
     };
 }
 
-QFont::Weight QStringToQFontWeight(const QString& qfontweight)
+QFont::Weight QStringToQFontWeight(const QString& qfontweight,bool& success)
 {
     switch(QFONTWEIGHT_LIST.indexOf(qfontweight))
         //const QStringList QFONTWEIGHT_LIST = {"Thin","Light","Normal","Bold"};
@@ -621,6 +621,7 @@ QFont::Weight QStringToQFontWeight(const QString& qfontweight)
     case 3:
         return QFont::Bold;
     default:
+        success = false;
         return QFont::Normal; //Default
     };
 }

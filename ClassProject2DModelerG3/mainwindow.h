@@ -29,11 +29,14 @@ private slots:
 
     void on_actionNew_triggered();
 
+    void Login();
+
 private:
     Ui::MainWindow *ui;
     RenderArea *renderArea;
     loginwindow *loginWindow;
     QString currentFilePath;
+    vector<Shape*> currentShapes;
 };
 
 #endif // MAINWINDOW_H

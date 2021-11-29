@@ -102,7 +102,7 @@ template<typename T>
 vector<T>& vector<T>::operator=(const vector& v)
 {
     T *p = new T[v.size_v];
-    copy(v.elem, v.elem + v.size_v, elem);
+    copy(v.elem, v.elem + v.size_v, p);
     delete elem;
     elem = p;
     size_v = v.size_v;

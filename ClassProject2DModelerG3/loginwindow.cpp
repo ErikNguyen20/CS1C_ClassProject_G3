@@ -1,12 +1,13 @@
 #include "loginwindow.h"
 #include "ui_loginwindow.h"
+#include <QMessageBox>
 
-loginwindow::loginwindow(bool (*functionPtr)(QString, QString), QWidget *parent) :
+loginwindow::loginwindow(QWidget *parent) :
     QWidget(parent),
-    loginfunction(functionPtr),
     ui(new Ui::loginwindow)
 {
     ui->setupUi(this);
+    setWindowTitle("Administrator Login");
 }
 
 loginwindow::~loginwindow()
@@ -16,9 +17,10 @@ loginwindow::~loginwindow()
 
 void loginwindow::on_loginButton_clicked()
 {
-    if(loginfunction(ui->usernameTextEdit->toPlainText(), ui->passwordTextEdit->toPlainText()))
+    if(ADMINISTRATOR_USERNAME == ui->usernameTextEdit->toPlainText() && ADMINISTRATOR_PASSWORD == ui->passwordTextEdit->toPlainText())
     {
         QMessageBox::information(this, "Login", "Login Successful!");
+        emit loginSuccessful();
         close();
     }
     else

@@ -3,7 +3,10 @@
 
 #include <QWidget>
 #include <QString>
-#include <QMessageBox>
+
+
+const QString ADMINISTRATOR_USERNAME = "Admin";
+const QString ADMINISTRATOR_PASSWORD = "Password";
 
 namespace Ui {
 class loginwindow;
@@ -14,15 +17,17 @@ class loginwindow : public QWidget
     Q_OBJECT
 
 public:
-    explicit loginwindow(bool (*functionPtr)(QString, QString), QWidget *parent = 0);
+    explicit loginwindow(QWidget *parent = 0);
     ~loginwindow();
+
+signals:
+    void loginSuccessful();
 
 private slots:
     void on_loginButton_clicked();
 
 private:
     Ui::loginwindow *ui;
-    bool (*loginfunction)(QString, QString);
 };
 
 #endif // LOGINWINDOW_H
