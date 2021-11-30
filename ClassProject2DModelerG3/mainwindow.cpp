@@ -66,57 +66,6 @@ void MainWindow::on_actionLogin_triggered()
     connect(&(*loginWindow),SIGNAL(loginSuccessful()),this,SLOT(Login()));
 }
 
-/*void MainWindow::on_loginButton_clicked()
-{
-    QString username = ui->usernameTextEdit->toPlainText();
-    QString password = ui->passwordTextEdit->toPlainText();
-    bool successfulLogin;
-
-    successfulLogin = false;
-
-    QFile accounts("Accounts.txt");
-    if(accounts.open(QIODevice::ReadOnly | QIODevice::Text))
-    {
-        QTextStream iFile(&accounts);
-
-        while(!iFile.atEnd() && !successfulLogin)
-        {
-            QString userLine = iFile.readLine();
-            QString passLine = iFile.readLine();
-            if(username == userLine && password == passLine)
-            {
-                successfulLogin = true;
-                statusBar()->showMessage("Successful");
-            }
-        }
-
-        accounts.close();
-    }
-    if(!successfulLogin)
-    {
-        statusBar()->showMessage("Unsuccessful");
-    }
-}
-
-void MainWindow::on_registerButton_clicked()
-{
-    QFile accounts("Accounts.txt");
-
-    if(accounts.open(QIODevice::WriteOnly | QIODevice::Text))
-    {
-        QTextStream oFile(&accounts);
-        oFile << ui->usernameTextEdit->toPlainText() << endl;
-        oFile << ui->passwordTextEdit->toPlainText() << endl;
-
-        accounts.close();
-        statusBar()->showMessage("Successful created new account!");
-    }
-    else
-    {
-        statusBar()->showMessage("Unable to write to file Accounts.txt");
-    }
-}
-*/
 
 /******************** Open File (Parser) ********************/
 
@@ -233,6 +182,11 @@ void MainWindow::on_actionOpen_triggered()
                 iFile.skipWhiteSpace();
 
 
+
+                if(!successfulParse)
+                {
+                    //Invalid Qstring to Enum conversion
+                }
 
                 //Create new derived shapes, then place them into a vector
 
@@ -386,7 +340,7 @@ void MainWindow::on_actionOpen_triggered()
             }
             else
             {
-                QMessageBox::warning(this, "Open File", "File is corrupted.");
+                QMessageBox::warning(this, "Open File", "File format is incorrect.");
             }
             file.close();
         }
@@ -581,8 +535,10 @@ Qt::AlignmentFlag QStringToAlignmentFlag(const QString& alignmentflag,bool& succ
     case 1:
         return Qt::AlignRight;
     case 2:
-        return Qt::AlignBottom;
+        return Qt::AlignTop;
     case 3:
+        return Qt::AlignBottom;
+    case 4:
         return Qt::AlignCenter;
     default:
         success = false;
