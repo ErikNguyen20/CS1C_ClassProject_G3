@@ -29,15 +29,21 @@ SOURCES += \
     shapemanip.cpp \
     shapes.cpp \
     renderarea.cpp \
-    loginwindow.cpp
+    loginwindow.cpp \
+    testimonials.cpp
 
 HEADERS += \
         mainwindow.h \
     shapes.h \
+    testimonials.h \
     vector.h \
     renderarea.h \
     loginwindow.h
 
 FORMS += \
         mainwindow.ui \
-    loginwindow.ui
+    loginwindow.ui \
+    testimonials.ui
+
+DISTFILES += \
+    testimonials.txt

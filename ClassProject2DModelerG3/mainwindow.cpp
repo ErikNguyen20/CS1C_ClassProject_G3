@@ -626,3 +626,10 @@ QFont::Weight QStringToQFontWeight(const QString& qfontweight,bool& success)
     };
 }
 
+
+void MainWindow::on_actionTestimonials_triggered()
+{
+    Testimonials = new testimonials();
+    Testimonials -> show();
+}
+

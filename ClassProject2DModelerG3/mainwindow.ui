@@ -43,7 +43,7 @@
      <x>0</x>
      <y>0</y>
      <width>1200</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -62,8 +62,16 @@
     </property>
     <addaction name="actionLogin"/>
    </widget>
+   <widget class="QMenu" name="menuAbout">
+    <property name="title">
+     <string>About</string>
+    </property>
+    <addaction name="actionTestimonials"/>
+    <addaction name="actionContact_Us"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuTempButton"/>
+   <addaction name="menuAbout"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -97,6 +105,16 @@
   <action name="actionLogin">
    <property name="text">
     <string>Login</string>
+   </property>
+  </action>
+  <action name="actionTestimonials">
+   <property name="text">
+    <string>Testimonials</string>
+   </property>
+  </action>
+  <action name="actionContact_Us">
+   <property name="text">
+    <string>Contact Us</string>
    </property>
   </action>
  </widget>

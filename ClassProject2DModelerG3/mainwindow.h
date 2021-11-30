@@ -5,6 +5,7 @@
 #include <QFileDialog>
 #include "renderarea.h"
 #include "loginwindow.h"
+#include "testimonials.h"
 
 namespace Ui {
 class MainWindow;
@@ -31,12 +32,15 @@ private slots:
 
     void Login();
 
+    void on_actionTestimonials_triggered();
+
 private:
     Ui::MainWindow *ui;
     RenderArea *renderArea;
     loginwindow *loginWindow;
     QString currentFilePath;
     vector<Shape*> currentShapes;
+    testimonials *Testimonials;
 };
 
 #endif // MAINWINDOW_H
