@@ -51,6 +51,12 @@ int Shape::getID() const
 void Shape::setID(int num)
 { shapeID = num; }
 
+void Shape::setPainter(QPainter *p_painter)
+{ qpainter = p_painter; }
+
+QPainter* Shape::getPainter() const
+{ return qpainter;}
+
 bool Shape::operator== (const Shape& compare) const
 {
     if(shapeID == compare.getID())
