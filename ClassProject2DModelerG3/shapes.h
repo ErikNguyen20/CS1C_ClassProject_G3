@@ -51,14 +51,17 @@ public:
 
     int getID() const;
     void setID(int num);
+    void setPainter(QPainter* p_painter);
+    QPainter* getPainter() const;
 
-    virtual void draw(QPainter& qpainter) const = 0;
+    virtual void draw() const = 0;
     virtual void move(int deltaX, int deltaY) = 0;
     virtual double perimeter() const = 0;
     virtual double area() const = 0;
 
 
 private:
+    QPainter* qpainter;
     int shapeID;
 };
 
@@ -150,7 +153,7 @@ public:
     QPoint getStartPoint() const;
     QPoint getEndPoint() const;
 
-    void draw(QPainter& qpainter) const override;
+    void draw() const override;
     void move(int deltaX, int deltaY) override;
     double perimeter() const override;
     double area() const override;
@@ -167,8 +170,8 @@ class Polyline : public PolyShape // Polyline extends PolyShape
 {
 public:
     Polyline();
-    Polyline(int id, vector<QPoint>& points, Qt::GlobalColor penColor,int penWidth,Qt::PenStyle penStyle,Qt::PenCapStyle penCapStyle,Qt::PenJoinStyle penJoinStyle); //Alt Constructor
-    Polyline(int id, vector<QPoint>& points, Qt::GlobalColor penColor,int penWidth,Qt::PenStyle penStyle,Qt::PenCapStyle penCapStyle,Qt::PenJoinStyle penJoinStyle,Qt::GlobalColor brushColor,Qt::BrushStyle brushStyle); //Alt Constructor
+    Polyline(int id, vector<QPoint> points, Qt::GlobalColor penColor,int penWidth,Qt::PenStyle penStyle,Qt::PenCapStyle penCapStyle,Qt::PenJoinStyle penJoinStyle); //Alt Constructor
+    Polyline(int id, vector<QPoint> points, Qt::GlobalColor penColor,int penWidth,Qt::PenStyle penStyle,Qt::PenCapStyle penCapStyle,Qt::PenJoinStyle penJoinStyle,Qt::GlobalColor brushColor,Qt::BrushStyle brushStyle); //Alt Constructor
     Polyline(const Polyline &copy) = delete;
     Polyline& operator= (const Polyline&) = delete;
     ~Polyline();
@@ -179,7 +182,7 @@ public:
     vector<QPoint> getPoints() const;
     int getPointCount() const;
 
-    void draw(QPainter& qpainter) const override;
+    void draw() const override;
     void move(int deltaX, int deltaY) override;
     double perimeter() const override;
     double area() const override;
@@ -201,7 +204,7 @@ public:
     Polygon& operator= (const Polygon&) = delete;
     virtual ~Polygon();
 
-    void draw(QPainter& qpainter) const override;
+    void draw() const override;
     double perimeter() const override;
     double area() const override;
 private:
@@ -225,7 +228,7 @@ public:
     int getLength() const;
     int getWidth() const;
 
-    void draw(QPainter& qpainter) const override;
+    void draw() const override;
     double perimeter() const override;
     double area() const override;
 protected:
@@ -267,7 +270,7 @@ public:
     int getSemiMajor() const;
     int getSemiMinor() const;
 
-    void draw(QPainter& qpainter) const override;
+    void draw() const override;
     double perimeter() const override;
     double area() const override;
 protected:
@@ -326,7 +329,7 @@ public:
     QFont::Style getTextFontStyle() const;
     QFont::Weight getTextFontWeight() const;
 
-    void draw(QPainter& qpainter) const override;
+    void draw() const override;
     void move(int deltaX, int deltaY) override;
     double perimeter() const;
     double area() const;

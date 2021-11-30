@@ -51,6 +51,12 @@ int Shape::getID() const
 void Shape::setID(int num)
 { shapeID = num; }
 
+void Shape::setPainter(QPainter *p_painter)
+{ qpainter = p_painter; }
+
+QPainter* Shape::getPainter() const
+{ return qpainter;}
+
 bool Shape::operator== (const Shape& compare) const
 {
     if(shapeID == compare.getID())
@@ -189,15 +195,15 @@ double Line::area() const { return 0; }
 Polyline::Polyline() : PolyShape(), pointCount(0)
 { pointVector.reserve(2); }
 
-Polyline::Polyline(int id, vector<QPoint>& points, Qt::GlobalColor penColor,int penWidth,Qt::PenStyle penStyle,Qt::PenCapStyle penCapStyle,Qt::PenJoinStyle penJoinStyle)
-    : PolyShape(penColor,penWidth,penStyle,penCapStyle,penJoinStyle), pointVector(std::move(points))
+Polyline::Polyline(int id, vector<QPoint> points, Qt::GlobalColor penColor,int penWidth,Qt::PenStyle penStyle,Qt::PenCapStyle penCapStyle,Qt::PenJoinStyle penJoinStyle)
+    : PolyShape(penColor,penWidth,penStyle,penCapStyle,penJoinStyle), pointVector(points)
 {
     setID(id);
     pointCount = pointVector.size();
 }
 
-Polyline::Polyline(int id, vector<QPoint>& points, Qt::GlobalColor penColor,int penWidth,Qt::PenStyle penStyle,Qt::PenCapStyle penCapStyle,Qt::PenJoinStyle penJoinStyle,Qt::GlobalColor brushColor,Qt::BrushStyle brushStyle)
-    : PolyShape(penColor,penWidth,penStyle,penCapStyle,penJoinStyle,brushColor,brushStyle), pointVector(std::move(points))
+Polyline::Polyline(int id, vector<QPoint> points, Qt::GlobalColor penColor,int penWidth,Qt::PenStyle penStyle,Qt::PenCapStyle penCapStyle,Qt::PenJoinStyle penJoinStyle,Qt::GlobalColor brushColor,Qt::BrushStyle brushStyle)
+    : PolyShape(penColor,penWidth,penStyle,penCapStyle,penJoinStyle,brushColor,brushStyle), pointVector(points)
 {
     setID(id);
     pointCount = pointVector.size();
@@ -215,7 +221,7 @@ void Polyline::removePoint()
 {
     if(pointVector.size() > 0)
     {
-        pointVector.erase(pointVector.end());
+        pointVector.erase(pointVector.end()-1);
         pointCount--;
     }
 }

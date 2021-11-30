@@ -32,6 +32,7 @@ void RenderArea::paintEvent(QPaintEvent * /* event */)
 
     for(int index = 0; index < shapes.size(); index ++)
     {
-        shapes[index]->draw(painter);
+        shapes[index]->setPainter(&painter);
+        shapes[index]->draw();
     }
 }
