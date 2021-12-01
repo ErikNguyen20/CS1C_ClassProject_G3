@@ -6,6 +6,7 @@
 #include "renderarea.h"
 #include "loginwindow.h"
 #include "testimonials.h"
+#include "contactus.h"
 
 namespace Ui {
 class MainWindow;
@@ -34,6 +35,8 @@ private slots:
 
     void on_actionTestimonials_triggered();
 
+    void on_actionContact_Us_triggered();
+
 private:
     Ui::MainWindow *ui;
     RenderArea *renderArea;
@@ -41,6 +44,7 @@ private:
     QString currentFilePath;
     vector<Shape*> currentShapes;
     testimonials *Testimonials;
+    contactus *ContactUs;
 };
 
 #endif // MAINWINDOW_H

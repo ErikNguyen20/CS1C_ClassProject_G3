@@ -24,6 +24,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += \
+    contactus.cpp \
         main.cpp \
         mainwindow.cpp \
     shapemanip.cpp \
@@ -33,6 +34,7 @@ SOURCES += \
     testimonials.cpp
 
 HEADERS += \
+    contactus.h \
         mainwindow.h \
     shapes.h \
     testimonials.h \
@@ -41,9 +43,14 @@ HEADERS += \
     loginwindow.h
 
 FORMS += \
+    contactus.ui \
         mainwindow.ui \
     loginwindow.ui \
     testimonials.ui
 
 DISTFILES += \
+    midnight-oil.jpg \
     testimonials.txt
+
+RESOURCES += \
+    resources.qrc

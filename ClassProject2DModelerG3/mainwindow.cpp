@@ -45,6 +45,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     loginWindow = new loginwindow();
     Testimonials = new testimonials();
+    ContactUs = new contactus();
     renderArea = new RenderArea(ui->renderCanvas);
     renderArea->show();
     renderArea->update();
@@ -589,5 +590,11 @@ QFont::Weight QStringToQFontWeight(const QString& qfontweight,bool& success)
 void MainWindow::on_actionTestimonials_triggered()
 {
     Testimonials -> show();
+}
+
+
+void MainWindow::on_actionContact_Us_triggered()
+{
+    ContactUs -> show();
 }
 

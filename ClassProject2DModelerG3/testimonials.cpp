@@ -24,7 +24,15 @@ testimonials::testimonials(QWidget *parent) :
         {
             currentTestimonials += inFile.readLine() + "\n";
         }
+    }
+    if(!currentTestimonials.trimmed().isEmpty())
+    {
         ui -> textDisplay -> insertPlainText(currentTestimonials);
+    }
+    else
+    {
+        QString placeholder = "There haven't been any testimonials submitted yet.";
+        ui -> textDisplay -> insertPlainText(placeholder);
     }
 }
 
