@@ -40,10 +40,11 @@ QFont::Weight QStringToQFontWeight(const QString& qfontweight,bool& success);
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    loginWindow(nullptr),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    loginWindow = new loginwindow();
+    Testimonials = new testimonials();
     renderArea = new RenderArea(ui->renderCanvas);
     renderArea->show();
     renderArea->update();
@@ -54,6 +55,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
+    delete loginWindow;
+    delete renderArea;
+    delete Testimonials;
     delete ui;
 }
 
@@ -61,7 +65,6 @@ MainWindow::~MainWindow()
 //Login Button in the toolbar <- can change location later
 void MainWindow::on_actionLogin_triggered()
 {
-    loginWindow = new loginwindow();
     loginWindow->show();
     connect(&(*loginWindow),SIGNAL(loginSuccessful()),this,SLOT(Login()));
 }
@@ -585,7 +588,6 @@ QFont::Weight QStringToQFontWeight(const QString& qfontweight,bool& success)
 
 void MainWindow::on_actionTestimonials_triggered()
 {
-    Testimonials = new testimonials();
     Testimonials -> show();
 }
 

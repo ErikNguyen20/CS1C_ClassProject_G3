@@ -26,9 +26,9 @@ void loginwindow::on_loginButton_clicked()
     else
     {
         QMessageBox::warning(this, "Login", "Username or Password was incorrect.");
-        ui->usernameTextEdit->setPlainText("");
-        ui->passwordTextEdit->setPlainText("");
     }
+    ui->usernameTextEdit->setPlainText("");
+    ui->passwordTextEdit->setPlainText("");
 }
 
 /*void MainWindow::on_loginButton_clicked()
