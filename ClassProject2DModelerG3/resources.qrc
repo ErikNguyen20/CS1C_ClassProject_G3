@@ -2,7 +2,4 @@
     <qresource prefix="/images">
         <file>midnight-oil.jpg</file>
     </qresource>
-    <qresource prefix="/txt">
-        <file>testimonials.txt</file>
-    </qresource>
 </RCC>
