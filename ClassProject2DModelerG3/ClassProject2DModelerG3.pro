@@ -24,19 +24,39 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += \
+    _circle.cpp \
+    _ellipse.cpp \
+    _line.cpp \
+    _originbasedshape.cpp \
+    _polygon.cpp \
+    _polyline.cpp \
+    _polyshape.cpp \
+    _rectangle.cpp \
+    _shape.cpp \
+    _square.cpp \
+    _text.cpp \
     contactus.cpp \
         main.cpp \
         mainwindow.cpp \
-    shapemanip.cpp \
-    shapes.cpp \
     renderarea.cpp \
     loginwindow.cpp \
     testimonials.cpp
 
 HEADERS += \
+    _circle.h \
+    _ellipse.h \
+    _line.h \
+    _originbasedshape.h \
+    _polygon.h \
+    _polyline.h \
+    _polyshape.h \
+    _rectangle.h \
+    _shape.h \
+    _square.h \
+    _text.h \
     contactus.h \
         mainwindow.h \
-    shapes.h \
+    shapemaster.h \
     testimonials.h \
     vector.h \
     renderarea.h \

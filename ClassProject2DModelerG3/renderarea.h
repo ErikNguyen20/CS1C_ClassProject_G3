@@ -5,7 +5,7 @@
 #include <QPainter>
 #include <QPen>
 #include "vector.h"
-#include "shapes.h"
+#include "shapemaster.h"
 
 class RenderArea : public QWidget
 {

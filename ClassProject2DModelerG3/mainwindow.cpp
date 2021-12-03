@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "shapes.h"
+#include "shapemaster.h"
 #include "vector.h"
 #include <iostream>
 #include <QTextStream>
