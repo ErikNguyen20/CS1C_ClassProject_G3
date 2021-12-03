@@ -20,6 +20,8 @@ public:
 
     void SetShapes(vector<Shape*> newShapes);
 
+    vector<Shape*> GetShapes() const;
+
 protected:
 
     void paintEvent(QPaintEvent *event) override;

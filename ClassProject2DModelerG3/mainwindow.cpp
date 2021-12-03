@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "shapemaster.h"
 #include "vector.h"
+#include "parserexception.h"
 #include <iostream>
 #include <QTextStream>
 #include <QFile>
@@ -40,14 +41,19 @@ QFont::Weight QStringToQFontWeight(const QString& qfontweight,bool& success);
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
+    needsSave(false),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
     loginWindow = new loginwindow();
     ContactUs = new contactus();
+
+    connect(&*loginWindow,SIGNAL(loginSuccessful()),this,SLOT(Login()));
+
     renderArea = new RenderArea(ui->renderCanvas);
     renderArea->show();
     renderArea->update();
+
     setWindowTitle(DEFAULT_WINDOW_NAME);
 }
 
@@ -58,6 +64,7 @@ MainWindow::~MainWindow()
     delete loginWindow;
     delete renderArea;
     delete Testimonials;
+    delete ContactUs;
     delete ui;
 }
 
@@ -66,7 +73,6 @@ MainWindow::~MainWindow()
 void MainWindow::on_actionLogin_triggered()
 {
     loginWindow->show();
-    connect(&(*loginWindow),SIGNAL(loginSuccessful()),this,SLOT(Login()));
 }
 
 
@@ -74,135 +80,146 @@ void MainWindow::on_actionLogin_triggered()
 
 void MainWindow::on_actionOpen_triggered()
 {
-    QString filePath = QFileDialog::getOpenFileName(this,"2D Modeler - Open File",QDir::homePath(),"Text Files (*.txt)");
-    if(!filePath.isEmpty())
+    if(needsSave) //If the shapes are modified, it will prompt a save before opening a new file.
     {
-        QFile file(filePath);
-        if(file.open(QIODevice::ReadOnly | QIODevice::Text))
+        QMessageBox savePrompt;
+        savePrompt.setWindowTitle("Save Changes");
+        savePrompt.setText("Do you want to save your changes?");
+        savePrompt.setStandardButtons(QMessageBox::Discard | QMessageBox::Save);
+        int result = savePrompt.exec();
+
+        if(result == QMessageBox::Save)
         {
-            QTextStream iFile(&file);
+            on_actionSave_triggered();
+        }
+    }
 
-            vector<Shape*> newObjects;
-            bool successfulParse = true;
-
-
-            while(!iFile.atEnd() && successfulParse)
+    try //Exception handler for Parser (ParserException Class)
+    {
+        QString filePath = QFileDialog::getOpenFileName(this,"2D Modeler - Open File",QDir::homePath(),"Text Files (*.txt)");
+        if(!filePath.isEmpty() && filePath != currentFilePath)
+        {
+            QFile file(filePath);
+            if(file.open(QIODevice::ReadOnly | QIODevice::Text))
             {
-                QString title,shapeType;
-                int shapeId,shapeTypeIndex;
-                QString penColor,penStyle,penCapStyle,penJoinStyle;
-                int penWidth;
-                QString brushColor,brushStyle;
-                QString textString,textColor,textAlignment,textFontFamily,textFontStyle,textFontWeight;
-                int textPointSize;
-                vector<QPoint> pointsVector;
+                QTextStream iFile(&file);
 
-                Shape* shapePtr = nullptr;
+                vector<Shape*> newObjects;
+                bool successfulParse = true;
 
 
-
-                iFile >> title >> shapeId;
-                iFile >> title >> shapeType;
-                iFile >> title;
-                iFile.skipWhiteSpace();
-
-
-                //Splits the Shape Dimensions Qstring into seperate Qstrings by digits.
-                QRegularExpression pattern;
-                pattern.setPattern("\\W+");
-                QStringList dimensionsList = iFile.readLine().split(pattern);
-
-
-                //Converts QStrings from the list into integers, storing them into dimensionAr
-                int dimensionAr[dimensionsList.size()];
-                for(int index = 0; index < dimensionsList.size(); index++)
+                while(!iFile.atEnd() && successfulParse)
                 {
-                    bool ok;
-                    dimensionAr[index] = dimensionsList.at(index).toInt(&ok,10);
-                }
+                    QString title,shapeType;
+                    int shapeId,shapeTypeIndex;
+                    QString penColor,penStyle,penCapStyle,penJoinStyle;
+                    int penWidth;
+                    QString brushColor,brushStyle;
+                    QString textString,textColor,textAlignment,textFontFamily,textFontStyle,textFontWeight;
+                    int textPointSize;
+                    vector<QPoint> pointsVector;
+
+                    Shape* shapePtr = nullptr;
 
 
-                //Read in specific properties to each shape type.
 
-                Qt::GlobalColor penColorEnum,textColorEnum,brushColorEnum;
-                Qt::PenStyle penStyleEnum;
-                Qt::PenCapStyle penCapStyleEnum;
-                Qt::PenJoinStyle penJoinStyleEnum;
-                Qt::AlignmentFlag textAlignmentEnum;
-                QFont::Style textFontStyleEnum;
-                QFont::Weight textFontWeightEnum;
-                Qt::BrushStyle brushStyleEnum;
-
-                if(shapeType == "Line" || shapeType == "Polyline")
-                {
-                    iFile >> title >> penColor;
-                    iFile >> title >> penWidth;
-                    iFile >> title >> penStyle;
-                    iFile >> title >> penCapStyle;
-                    iFile >> title >> penJoinStyle;
-
-                    penColorEnum = QStringToGlobalColor(penColor,successfulParse);
-                    penStyleEnum = QStringToPenStyle(penStyle,successfulParse);
-                    penCapStyleEnum = QStringToPenCapStyle(penCapStyle,successfulParse);
-                    penJoinStyleEnum = QStringToPenJoinStyle(penJoinStyle,successfulParse);
-                }
-                else if(shapeType == "Text")
-                {
+                    iFile >> title >> shapeId;
+                    iFile >> title >> shapeType;
                     iFile >> title;
                     iFile.skipWhiteSpace();
-                    textString = iFile.readLine();
-                    iFile >> title >> textColor;
-                    iFile >> title >> textAlignment;
-                    iFile >> title >> textPointSize;
-                    iFile >> title;
+                    shapeTypeIndex = SHAPE_LIST.indexOf(shapeType);
+
+
+                    //Splits the Shape Dimensions Qstring into seperate Qstrings by digits.
+                    QRegularExpression pattern;
+                    pattern.setPattern("\\W+");
+                    QStringList dimensionsList = iFile.readLine().split(pattern);
+
+
+                    //Converts QStrings from the list into integers, storing them into dimensionAr
+                    int dimensionAr[dimensionsList.size()];
+                    for(int index = 0; index < dimensionsList.size(); index++)
+                    {
+                        bool ok;
+                        dimensionAr[index] = dimensionsList.at(index).toInt(&ok,10);
+                    }
+
+                    if(((shapeTypeIndex == 4 || shapeTypeIndex == 6) && (dimensionsList.size()%2 == 0)) ||
+                       ((shapeTypeIndex != 4 && shapeTypeIndex != 6) && (dimensionsList.size()%2 == 1)))
+                    {
+                        throw ParserException("One of the shapes has an invalid number of dimensions.");
+                    }
+
+
+                    //Read in specific properties to each shape type.
+
+                    Qt::GlobalColor penColorEnum,textColorEnum,brushColorEnum;
+                    Qt::PenStyle penStyleEnum;
+                    Qt::PenCapStyle penCapStyleEnum;
+                    Qt::PenJoinStyle penJoinStyleEnum;
+                    Qt::AlignmentFlag textAlignmentEnum;
+                    QFont::Style textFontStyleEnum;
+                    QFont::Weight textFontWeightEnum;
+                    Qt::BrushStyle brushStyleEnum;
+
+                    if(shapeTypeIndex == 0 || shapeTypeIndex == 1)
+                    {
+                        iFile >> title >> penColor;
+                        iFile >> title >> penWidth;
+                        iFile >> title >> penStyle;
+                        iFile >> title >> penCapStyle;
+                        iFile >> title >> penJoinStyle;
+
+                        penColorEnum = QStringToGlobalColor(penColor,successfulParse);
+                        penStyleEnum = QStringToPenStyle(penStyle,successfulParse);
+                        penCapStyleEnum = QStringToPenCapStyle(penCapStyle,successfulParse);
+                        penJoinStyleEnum = QStringToPenJoinStyle(penJoinStyle,successfulParse);
+                    }
+                    else if(shapeTypeIndex == 7)
+                    {
+                        iFile >> title;
+                        iFile.skipWhiteSpace();
+                        textString = iFile.readLine();
+                        iFile >> title >> textColor;
+                        iFile >> title >> textAlignment;
+                        iFile >> title >> textPointSize;
+                        iFile >> title;
+                        iFile.skipWhiteSpace();
+                        textFontFamily = iFile.readLine();
+                        iFile >> title >> textFontStyle;
+                        iFile >> title >> textFontWeight;
+
+                        textColorEnum = QStringToGlobalColor(textColor,successfulParse);
+                        textAlignmentEnum = QStringToAlignmentFlag(textAlignment,successfulParse);
+                        textFontStyleEnum = QStringToQFontStyle(textFontStyle,successfulParse);
+                        textFontWeightEnum = QStringToQFontWeight(textFontWeight,successfulParse);
+                    }
+                    else
+                    {
+                        iFile >> title >> penColor;
+                        iFile >> title >> penWidth;
+                        iFile >> title >> penStyle;
+                        iFile >> title >> penCapStyle;
+                        iFile >> title >> penJoinStyle;
+                        iFile >> title >> brushColor;
+                        iFile >> title >> brushStyle;
+
+                        penColorEnum = QStringToGlobalColor(penColor,successfulParse);
+                        penStyleEnum = QStringToPenStyle(penStyle,successfulParse);
+                        penCapStyleEnum = QStringToPenCapStyle(penCapStyle,successfulParse);
+                        penJoinStyleEnum = QStringToPenJoinStyle(penJoinStyle,successfulParse);
+                        brushColorEnum = QStringToGlobalColor(brushColor,successfulParse);
+                        brushStyleEnum = QStringToBrushStyle(brushStyle,successfulParse);
+                    }
                     iFile.skipWhiteSpace();
-                    textFontFamily = iFile.readLine();
-                    iFile >> title >> textFontStyle;
-                    iFile >> title >> textFontWeight;
 
-                    textColorEnum = QStringToGlobalColor(textColor,successfulParse);
-                    textAlignmentEnum = QStringToAlignmentFlag(textAlignment,successfulParse);
-                    textFontStyleEnum = QStringToQFontStyle(textFontStyle,successfulParse);
-                    textFontWeightEnum = QStringToQFontWeight(textFontWeight,successfulParse);
-                }
-                else
-                {
-                    iFile >> title >> penColor;
-                    iFile >> title >> penWidth;
-                    iFile >> title >> penStyle;
-                    iFile >> title >> penCapStyle;
-                    iFile >> title >> penJoinStyle;
-                    iFile >> title >> brushColor;
-                    iFile >> title >> brushStyle;
-
-                    penColorEnum = QStringToGlobalColor(penColor,successfulParse);
-                    penStyleEnum = QStringToPenStyle(penStyle,successfulParse);
-                    penCapStyleEnum = QStringToPenCapStyle(penCapStyle,successfulParse);
-                    penJoinStyleEnum = QStringToPenJoinStyle(penJoinStyle,successfulParse);
-                    brushColorEnum = QStringToGlobalColor(brushColor,successfulParse);
-                    brushStyleEnum = QStringToBrushStyle(brushStyle,successfulParse);
-                }
-                iFile.skipWhiteSpace();
+                    if(!successfulParse)
+                    {
+                        throw ParserException("One of the shape properties are invalid.");
+                    }
 
 
-
-                if(!successfulParse)
-                {
-                    //Invalid Qstring to Enum conversion
-                }
-
-                //Create new derived shapes, then place them into a vector
-
-                shapeTypeIndex = SHAPE_LIST.indexOf(shapeType);
-
-                if(((shapeTypeIndex == 4 || shapeTypeIndex == 6) && (dimensionsList.size()%2 == 0)) ||
-                   ((shapeTypeIndex != 4 && shapeTypeIndex != 6) && (dimensionsList.size()%2 == 1)) ||
-                     !successfulParse)
-                {
-                    successfulParse = false; //Invalid number of dimensions
-                }
-                else
-                {
+                    //Create new derived shapes, then place them into a vector
                     switch(shapeTypeIndex)
                     {
                     case 0: //Line
@@ -224,13 +241,13 @@ void MainWindow::on_actionOpen_triggered()
                             pointsVector.push_back(QPoint(dimensionAr[index],dimensionAr[index+1]));
                         }
                         shapePtr = new Polyline(shapeId,
-                                            pointsVector,
-                                            penColorEnum,
-                                            penWidth,
-                                            penStyleEnum,
-                                            penCapStyleEnum,
-                                            penJoinStyleEnum
-                                        );
+                                                pointsVector,
+                                                penColorEnum,
+                                                penWidth,
+                                                penStyleEnum,
+                                                penCapStyleEnum,
+                                                penJoinStyleEnum
+                                                );
                         break;
                     case 2: //Polygon
                         //Create Polygon object
@@ -240,30 +257,30 @@ void MainWindow::on_actionOpen_triggered()
                         }
 
                         shapePtr = new Polygon(shapeId,
-                                            pointsVector,
-                                            penColorEnum,
-                                            penWidth,
-                                            penStyleEnum,
-                                            penCapStyleEnum,
-                                            penJoinStyleEnum,
-                                            brushColorEnum,
-                                            brushStyleEnum
-                                        );
+                                               pointsVector,
+                                               penColorEnum,
+                                               penWidth,
+                                               penStyleEnum,
+                                               penCapStyleEnum,
+                                               penJoinStyleEnum,
+                                               brushColorEnum,
+                                               brushStyleEnum
+                                               );
                         break;
                     case 3: //Rectangle
                         //Create Rectangle Object
                         shapePtr = new Rectangle(shapeId,
-                                            QPoint(dimensionAr[0],dimensionAr[1]),
-                                            dimensionAr[2],
-                                            dimensionAr[3],
-                                            penColorEnum,
-                                            penWidth,
-                                            penStyleEnum,
-                                            penCapStyleEnum,
-                                            penJoinStyleEnum,
-                                            brushColorEnum,
-                                            brushStyleEnum
-                                        );
+                                                QPoint(dimensionAr[0],dimensionAr[1]),
+                                                dimensionAr[2],
+                                                dimensionAr[3],
+                                                penColorEnum,
+                                                penWidth,
+                                                penStyleEnum,
+                                                penCapStyleEnum,
+                                                penJoinStyleEnum,
+                                                brushColorEnum,
+                                                brushStyleEnum
+                                );
                         break;
                     case 4: //Square
                         //Create Square Object
@@ -306,7 +323,7 @@ void MainWindow::on_actionOpen_triggered()
                                             penJoinStyleEnum,
                                             brushColorEnum,
                                             brushStyleEnum
-                                        );
+                                       );
                         break;
                     case 7: //Text
                         //Create Text Object
@@ -321,36 +338,32 @@ void MainWindow::on_actionOpen_triggered()
                                             textFontFamily,
                                             textFontStyleEnum,
                                             textFontWeightEnum
-                                        );
+                                         );
                         break;
                     default:
-                        successfulParse = false; //invalid shape type
+                        throw ParserException("One of the shapes is of an invalid type.");
                     };
 
                     newObjects.push_back(shapePtr);
                 }
-            }
 
-            if(successfulParse)
-            {
                 //Renders the objects on the canvas and sets the path.
-                currentShapes = newObjects;
                 renderArea->SetShapes(newObjects);
                 currentFilePath = filePath;
                 setWindowTitle(file.fileName());
 
                 statusBar()->showMessage("Successfully opened file.");
+                file.close();
             }
             else
             {
-                QMessageBox::warning(this, "Open File", "File format is incorrect.");
+                throw ParserException("Failed to open file.");
             }
-            file.close();
         }
-        else
-        {
-            QMessageBox::warning(this, "Open File", "Failed to open file.");
-        }
+    }
+    catch(const ParserException& exceptionObj)
+    {
+        QMessageBox::warning(this, "Open File", exceptionObj.what());
     }
 }
 
@@ -371,7 +384,7 @@ void MainWindow::on_actionSave_triggered()
             QTextStream oFile(&saveFile);
             //Save Shape Data Here.
             //(Iterate through the instance datamember of 'currentShapes' (vector of Shape*))
-
+            vector<Shape*> currentShapes = renderArea->GetShapes();
 
 
             statusBar()->showMessage("Successful Save!");
@@ -405,7 +418,6 @@ void MainWindow::on_actionSave_As_triggered()
 void MainWindow::on_actionNew_triggered()
 {
     vector<Shape*> emptyVector;
-    currentShapes = emptyVector;
     renderArea->SetShapes(emptyVector);
     currentFilePath.clear();
     setWindowTitle(DEFAULT_WINDOW_NAME);

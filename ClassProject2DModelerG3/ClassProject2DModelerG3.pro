@@ -60,7 +60,8 @@ HEADERS += \
     testimonials.h \
     vector.h \
     renderarea.h \
-    loginwindow.h
+    loginwindow.h \
+    parserexception.h
 
 FORMS += \
     contactus.ui \

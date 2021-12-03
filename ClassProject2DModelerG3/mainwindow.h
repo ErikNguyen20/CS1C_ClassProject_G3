@@ -42,9 +42,9 @@ private:
     RenderArea *renderArea;
     loginwindow *loginWindow;
     QString currentFilePath;
-    vector<Shape*> currentShapes;
     testimonials *Testimonials;
     contactus *ContactUs;
+    bool needsSave;
 };
 
 #endif // MAINWINDOW_H

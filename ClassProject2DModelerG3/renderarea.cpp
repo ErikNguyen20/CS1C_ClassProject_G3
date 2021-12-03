@@ -24,6 +24,11 @@ void RenderArea::SetShapes(vector<Shape*> newShapes)
     update();
 }
 
+vector<Shape*> RenderArea::GetShapes() const
+{
+    return shapes;
+}
+
 /******************** Paint Event (Triggers on update) ********************/
 
 void RenderArea::paintEvent(QPaintEvent * /* event */)
