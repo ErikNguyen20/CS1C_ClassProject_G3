@@ -10,7 +10,6 @@
 #include <string>
 
 using std::endl;
-using std::unordered_map;
 
 /******************** CONSTANTS ********************/
 
