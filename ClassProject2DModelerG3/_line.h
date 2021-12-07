@@ -40,6 +40,8 @@ public:
     double perimeter() const override;
     double area() const override;
 
+    string getShapeStypeString() const override {return "Line";}
+
 private:
     QPoint startPoint;
     QPoint endPoint;

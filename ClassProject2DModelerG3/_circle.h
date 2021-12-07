@@ -29,6 +29,8 @@ public:
 
    void setSemiMajor(int semi) override;
    void setSemiMinor(int semi) override;
+
+   string getShapeStypeString() const override {return "Circle";}
 };
 
 #endif // _CIRCLE_H

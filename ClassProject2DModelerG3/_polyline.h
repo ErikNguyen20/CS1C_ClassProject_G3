@@ -39,6 +39,8 @@ public:
     void move(int deltaX, int deltaY) override;
     double perimeter() const override;
     double area() const override;
+	
+    string getShapeStypeString() const override {return "Polyline";}
 
 protected:
     vector<QPoint> pointVector;

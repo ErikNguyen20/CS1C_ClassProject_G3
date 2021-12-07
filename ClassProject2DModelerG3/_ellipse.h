@@ -36,6 +36,9 @@ public:
     void draw() const override;
     double perimeter() const override;
     double area() const override;
+
+    string getShapeStypeString() const override  {return "Ellipse";}
+    
 protected:
     int a;      // semi-major axis <- make int
     int b;      // semi-minor axis <- make int

@@ -36,6 +36,9 @@ public:
     void draw() const override;
     double perimeter() const override;
     double area() const override;
+
+    string getShapeStypeString() const override {return "Rectangle";}
+    
 protected:
     int length; //make int
     int width;  //make int

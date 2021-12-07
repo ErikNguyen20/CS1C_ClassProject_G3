@@ -7,8 +7,10 @@
 #include <QTextStream>
 #include <QFile>
 #include <QMessageBox>
+#include <string>
 
 using std::endl;
+using std::unordered_map;
 
 /******************** CONSTANTS ********************/
 
@@ -34,7 +36,17 @@ Qt::BrushStyle QStringToBrushStyle(const QString& brushstyle,bool& success);
 Qt::AlignmentFlag QStringToAlignmentFlag(const QString& alignmentflag,bool& success);
 QFont::Style QStringToQFontStyle(const QString& qfontstyle,bool& success);
 QFont::Weight QStringToQFontWeight(const QString& qfontweight,bool& success);
-
+void writeShapesToFile(QTextStream& file, const vector<Shape*> &shapes);
+void printPolyshapeDataToFile(QTextStream& file, PolyShape* polyshape);
+void printTextShapeDataToFile(QTextStream& file, Text* text);
+string colorToString(const Qt::GlobalColor& color);
+string penJoinStyleToString(const Qt::PenJoinStyle& penJoinStyleEnum);
+string penCapStyleToString(const Qt::PenCapStyle& capStyle);
+string penStyleToString(const Qt::PenStyle& penStyleEnum);
+string brushStyleToString(const Qt::BrushStyle& brushStyle);
+string textAlignToString(const Qt::AlignmentFlag& alignment);
+string textStyleToString(const QFont::Style& style);
+string textWeightToString(const QFont::Weight& weight);
 
 
 /******************** Main Window Constructor ********************/
@@ -386,7 +398,9 @@ void MainWindow::on_actionSave_triggered()
             //(Iterate through the instance datamember of 'currentShapes' (vector of Shape*))
             vector<Shape*> currentShapes = renderArea->GetShapes();
 
+            writeShapesToFile(oFile, currentShapes);
 
+            setWindowTitle(saveFile.fileName());
             statusBar()->showMessage("Successful Save!");
             saveFile.close();
         }
@@ -610,3 +624,312 @@ void MainWindow::on_actionContact_Us_triggered()
     ContactUs -> show();
 }
 
+/******************** Write Shape Vector to Save File Function Definitions ********************/
+
+// helper functions
+//-----------writing functions--------------------
+void printPolyshapeDataToFile(QTextStream& file, PolyShape* polyshape)
+{
+    file << "PenColor: " << QString::fromStdString(colorToString(polyshape->getPenColor())) << endl;
+	file << "PenWidth: " << polyshape->getPenWidth() << endl;
+	file << "PenStyle: " << QString::fromStdString(penStyleToString(polyshape->getPenStyle())) << endl;
+	file << "PenCapStyle: " << QString::fromStdString(penCapStyleToString(polyshape->getPenCapStyle())) << endl;
+	file << "PenJoinStyle: " << QString::fromStdString(penJoinStyleToString(polyshape->getPenJoinStyle())) << endl;
+}
+
+void printTextShapeDataToFile(QTextStream& file, Text* text)
+{
+	file << "TextString: " << text->getTextString() << endl;
+    file << "TextColor: " << QString::fromStdString(colorToString(text->getTextColor())) << endl;
+	file << "TextAlignment: " << QString::fromStdString(textAlignToString(text->getTextAlign())) << endl;
+	file << "TextPointSize: " << text->getTextPointSize() << endl;
+	file << "TextFontFamily: " << text->getTextFontFam() << endl;
+	file << "TextFontStyle: " << QString::fromStdString(textStyleToString(text->getTextFontStyle())) << endl;
+    file << "TextFontWeight: " << QString::fromStdString(textWeightToString(text->getTextFontWeight())) << endl;
+}
+
+//-------------conversion functions------------------
+
+string colorToString(const Qt::GlobalColor& color)
+{
+    switch (color)
+    {
+        case Qt::white: return "white";
+        case Qt::black: return "black";
+        case Qt::red: return "red";
+        case Qt::green: return "green";
+        case Qt::blue: return "blue";
+        case Qt::cyan: return "cyan";
+        case Qt::magenta: return "magenta";
+        case Qt::yellow: return "yellow";
+        case Qt::gray: return "gray";
+        default: return "white";
+    };
+}
+
+string penJoinStyleToString(const Qt::PenJoinStyle& penJoinStyleEnum)
+{
+	switch (penJoinStyleEnum)
+	{
+		case Qt::MiterJoin:
+			return "MiterJoin";
+		case Qt::BevelJoin:
+			return "BevelJoin";
+		case Qt::RoundJoin:
+			return "RoundJoin";
+        default: return "MiterJoin";
+    };
+}
+
+string penCapStyleToString(const Qt::PenCapStyle& capStyle)
+{
+	switch (capStyle)
+	{
+		case Qt::FlatCap:
+			return "FlatCap";
+		case Qt::RoundCap:
+			return "RoundCap";
+		case Qt::SquareCap:
+			return "SquareCap";
+        default: return "FlatCap";
+    };
+}
+
+string penStyleToString(const Qt::PenStyle& penStyleEnum)
+{
+	switch(penStyleEnum)
+	{
+		case Qt::NoPen:
+			return "NoPen";
+		case Qt::SolidLine:
+			return "SolidLine";
+		case Qt::DashLine:
+			return "DashLine";
+		case Qt::DotLine:
+			return "DotLine";
+		case Qt::DashDotLine:
+			return "DashDotLine";
+		case Qt::DashDotDotLine:
+			return "DashDotDotLine";
+        default: return "NoPen";
+    };
+}
+
+string brushStyleToString(const Qt::BrushStyle& brushStyle)
+{
+	switch (brushStyle)
+	{
+		case Qt::SolidPattern:
+		return "SolidPattern";
+		case Qt::HorPattern:
+		return "HorPattern";
+		case Qt::VerPattern:
+		return "VerPattern";
+		case Qt::NoBrush:
+		return "NoBrush";
+        default: return "SolidPattern";
+    };
+}
+
+string textAlignToString(const Qt::AlignmentFlag& alignment)
+{
+	switch (alignment)
+	{
+		case Qt::AlignLeft:
+		return "AlignLeft";
+		case Qt::AlignTop:
+		return "AlignTop";
+		case Qt::AlignRight:
+		return "AlignRight";
+		case Qt::AlignBottom:
+		return "AlignBottom";
+		case Qt::AlignCenter:
+		return "AlignCenter";
+        default: return "AlignLeft";
+    };
+}
+
+string textStyleToString(const QFont::Style& style)
+{
+	switch (style)
+	{
+        case QFont::StyleNormal:
+		return "StyleNormal";
+        case QFont::StyleItalic:
+		return "StyleItalic";
+        case QFont::StyleOblique:
+		return "StyleOblique";
+        default: return "StyleNormal";
+    };
+}
+
+string textWeightToString(const QFont::Weight& weight)
+{
+	switch (weight)
+    {
+        case QFont::Normal: return "Normal";
+        case QFont::Bold: return "Bold";
+        case QFont::Thin: return "Thin";
+        case QFont::Light: return "Light";
+        default: return "Normal";
+    };
+}
+
+
+// primary file writing function
+void writeShapesToFile(QTextStream& file, const vector<Shape*> &shapes)
+{
+	Shape* currShape;
+
+	// print all shapes to file
+	for(int i = 0; i < shapes.size(); ++i)
+	{
+		currShape = shapes[i];
+		
+		// determine shape type
+        string shapeTypeString = currShape->getShapeStypeString();
+		
+		// begin writing to file
+		file << "ShapeId: " << currShape->getID() << endl;
+		file << "ShapeType: ";
+	
+		if(shapeTypeString == "Line")
+		{
+			Line* line = (Line*)currShape;
+
+			file << QString::fromStdString(shapeTypeString) << endl;
+
+			file << "ShapeDimensions: " << line->getStartPoint().x() << ", " << line->getStartPoint().y() << ", "
+                    <<  line->getEndPoint().x() << ", " << line->getEndPoint().y() << endl;
+
+            printPolyshapeDataToFile(file, (PolyShape*)currShape);
+
+			file << endl;		
+		}
+		else if(shapeTypeString == "Polyline")
+		{
+			Polyline* polyline = (Polyline*)currShape;
+
+			file << QString::fromStdString(shapeTypeString) << endl;
+
+			file << "ShapeDimensions: ";
+
+			// print polyline points
+			vector<QPoint> points = polyline->getPoints();
+			int count = polyline->getPointCount();
+			for(int i = 0; i < count; i++)
+			{
+                file << points[i].x() << ", " << points[i].y();
+
+				if(i < count - 1)
+					file << ", ";
+				else
+					file << endl;
+			}
+			
+            printPolyshapeDataToFile(file, (PolyShape*)currShape);
+
+			file << endl;
+		}
+		else if(shapeTypeString == "Polygon")
+		{
+			Polygon* shape = (Polygon*)currShape;
+
+			file << QString::fromStdString(shapeTypeString) << endl;
+
+			file << "ShapeDimensions: ";
+
+			// print polygon points
+			vector<QPoint> points = shape->getPoints();
+			int count = shape->getPointCount();
+			for(int i = 0; i < count; i++)
+			{
+                file << points[i].x() << ", " << points[i].y();
+
+				if(i < count - 1)
+					file << ", ";
+				else
+					file << endl;
+			}
+			
+            printPolyshapeDataToFile(file, (PolyShape*)currShape);
+
+            file << "BrushColor: " << QString::fromStdString(colorToString(shape->getBrushColor())) << endl;
+			file << "BrushStyle: " << QString::fromStdString(brushStyleToString(shape->getBrushStyle())) << endl;
+
+			file << endl;
+		}
+		else if(shapeTypeString == "Rectangle")
+		{
+            Rectangle* shape = (Rectangle*)currShape;
+
+			file << QString::fromStdString(shapeTypeString) << endl;
+
+			file << "ShapeDimensions: " << shape->getOrigin().x() << "," << shape->getOrigin().y() << ", " << shape->getLength() << ", " << shape->getWidth() << endl;
+			
+            printPolyshapeDataToFile(file, (PolyShape*)currShape);
+
+            file << "BrushColor: " << QString::fromStdString(colorToString(shape->getBrushColor())) << endl;
+			file << "BrushStyle: " << QString::fromStdString(brushStyleToString(shape->getBrushStyle())) << endl;
+
+			file << endl;
+		}
+		else if (shapeTypeString == "Square")
+		{
+            Rectangle* shape = (Rectangle*)currShape;
+
+			file << QString::fromStdString(shapeTypeString) << endl;
+
+			file << "ShapeDimensions: " << shape->getOrigin().x() << "," << shape->getOrigin().y() << ", " << shape->getLength() << endl;
+			
+            printPolyshapeDataToFile(file, (PolyShape*)currShape);
+
+            file << "BrushColor: " << QString::fromStdString(colorToString(shape->getBrushColor())) << endl;
+			file << "BrushStyle: " << QString::fromStdString(brushStyleToString(shape->getBrushStyle())) << endl;
+
+			file << endl;
+		}
+		else if(shapeTypeString == "Ellipse")
+		{
+			Ellipse* shape = (Ellipse*)currShape;
+
+			file << QString::fromStdString(shapeTypeString) << endl;
+
+			file << "ShapeDimensions: " << shape->getOrigin().x() << "," << shape->getOrigin().y() << ", " << shape->getSemiMajor() << ", " << shape->getSemiMinor() << endl;
+			
+            printPolyshapeDataToFile(file, (PolyShape*)currShape);
+
+            file << "BrushColor: " << QString::fromStdString(colorToString(shape->getBrushColor())) << endl;
+			file << "BrushStyle: " << QString::fromStdString(brushStyleToString(shape->getBrushStyle())) << endl;
+
+			file << endl;
+		}
+		else if(shapeTypeString == "Circle")
+		{
+			Ellipse* shape = (Ellipse*)currShape;
+
+			file << QString::fromStdString(shapeTypeString) << endl;
+
+			file << "ShapeDimensions: " << shape->getOrigin().x() << "," << shape->getOrigin().y() << ", " << shape->getSemiMajor() << endl;
+			
+            printPolyshapeDataToFile(file, (PolyShape*)currShape);
+
+            file << "BrushColor: " << QString::fromStdString(colorToString(shape->getBrushColor())) << endl;
+			file << "BrushStyle: " << QString::fromStdString(brushStyleToString(shape->getBrushStyle())) << endl;
+
+			file << endl;
+		}
+		else if(shapeTypeString == "Text")
+		{
+			Text* shape = (Text*)currShape;
+
+			file << QString::fromStdString(shapeTypeString) << endl;
+
+			file << "ShapeDimensions: " << shape->getOrigin().x() << "," << shape->getOrigin().y() << ", " << shape->getLength() << ", " << shape->getWidth() << endl;
+
+            printTextShapeDataToFile(file, (Text*)currShape);
+
+			file << endl;
+		}
+	}
+}

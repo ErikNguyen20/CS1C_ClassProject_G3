@@ -56,6 +56,8 @@ public:
     double perimeter() const override;
     double area() const override;
 
+    string getShapeStypeString() const override {return "Text";}
+
 private:
     QPoint origin;  // top left corner
     int length; //make int
