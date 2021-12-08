@@ -7,6 +7,12 @@
 #include "loginwindow.h"
 #include "testimonials.h"
 #include "contactus.h"
+#include "addlinedetails.h"
+#include "addpolylinedetails.h"
+#include "addPolygonDetails.h"
+#include "addRectangleDetails.h"
+#include "addEllipseDetails.h"
+#include "addTextDetails.h"
 
 namespace Ui {
 class MainWindow;
@@ -37,6 +43,18 @@ private slots:
 
     void on_actionContact_Us_triggered();
 
+    void on_actionAddLine_triggered();
+
+    void on_actionAddPolyline_triggered();
+
+    void on_actionAddPolygon_triggered();
+
+    void on_actionAddRectangle_triggered();
+
+    void on_actionAddEllipse_triggered();
+
+    void on_actionAddText_triggered();
+
 private:
     Ui::MainWindow *ui;
     RenderArea *renderArea;
@@ -44,6 +62,12 @@ private:
     QString currentFilePath;
     testimonials *Testimonials;
     contactus *ContactUs;
+    addLineDetails *addLineWindow;
+    addPolylineDetails *addPolylineWindow;
+    addPolygonDetails *addPolygonWindow;
+    addRectangleDetails *addRectangleWindow;
+    addEllipseDetails *addEllipseWindow;
+    addTextDetails *addTextWindow;
     bool needsSave;
 };
 

@@ -2,4 +2,15 @@
     <qresource prefix="/images">
         <file>midnight-oil.jpg</file>
     </qresource>
+    <qresource prefix="/">
+        <file>images/4899-200.png</file>
+        <file>images/6401-200.png</file>
+        <file>images/18044-200.png</file>
+        <file>images/66759-200.png</file>
+        <file>images/177490-200.png</file>
+        <file>images/487144-200.png</file>
+        <file>images/702814-200.png</file>
+        <file>images/1720281-200.png</file>
+        <file>images/circle.png</file>
+    </qresource>
 </RCC>

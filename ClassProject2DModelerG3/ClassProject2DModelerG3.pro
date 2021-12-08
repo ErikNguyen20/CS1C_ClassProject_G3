@@ -35,7 +35,14 @@ SOURCES += \
     _shape.cpp \
     _square.cpp \
     _text.cpp \
+    addellipsedetails.cpp \
+    addlinedetails.cpp \
+    addpolygondetails.cpp \
+    addpolylinedetails.cpp \
+    addrectangledetails.cpp \
+    addtextdetails.cpp \
     contactus.cpp \
+    functions.cpp \
         main.cpp \
         mainwindow.cpp \
     renderarea.cpp \
@@ -54,6 +61,12 @@ HEADERS += \
     _shape.h \
     _square.h \
     _text.h \
+    addellipsedetails.h \
+    addlinedetails.h \
+    addpolygondetails.h \
+    addpolylinedetails.h \
+    addrectangledetails.h \
+    addtextdetails.h \
     contactus.h \
         mainwindow.h \
     shapemaster.h \
@@ -64,6 +77,12 @@ HEADERS += \
     parserexception.h
 
 FORMS += \
+    addellipsedetails.ui \
+    addlinedetails.ui \
+    addpolygondetails.ui \
+    addpolylinedetails.ui \
+    addrectangledetails.ui \
+    addtextdetails.ui \
     contactus.ui \
         mainwindow.ui \
     loginwindow.ui \
