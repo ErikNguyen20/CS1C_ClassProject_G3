@@ -352,3 +352,20 @@ void MainWindow::on_actionAddText_triggered()
     }
 }
 
+
+void MainWindow::closeEvent(QCloseEvent*)
+{
+    if(needsSave) //If the shapes are modified, it will prompt a save before closing.
+    {
+        QMessageBox savePrompt;
+        savePrompt.setWindowTitle("Save Changes");
+        savePrompt.setText("Do you want to save your changes?");
+        savePrompt.setStandardButtons(QMessageBox::Discard | QMessageBox::Save);
+
+        if(savePrompt.exec() == QMessageBox::Save)
+        {
+            on_actionSave_triggered();
+        }
+        needsSave = false;
+    }
+}

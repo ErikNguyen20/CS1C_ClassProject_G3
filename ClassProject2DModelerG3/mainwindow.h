@@ -55,6 +55,8 @@ private slots:
 
     void on_actionAddText_triggered();
 
+    void closeEvent(QCloseEvent *event);
+
 private:
     Ui::MainWindow *ui;
     RenderArea *renderArea;
