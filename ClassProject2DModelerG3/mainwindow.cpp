@@ -7,8 +7,6 @@
 #include <QTextStream>
 #include <QFile>
 #include <QMessageBox>
-#include <string>
-#include <QRegularExpression>
 #include "functions.h"
 
 
