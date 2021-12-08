@@ -31,7 +31,7 @@ public:
     double perimeter() const override;
     double area() const override;
 
-    string getShapeStypeString() const override {return "Polygon";}
+    QString getShapeStypeString() const override {return "Polygon";}
     
 private:
 };

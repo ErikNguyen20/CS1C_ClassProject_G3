@@ -1,51 +1,5 @@
-#include "mainwindow.h"
-#include "ui_mainwindow.h"
-#include "shapemaster.h"
-#include "vector.h"
-#include "parserexception.h"
-#include <iostream>
-#include <QTextStream>
-#include <QFile>
-#include <QMessageBox>
-#include <string>
+#include "functions.h"
 
-using std::endl;
-
-/******************** CONSTANTS ********************/
-
-const QString DEFAULT_WINDOW_NAME = "Untitled";
-const QStringList SHAPE_LIST = {"Line","Polyline","Polygon","Rectangle","Square","Ellipse","Circle","Text"};
-const QStringList GLOBALCOLOR_LIST = {"white","black","red","green","blue","cyan","magenta","yellow","gray"};
-const QStringList PENSTYLE_LIST = {"NoPen","SolidLine","DashLine","DotLine","DashDotLine","DashDotDotLine"};
-const QStringList PENCAPSTYLE_LIST = {"FlatCap","SquareCap","RoundCap"};
-const QStringList PENJOINSTYLE_LIST = {"MiterJoin","BevelJoin","RoundJoin"};
-const QStringList BRUSHSTYLE_LIST = {"SolidPattern","HorPattern","VerPattern","NoBrush"};
-const QStringList ALIGNMENTFLAG_LIST = {"AlignLeft","AlignRight","AlignTop","AlignBottom","AlignCenter"};
-const QStringList QFONTSTYLE_LIST = {"StyleNormal","StyleItalic","StyleOblique"};
-const QStringList QFONTWEIGHT_LIST = {"Thin","Light","Normal","Bold"};
-
-
-/******************** Function Prototypes ********************/
-
-Qt::GlobalColor QStringToGlobalColor(const QString& color,bool& success);
-Qt::PenStyle QStringToPenStyle(const QString& penstyle,bool& success);
-Qt::PenCapStyle QStringToPenCapStyle(const QString& pencapstyle,bool& success);
-Qt::PenJoinStyle QStringToPenJoinStyle(const QString& penjoinstyle,bool& success);
-Qt::BrushStyle QStringToBrushStyle(const QString& brushstyle,bool& success);
-Qt::AlignmentFlag QStringToAlignmentFlag(const QString& alignmentflag,bool& success);
-QFont::Style QStringToQFontStyle(const QString& qfontstyle,bool& success);
-QFont::Weight QStringToQFontWeight(const QString& qfontweight,bool& success);
-void writeShapesToFile(QTextStream& file, const vector<Shape*> &shapes);
-void printPolyshapeDataToFile(QTextStream& file, PolyShape* polyshape);
-void printTextShapeDataToFile(QTextStream& file, Text* text);
-string colorToString(const Qt::GlobalColor& color);
-string penJoinStyleToString(const Qt::PenJoinStyle& penJoinStyleEnum);
-string penCapStyleToString(const Qt::PenCapStyle& capStyle);
-string penStyleToString(const Qt::PenStyle& penStyleEnum);
-string brushStyleToString(const Qt::BrushStyle& brushStyle);
-string textAlignToString(const Qt::AlignmentFlag& alignment);
-string textStyleToString(const QFont::Style& style);
-string textWeightToString(const QFont::Weight& weight);
 
 /******************** QString to Enum Conversion Function Definitions ********************/
 
@@ -218,27 +172,27 @@ QFont::Weight QStringToQFontWeight(const QString& qfontweight,bool& success)
 //-----------writing functions--------------------
 void printPolyshapeDataToFile(QTextStream& file, PolyShape* polyshape)
 {
-    file << "PenColor: " << QString::fromStdString(colorToString(polyshape->getPenColor())) << '\n';
+    file << "PenColor: " << colorToString(polyshape->getPenColor()) << '\n';
     file << "PenWidth: " << polyshape->getPenWidth() << '\n';
-    file << "PenStyle: " << QString::fromStdString(penStyleToString(polyshape->getPenStyle())) << '\n';
-    file << "PenCapStyle: " << QString::fromStdString(penCapStyleToString(polyshape->getPenCapStyle())) << '\n';
-    file << "PenJoinStyle: " << QString::fromStdString(penJoinStyleToString(polyshape->getPenJoinStyle())) << '\n';
+    file << "PenStyle: " << penStyleToString(polyshape->getPenStyle()) << '\n';
+    file << "PenCapStyle: " << penCapStyleToString(polyshape->getPenCapStyle()) << '\n';
+    file << "PenJoinStyle: " << penJoinStyleToString(polyshape->getPenJoinStyle()) << '\n';
 }
 
 void printTextShapeDataToFile(QTextStream& file, Text* text)
 {
     file << "TextString: " << text->getTextString() << '\n';
-    file << "TextColor: " << QString::fromStdString(colorToString(text->getTextColor())) << '\n';
-    file << "TextAlignment: " << QString::fromStdString(textAlignToString(text->getTextAlign())) << '\n';
+    file << "TextColor: " << colorToString(text->getTextColor()) << '\n';
+    file << "TextAlignment: " << textAlignToString(text->getTextAlign()) << '\n';
     file << "TextPointSize: " << text->getTextPointSize() << '\n';
     file << "TextFontFamily: " << text->getTextFontFam() << '\n';
-    file << "TextFontStyle: " << QString::fromStdString(textStyleToString(text->getTextFontStyle())) << '\n';
-    file << "TextFontWeight: " << QString::fromStdString(textWeightToString(text->getTextFontWeight())) << '\n';
+    file << "TextFontStyle: " << textStyleToString(text->getTextFontStyle()) << '\n';
+    file << "TextFontWeight: " << textWeightToString(text->getTextFontWeight()) << '\n';
 }
 
 //-------------conversion functions------------------
 
-string colorToString(const Qt::GlobalColor& color)
+QString colorToString(const Qt::GlobalColor& color)
 {
     switch (color)
     {
@@ -255,7 +209,7 @@ string colorToString(const Qt::GlobalColor& color)
     };
 }
 
-string penJoinStyleToString(const Qt::PenJoinStyle& penJoinStyleEnum)
+QString penJoinStyleToString(const Qt::PenJoinStyle& penJoinStyleEnum)
 {
     switch (penJoinStyleEnum)
     {
@@ -269,7 +223,7 @@ string penJoinStyleToString(const Qt::PenJoinStyle& penJoinStyleEnum)
     };
 }
 
-string penCapStyleToString(const Qt::PenCapStyle& capStyle)
+QString penCapStyleToString(const Qt::PenCapStyle& capStyle)
 {
     switch (capStyle)
     {
@@ -283,7 +237,7 @@ string penCapStyleToString(const Qt::PenCapStyle& capStyle)
     };
 }
 
-string penStyleToString(const Qt::PenStyle& penStyleEnum)
+QString penStyleToString(const Qt::PenStyle& penStyleEnum)
 {
     switch(penStyleEnum)
     {
@@ -303,7 +257,7 @@ string penStyleToString(const Qt::PenStyle& penStyleEnum)
     };
 }
 
-string brushStyleToString(const Qt::BrushStyle& brushStyle)
+QString brushStyleToString(const Qt::BrushStyle& brushStyle)
 {
     switch (brushStyle)
     {
@@ -319,7 +273,7 @@ string brushStyleToString(const Qt::BrushStyle& brushStyle)
     };
 }
 
-string textAlignToString(const Qt::AlignmentFlag& alignment)
+QString textAlignToString(const Qt::AlignmentFlag& alignment)
 {
     switch (alignment)
     {
@@ -337,7 +291,7 @@ string textAlignToString(const Qt::AlignmentFlag& alignment)
     };
 }
 
-string textStyleToString(const QFont::Style& style)
+QString textStyleToString(const QFont::Style& style)
 {
     switch (style)
     {
@@ -351,7 +305,7 @@ string textStyleToString(const QFont::Style& style)
     };
 }
 
-string textWeightToString(const QFont::Weight& weight)
+QString textWeightToString(const QFont::Weight& weight)
 {
     switch (weight)
     {
@@ -364,6 +318,251 @@ string textWeightToString(const QFont::Weight& weight)
 }
 
 
+void readShapesFromFile(QTextStream& iFile,vector<Shape*> &newObjects) throw(ParserException)
+{
+    bool successfulParse = true;
+
+
+    while(!iFile.atEnd() && successfulParse)
+    {
+        QString title,shapeType;
+        int shapeId,shapeTypeIndex;
+        QString penColor,penStyle,penCapStyle,penJoinStyle;
+        int penWidth;
+        QString brushColor,brushStyle;
+        QString textString,textColor,textAlignment,textFontFamily,textFontStyle,textFontWeight;
+        int textPointSize;
+        vector<QPoint> pointsVector;
+
+        Shape* shapePtr = nullptr;
+
+
+
+        iFile >> title >> shapeId;
+        iFile >> title >> shapeType;
+        iFile >> title;
+        iFile.skipWhiteSpace();
+        shapeTypeIndex = SHAPE_LIST.indexOf(shapeType);
+
+
+        //Splits the Shape Dimensions Qstring into seperate Qstrings by digits.
+        QRegularExpression pattern;
+        pattern.setPattern("\\W+");
+        QStringList dimensionsList = iFile.readLine().split(pattern);
+
+
+        //Converts QStrings from the list into integers, storing them into dimensionAr
+        int dimensionAr[dimensionsList.size()];
+        for(int index = 0; index < dimensionsList.size(); index++)
+        {
+            bool ok;
+            dimensionAr[index] = dimensionsList.at(index).toInt(&ok,10);
+        }
+
+        if(((shapeTypeIndex == 4 || shapeTypeIndex == 6) && (dimensionsList.size()%2 == 0)) ||
+           ((shapeTypeIndex != 4 && shapeTypeIndex != 6) && (dimensionsList.size()%2 == 1)))
+        {
+            throw ParserException("One of the shapes has an invalid number of dimensions.");
+        }
+
+
+        //Read in specific properties to each shape type.
+
+        Qt::GlobalColor penColorEnum,textColorEnum,brushColorEnum;
+        Qt::PenStyle penStyleEnum;
+        Qt::PenCapStyle penCapStyleEnum;
+        Qt::PenJoinStyle penJoinStyleEnum;
+        Qt::AlignmentFlag textAlignmentEnum;
+        QFont::Style textFontStyleEnum;
+        QFont::Weight textFontWeightEnum;
+        Qt::BrushStyle brushStyleEnum;
+
+        if(shapeTypeIndex == 0 || shapeTypeIndex == 1)
+        {
+            iFile >> title >> penColor;
+            iFile >> title >> penWidth;
+            iFile >> title >> penStyle;
+            iFile >> title >> penCapStyle;
+            iFile >> title >> penJoinStyle;
+
+            penColorEnum = QStringToGlobalColor(penColor,successfulParse);
+            penStyleEnum = QStringToPenStyle(penStyle,successfulParse);
+            penCapStyleEnum = QStringToPenCapStyle(penCapStyle,successfulParse);
+            penJoinStyleEnum = QStringToPenJoinStyle(penJoinStyle,successfulParse);
+        }
+        else if(shapeTypeIndex == 7)
+        {
+            iFile >> title;
+            iFile.skipWhiteSpace();
+            textString = iFile.readLine();
+            iFile >> title >> textColor;
+            iFile >> title >> textAlignment;
+            iFile >> title >> textPointSize;
+            iFile >> title;
+            iFile.skipWhiteSpace();
+            textFontFamily = iFile.readLine();
+            iFile >> title >> textFontStyle;
+            iFile >> title >> textFontWeight;
+
+            textColorEnum = QStringToGlobalColor(textColor,successfulParse);
+            textAlignmentEnum = QStringToAlignmentFlag(textAlignment,successfulParse);
+            textFontStyleEnum = QStringToQFontStyle(textFontStyle,successfulParse);
+            textFontWeightEnum = QStringToQFontWeight(textFontWeight,successfulParse);
+        }
+        else
+        {
+            iFile >> title >> penColor;
+            iFile >> title >> penWidth;
+            iFile >> title >> penStyle;
+            iFile >> title >> penCapStyle;
+            iFile >> title >> penJoinStyle;
+            iFile >> title >> brushColor;
+            iFile >> title >> brushStyle;
+
+            penColorEnum = QStringToGlobalColor(penColor,successfulParse);
+            penStyleEnum = QStringToPenStyle(penStyle,successfulParse);
+            penCapStyleEnum = QStringToPenCapStyle(penCapStyle,successfulParse);
+            penJoinStyleEnum = QStringToPenJoinStyle(penJoinStyle,successfulParse);
+            brushColorEnum = QStringToGlobalColor(brushColor,successfulParse);
+            brushStyleEnum = QStringToBrushStyle(brushStyle,successfulParse);
+        }
+        iFile.skipWhiteSpace();
+
+        if(!successfulParse)
+        {
+            throw ParserException("One of the shape properties are invalid.");
+        }
+
+
+        //Create new derived shapes, then place them into a vector
+        switch(shapeTypeIndex)
+        {
+        case 0: //Line
+            //Create Line Object
+            shapePtr = new Line(shapeId,
+                                QPoint(dimensionAr[0],dimensionAr[1]),
+                                QPoint(dimensionAr[2],dimensionAr[3]),
+                                penColorEnum,
+                                penWidth,
+                                penStyleEnum,
+                                penCapStyleEnum,
+                                penJoinStyleEnum
+                            );
+            break;
+        case 1: //Polyline
+            // Create Polyline Object
+            for(int index = 0; index < dimensionsList.size(); index += 2)
+            {
+                pointsVector.push_back(QPoint(dimensionAr[index],dimensionAr[index+1]));
+            }
+            shapePtr = new Polyline(shapeId,
+                                    pointsVector,
+                                    penColorEnum,
+                                    penWidth,
+                                    penStyleEnum,
+                                    penCapStyleEnum,
+                                    penJoinStyleEnum
+                                    );
+            break;
+        case 2: //Polygon
+            //Create Polygon object
+            for(int index = 0; index < dimensionsList.size(); index += 2)
+            {
+                pointsVector.push_back(QPoint(dimensionAr[index],dimensionAr[index+1]));
+            }
+
+            shapePtr = new Polygon(shapeId,
+                                   pointsVector,
+                                   penColorEnum,
+                                   penWidth,
+                                   penStyleEnum,
+                                   penCapStyleEnum,
+                                   penJoinStyleEnum,
+                                   brushColorEnum,
+                                   brushStyleEnum
+                                   );
+            break;
+        case 3: //Rectangle
+            //Create Rectangle Object
+            shapePtr = new Rectangle(shapeId,
+                                    QPoint(dimensionAr[0],dimensionAr[1]),
+                                    dimensionAr[2],
+                                    dimensionAr[3],
+                                    penColorEnum,
+                                    penWidth,
+                                    penStyleEnum,
+                                    penCapStyleEnum,
+                                    penJoinStyleEnum,
+                                    brushColorEnum,
+                                    brushStyleEnum
+                    );
+            break;
+        case 4: //Square
+            //Create Square Object
+            shapePtr = new Square(shapeId,
+                                QPoint(dimensionAr[0],dimensionAr[1]),
+                                dimensionAr[2],
+                                penColorEnum,
+                                penWidth,
+                                penStyleEnum,
+                                penCapStyleEnum,
+                                penJoinStyleEnum,
+                                brushColorEnum,
+                                brushStyleEnum
+                            );
+            break;
+        case 5: //Ellipse
+            //Create Ellipse Object
+            shapePtr = new Ellipse(shapeId,
+                                QPoint(dimensionAr[0],dimensionAr[1]),
+                                dimensionAr[2],
+                                dimensionAr[3],
+                                penColorEnum,
+                                penWidth,
+                                penStyleEnum,
+                                penCapStyleEnum,
+                                penJoinStyleEnum,
+                                brushColorEnum,
+                                brushStyleEnum
+                            );
+            break;
+        case 6: //Circle
+            //Create Circle Object
+            shapePtr = new Circle(shapeId,
+                                QPoint(dimensionAr[0],dimensionAr[1]),
+                                dimensionAr[2],
+                                penColorEnum,
+                                penWidth,
+                                penStyleEnum,
+                                penCapStyleEnum,
+                                penJoinStyleEnum,
+                                brushColorEnum,
+                                brushStyleEnum
+                           );
+            break;
+        case 7: //Text
+            //Create Text Object
+            shapePtr = new Text(shapeId,
+                                QPoint(dimensionAr[0],dimensionAr[1]),
+                                dimensionAr[2],
+                                dimensionAr[3],
+                                textString,
+                                textColorEnum,
+                                textAlignmentEnum,
+                                textPointSize,
+                                textFontFamily,
+                                textFontStyleEnum,
+                                textFontWeightEnum
+                             );
+            break;
+        default:
+            throw ParserException("One of the shapes is of an invalid type.");
+        };
+
+        newObjects.push_back(shapePtr);
+    }
+}
+
 // primary file writing function
 void writeShapesToFile(QTextStream& file, const vector<Shape*> &shapes)
 {
@@ -375,7 +574,7 @@ void writeShapesToFile(QTextStream& file, const vector<Shape*> &shapes)
         currShape = shapes[i];
 
         // determine shape type
-        string shapeTypeString = currShape->getShapeStypeString();
+        QString shapeTypeString = currShape->getShapeStypeString();
 
         // begin writing to file
         file << "ShapeId: " << currShape->getID() << '\n';
@@ -385,7 +584,7 @@ void writeShapesToFile(QTextStream& file, const vector<Shape*> &shapes)
         {
             Line* line = (Line*)currShape;
 
-            file << QString::fromStdString(shapeTypeString) << '\n';
+            file << shapeTypeString << '\n';
 
             file << "ShapeDimensions: " << line->getStartPoint().x() << ", " << line->getStartPoint().y() << ", "
                     <<  line->getEndPoint().x() << ", " << line->getEndPoint().y() << '\n';
@@ -398,7 +597,7 @@ void writeShapesToFile(QTextStream& file, const vector<Shape*> &shapes)
         {
             Polyline* polyline = (Polyline*)currShape;
 
-            file << QString::fromStdString(shapeTypeString) << '\n';
+            file << shapeTypeString << '\n';
 
             file << "ShapeDimensions: ";
 
@@ -423,7 +622,7 @@ void writeShapesToFile(QTextStream& file, const vector<Shape*> &shapes)
         {
             Polygon* shape = (Polygon*)currShape;
 
-            file << QString::fromStdString(shapeTypeString) << '\n';
+            file << shapeTypeString << '\n';
 
             file << "ShapeDimensions: ";
 
@@ -442,8 +641,8 @@ void writeShapesToFile(QTextStream& file, const vector<Shape*> &shapes)
 
             printPolyshapeDataToFile(file, (PolyShape*)currShape);
 
-            file << "BrushColor: " << QString::fromStdString(colorToString(shape->getBrushColor())) << '\n';
-            file << "BrushStyle: " << QString::fromStdString(brushStyleToString(shape->getBrushStyle())) << '\n';
+            file << "BrushColor: " << colorToString(shape->getBrushColor()) << '\n';
+            file << "BrushStyle: " << brushStyleToString(shape->getBrushStyle()) << '\n';
 
             file << '\n';
         }
@@ -451,14 +650,14 @@ void writeShapesToFile(QTextStream& file, const vector<Shape*> &shapes)
         {
             Rectangle* shape = (Rectangle*)currShape;
 
-            file << QString::fromStdString(shapeTypeString) << '\n';
+            file << shapeTypeString << '\n';
 
             file << "ShapeDimensions: " << shape->getOrigin().x() << "," << shape->getOrigin().y() << ", " << shape->getLength() << ", " << shape->getWidth() << '\n';
 
             printPolyshapeDataToFile(file, (PolyShape*)currShape);
 
-            file << "BrushColor: " << QString::fromStdString(colorToString(shape->getBrushColor())) << '\n';
-            file << "BrushStyle: " << QString::fromStdString(brushStyleToString(shape->getBrushStyle())) << '\n';
+            file << "BrushColor: " << colorToString(shape->getBrushColor()) << '\n';
+            file << "BrushStyle: " << brushStyleToString(shape->getBrushStyle()) << '\n';
 
             file << '\n';
         }
@@ -466,14 +665,14 @@ void writeShapesToFile(QTextStream& file, const vector<Shape*> &shapes)
         {
             Rectangle* shape = (Rectangle*)currShape;
 
-            file << QString::fromStdString(shapeTypeString) << '\n';
+            file << shapeTypeString << '\n';
 
             file << "ShapeDimensions: " << shape->getOrigin().x() << "," << shape->getOrigin().y() << ", " << shape->getLength() << '\n';
 
             printPolyshapeDataToFile(file, (PolyShape*)currShape);
 
-            file << "BrushColor: " << QString::fromStdString(colorToString(shape->getBrushColor())) << '\n';
-            file << "BrushStyle: " << QString::fromStdString(brushStyleToString(shape->getBrushStyle())) << '\n';
+            file << "BrushColor: " << colorToString(shape->getBrushColor()) << '\n';
+            file << "BrushStyle: " << brushStyleToString(shape->getBrushStyle()) << '\n';
 
             file << '\n';
         }
@@ -481,14 +680,14 @@ void writeShapesToFile(QTextStream& file, const vector<Shape*> &shapes)
         {
             Ellipse* shape = (Ellipse*)currShape;
 
-            file << QString::fromStdString(shapeTypeString) << '\n';
+            file << shapeTypeString << '\n';
 
             file << "ShapeDimensions: " << shape->getOrigin().x() << "," << shape->getOrigin().y() << ", " << shape->getSemiMajor() << ", " << shape->getSemiMinor() << '\n';
 
             printPolyshapeDataToFile(file, (PolyShape*)currShape);
 
-            file << "BrushColor: " << QString::fromStdString(colorToString(shape->getBrushColor())) << '\n';
-            file << "BrushStyle: " << QString::fromStdString(brushStyleToString(shape->getBrushStyle())) << '\n';
+            file << "BrushColor: " << colorToString(shape->getBrushColor()) << '\n';
+            file << "BrushStyle: " << brushStyleToString(shape->getBrushStyle()) << '\n';
 
             file << '\n';
         }
@@ -496,14 +695,14 @@ void writeShapesToFile(QTextStream& file, const vector<Shape*> &shapes)
         {
             Ellipse* shape = (Ellipse*)currShape;
 
-            file << QString::fromStdString(shapeTypeString) << '\n';
+            file << shapeTypeString << '\n';
 
             file << "ShapeDimensions: " << shape->getOrigin().x() << "," << shape->getOrigin().y() << ", " << shape->getSemiMajor() << '\n';
 
             printPolyshapeDataToFile(file, (PolyShape*)currShape);
 
-            file << "BrushColor: " << QString::fromStdString(colorToString(shape->getBrushColor())) << '\n';
-            file << "BrushStyle: " << QString::fromStdString(brushStyleToString(shape->getBrushStyle())) << '\n';
+            file << "BrushColor: " << colorToString(shape->getBrushColor()) << '\n';
+            file << "BrushStyle: " << brushStyleToString(shape->getBrushStyle()) << '\n';
 
             file << '\n';
         }
@@ -511,7 +710,7 @@ void writeShapesToFile(QTextStream& file, const vector<Shape*> &shapes)
         {
             Text* shape = (Text*)currShape;
 
-            file << QString::fromStdString(shapeTypeString) << '\n';
+            file << shapeTypeString << '\n';
 
             file << "ShapeDimensions: " << shape->getOrigin().x() << "," << shape->getOrigin().y() << ", " << shape->getLength() << ", " << shape->getWidth() << '\n';
 

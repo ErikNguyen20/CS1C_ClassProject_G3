@@ -74,7 +74,8 @@ HEADERS += \
     vector.h \
     renderarea.h \
     loginwindow.h \
-    parserexception.h
+    parserexception.h \
+    functions.h
 
 FORMS += \
     addellipsedetails.ui \

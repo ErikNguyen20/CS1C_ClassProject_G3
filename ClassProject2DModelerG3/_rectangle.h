@@ -37,7 +37,7 @@ public:
     double perimeter() const override;
     double area() const override;
 
-    string getShapeStypeString() const override {return "Rectangle";}
+    QString getShapeStypeString() const override {return "Rectangle";}
     
 protected:
     int length; //make int

@@ -30,7 +30,7 @@ public:
     void setLength(int l) override;
     void setWidth(int w) override;
 
-    string getShapeStypeString() const override {return "Square";}
+    QString getShapeStypeString() const override {return "Square";}
 };
 
 #endif // _SQUARE_H

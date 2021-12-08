@@ -48,7 +48,7 @@ public:
     virtual double perimeter() const = 0;
     virtual double area() const = 0;
 
-    virtual string getShapeStypeString() const = 0;
+    virtual QString getShapeStypeString() const = 0;
 
 private:
     QPainter* qpainter;
