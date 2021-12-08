@@ -378,17 +378,17 @@ void writeShapesToFile(QTextStream& file, const vector<Shape*> &shapes)
         string shapeTypeString = currShape->getShapeStypeString();
 
         // begin writing to file
-        file << "ShapeId: " << currShape->getID() << Qt::endl;
+        file << "ShapeId: " << currShape->getID() << '\n';
         file << "ShapeType: ";
 
         if(shapeTypeString == "Line")
         {
             Line* line = (Line*)currShape;
 
-            file << QString::fromStdString(shapeTypeString) << Qt::endl;
+            file << QString::fromStdString(shapeTypeString) << '\n';
 
             file << "ShapeDimensions: " << line->getStartPoint().x() << ", " << line->getStartPoint().y() << ", "
-                    <<  line->getEndPoint().x() << ", " << line->getEndPoint().y() << Qt::endl;
+                    <<  line->getEndPoint().x() << ", " << line->getEndPoint().y() << '\n';
 
             printPolyshapeDataToFile(file, (PolyShape*)currShape);
 
@@ -398,7 +398,7 @@ void writeShapesToFile(QTextStream& file, const vector<Shape*> &shapes)
         {
             Polyline* polyline = (Polyline*)currShape;
 
-            file << QString::fromStdString(shapeTypeString) << Qt::endl;
+            file << QString::fromStdString(shapeTypeString) << '\n';
 
             file << "ShapeDimensions: ";
 
@@ -412,7 +412,7 @@ void writeShapesToFile(QTextStream& file, const vector<Shape*> &shapes)
                 if(i < count - 1)
                     file << ", ";
                 else
-                    file << Qt::endl;
+                    file << '\n';
             }
 
             printPolyshapeDataToFile(file, (PolyShape*)currShape);
@@ -423,7 +423,7 @@ void writeShapesToFile(QTextStream& file, const vector<Shape*> &shapes)
         {
             Polygon* shape = (Polygon*)currShape;
 
-            file << QString::fromStdString(shapeTypeString) << Qt::endl;
+            file << QString::fromStdString(shapeTypeString) << '\n';
 
             file << "ShapeDimensions: ";
 
@@ -437,13 +437,13 @@ void writeShapesToFile(QTextStream& file, const vector<Shape*> &shapes)
                 if(i < count - 1)
                     file << ", ";
                 else
-                    file << Qt::endl;
+                    file << '\n';
             }
 
             printPolyshapeDataToFile(file, (PolyShape*)currShape);
 
-            file << "BrushColor: " << QString::fromStdString(colorToString(shape->getBrushColor())) << Qt::endl;
-            file << "BrushStyle: " << QString::fromStdString(brushStyleToString(shape->getBrushStyle())) << Qt::endl;
+            file << "BrushColor: " << QString::fromStdString(colorToString(shape->getBrushColor())) << '\n';
+            file << "BrushStyle: " << QString::fromStdString(brushStyleToString(shape->getBrushStyle())) << '\n';
 
             file << Qt::endl;
         }
@@ -451,29 +451,29 @@ void writeShapesToFile(QTextStream& file, const vector<Shape*> &shapes)
         {
             Rectangle* shape = (Rectangle*)currShape;
 
-            file << QString::fromStdString(shapeTypeString) << Qt::endl;
+            file << QString::fromStdString(shapeTypeString) << '\n';
 
-            file << "ShapeDimensions: " << shape->getOrigin().x() << "," << shape->getOrigin().y() << ", " << shape->getLength() << ", " << shape->getWidth() << Qt::endl;
+            file << "ShapeDimensions: " << shape->getOrigin().x() << "," << shape->getOrigin().y() << ", " << shape->getLength() << ", " << shape->getWidth() << '\n';
 
             printPolyshapeDataToFile(file, (PolyShape*)currShape);
 
-            file << "BrushColor: " << QString::fromStdString(colorToString(shape->getBrushColor())) << Qt::endl;
-            file << "BrushStyle: " << QString::fromStdString(brushStyleToString(shape->getBrushStyle())) << Qt::endl;
+            file << "BrushColor: " << QString::fromStdString(colorToString(shape->getBrushColor())) << '\n';
+            file << "BrushStyle: " << QString::fromStdString(brushStyleToString(shape->getBrushStyle())) << '\n';
 
-            file << Qt::endl;
+            file << '\n';
         }
         else if (shapeTypeString == "Square")
         {
             Rectangle* shape = (Rectangle*)currShape;
 
-            file << QString::fromStdString(shapeTypeString) << Qt::endl;
+            file << QString::fromStdString(shapeTypeString) << '\n';
 
-            file << "ShapeDimensions: " << shape->getOrigin().x() << "," << shape->getOrigin().y() << ", " << shape->getLength() << Qt::endl;
+            file << "ShapeDimensions: " << shape->getOrigin().x() << "," << shape->getOrigin().y() << ", " << shape->getLength() << '\n';
 
             printPolyshapeDataToFile(file, (PolyShape*)currShape);
 
-            file << "BrushColor: " << QString::fromStdString(colorToString(shape->getBrushColor())) << Qt::endl;
-            file << "BrushStyle: " << QString::fromStdString(brushStyleToString(shape->getBrushStyle())) << Qt::endl;
+            file << "BrushColor: " << QString::fromStdString(colorToString(shape->getBrushColor())) << '\n';
+            file << "BrushStyle: " << QString::fromStdString(brushStyleToString(shape->getBrushStyle())) << '\n';
 
             file << Qt::endl;
         }
@@ -481,14 +481,14 @@ void writeShapesToFile(QTextStream& file, const vector<Shape*> &shapes)
         {
             Ellipse* shape = (Ellipse*)currShape;
 
-            file << QString::fromStdString(shapeTypeString) << Qt::endl;
+            file << QString::fromStdString(shapeTypeString) << '\n';
 
-            file << "ShapeDimensions: " << shape->getOrigin().x() << "," << shape->getOrigin().y() << ", " << shape->getSemiMajor() << ", " << shape->getSemiMinor() << Qt::endl;
+            file << "ShapeDimensions: " << shape->getOrigin().x() << "," << shape->getOrigin().y() << ", " << shape->getSemiMajor() << ", " << shape->getSemiMinor() << '\n';
 
             printPolyshapeDataToFile(file, (PolyShape*)currShape);
 
-            file << "BrushColor: " << QString::fromStdString(colorToString(shape->getBrushColor())) << Qt::endl;
-            file << "BrushStyle: " << QString::fromStdString(brushStyleToString(shape->getBrushStyle())) << Qt::endl;
+            file << "BrushColor: " << QString::fromStdString(colorToString(shape->getBrushColor())) << '\n';
+            file << "BrushStyle: " << QString::fromStdString(brushStyleToString(shape->getBrushStyle())) << '\n';
 
             file << Qt::endl;
         }
@@ -496,14 +496,14 @@ void writeShapesToFile(QTextStream& file, const vector<Shape*> &shapes)
         {
             Ellipse* shape = (Ellipse*)currShape;
 
-            file << QString::fromStdString(shapeTypeString) << Qt::endl;
+            file << QString::fromStdString(shapeTypeString) << '\n';
 
-            file << "ShapeDimensions: " << shape->getOrigin().x() << "," << shape->getOrigin().y() << ", " << shape->getSemiMajor() << Qt::endl;
+            file << "ShapeDimensions: " << shape->getOrigin().x() << "," << shape->getOrigin().y() << ", " << shape->getSemiMajor() << '\n';
 
             printPolyshapeDataToFile(file, (PolyShape*)currShape);
 
-            file << "BrushColor: " << QString::fromStdString(colorToString(shape->getBrushColor())) << Qt::endl;
-            file << "BrushStyle: " << QString::fromStdString(brushStyleToString(shape->getBrushStyle())) << Qt::endl;
+            file << "BrushColor: " << QString::fromStdString(colorToString(shape->getBrushColor())) << '\n';
+            file << "BrushStyle: " << QString::fromStdString(brushStyleToString(shape->getBrushStyle())) << '\n';
 
             file << Qt::endl;
         }
@@ -511,13 +511,13 @@ void writeShapesToFile(QTextStream& file, const vector<Shape*> &shapes)
         {
             Text* shape = (Text*)currShape;
 
-            file << QString::fromStdString(shapeTypeString) << Qt::endl;
+            file << QString::fromStdString(shapeTypeString) << '\n';
 
-            file << "ShapeDimensions: " << shape->getOrigin().x() << "," << shape->getOrigin().y() << ", " << shape->getLength() << ", " << shape->getWidth() << Qt::endl;
+            file << "ShapeDimensions: " << shape->getOrigin().x() << "," << shape->getOrigin().y() << ", " << shape->getLength() << ", " << shape->getWidth() << '\n';
 
             printTextShapeDataToFile(file, (Text*)currShape);
 
-            file << Qt::endl;
+            file << '\n';
         }
     }
 }
