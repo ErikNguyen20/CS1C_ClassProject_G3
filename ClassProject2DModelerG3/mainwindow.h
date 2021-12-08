@@ -9,10 +9,10 @@
 #include "contactus.h"
 #include "addlinedetails.h"
 #include "addpolylinedetails.h"
-#include "addPolygonDetails.h"
-#include "addRectangleDetails.h"
-#include "addEllipseDetails.h"
-#include "addTextDetails.h"
+#include "addpolygondetails.h"
+#include "addrectangledetails.h"
+#include "addellipsedetails.h"
+#include "addtextdetails.h"
 
 namespace Ui {
 class MainWindow;
