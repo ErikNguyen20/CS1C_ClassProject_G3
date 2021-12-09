@@ -652,7 +652,7 @@ void writeShapesToFile(QTextStream& file, const vector<Shape*> &shapes)
 
             file << shapeTypeString << '\n';
 
-            file << "ShapeDimensions: " << shape->getOrigin().x() << "," << shape->getOrigin().y() << ", " << shape->getLength() << ", " << shape->getWidth() << '\n';
+            file << "ShapeDimensions: " << shape->getOrigin().x() << ", " << shape->getOrigin().y() << ", " << shape->getLength() << ", " << shape->getWidth() << '\n';
 
             printPolyshapeDataToFile(file, (PolyShape*)currShape);
 
@@ -667,7 +667,7 @@ void writeShapesToFile(QTextStream& file, const vector<Shape*> &shapes)
 
             file << shapeTypeString << '\n';
 
-            file << "ShapeDimensions: " << shape->getOrigin().x() << "," << shape->getOrigin().y() << ", " << shape->getLength() << '\n';
+            file << "ShapeDimensions: " << shape->getOrigin().x() << ", " << shape->getOrigin().y() << ", " << shape->getLength() << '\n';
 
             printPolyshapeDataToFile(file, (PolyShape*)currShape);
 
@@ -682,7 +682,7 @@ void writeShapesToFile(QTextStream& file, const vector<Shape*> &shapes)
 
             file << shapeTypeString << '\n';
 
-            file << "ShapeDimensions: " << shape->getOrigin().x() << "," << shape->getOrigin().y() << ", " << shape->getSemiMajor() << ", " << shape->getSemiMinor() << '\n';
+            file << "ShapeDimensions: " << shape->getOrigin().x() << ", " << shape->getOrigin().y() << ", " << shape->getSemiMajor() << ", " << shape->getSemiMinor() << '\n';
 
             printPolyshapeDataToFile(file, (PolyShape*)currShape);
 
@@ -697,7 +697,7 @@ void writeShapesToFile(QTextStream& file, const vector<Shape*> &shapes)
 
             file << shapeTypeString << '\n';
 
-            file << "ShapeDimensions: " << shape->getOrigin().x() << "," << shape->getOrigin().y() << ", " << shape->getSemiMajor() << '\n';
+            file << "ShapeDimensions: " << shape->getOrigin().x() << ", " << shape->getOrigin().y() << ", " << shape->getSemiMajor() << '\n';
 
             printPolyshapeDataToFile(file, (PolyShape*)currShape);
 
@@ -712,7 +712,7 @@ void writeShapesToFile(QTextStream& file, const vector<Shape*> &shapes)
 
             file << shapeTypeString << '\n';
 
-            file << "ShapeDimensions: " << shape->getOrigin().x() << "," << shape->getOrigin().y() << ", " << shape->getLength() << ", " << shape->getWidth() << '\n';
+            file << "ShapeDimensions: " << shape->getOrigin().x() << ", " << shape->getOrigin().y() << ", " << shape->getLength() << ", " << shape->getWidth() << '\n';
 
             printTextShapeDataToFile(file, (Text*)currShape);
 

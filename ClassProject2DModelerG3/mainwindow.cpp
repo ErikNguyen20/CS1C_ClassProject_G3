@@ -431,6 +431,12 @@ void MainWindow::on_pushButton_clicked()
         currentShapes.erase(currentShapes.begin() + ui->comboBox->currentIndex());
         ui->comboBox->removeItem(ui->comboBox->currentIndex());
         renderArea->SetShapes(currentShapes);
+
+        if(!needsSave)
+        {
+            setWindowTitle('*'+windowTitle());
+            needsSave = true;
+        }
     }
 
 }
@@ -442,6 +448,12 @@ void MainWindow::on_pushButton_2_clicked()
     {
         currentShapes[ui->comboBox->currentIndex()]->move(ui->textEdit->toPlainText().toInt(), ui->textEdit_2->toPlainText().toInt());
         renderArea->SetShapes(currentShapes);
+
+        if(!needsSave)
+        {
+            setWindowTitle('*'+windowTitle());
+            needsSave = true;
+        }
     }
 
 }
