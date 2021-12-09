@@ -47,6 +47,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->actionAddLine->setDisabled(true);
     ui->actionAddPolyline->setDisabled(true);
     ui->actionAddPolygon->setDisabled(true);
+    ui->actionAddRectangle->setDisabled(true);
     ui->actionAddEllipse->setDisabled(true);
     ui->actionAddText->setDisabled(true);
 
@@ -229,6 +230,7 @@ void MainWindow::Login()
     ui->actionAddLine->setDisabled(false);
     ui->actionAddPolyline->setDisabled(false);
     ui->actionAddPolygon->setDisabled(false);
+    ui->actionAddRectangle->setDisabled(false);
     ui->actionAddEllipse->setDisabled(false);
     ui->actionAddText->setDisabled(false);
 }
