@@ -64,9 +64,20 @@ void Polyline::draw() const
 }
 void Polyline::move(int deltaX, int deltaY)
 {
-    for(int count = 0; count < pointCount; count++)
+    int originX, originY;
+    if(pointCount > 0)
     {
-        pointVector[count].setX(pointVector[count].x() + deltaX);
-        pointVector[count].setY(pointVector[count].y() + deltaY);
+        originX = pointVector[0].x();
+        originY = pointVector[0].y();
+        pointVector[0].setX(deltaX);
+        pointVector[0].setY(deltaY);
+    }
+    for(int count = 1; count < pointCount; count++)
+    {
+        int distX = pointVector[count].x() - originX;
+        int distY = pointVector[count].y() - originY;
+
+        pointVector[count].setX(distX + deltaX);
+        pointVector[count].setY(distY + deltaY);
     }
 }

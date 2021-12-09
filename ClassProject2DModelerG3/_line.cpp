@@ -49,6 +49,9 @@ void Line::draw() const
 
 void Line::move(int deltaX, int deltaY)
 {
-    setStartPoint(QPoint(getStartPoint().x() + deltaX, getStartPoint().y() + deltaY));
-    setEndPoint(QPoint(getEndPoint().x() + deltaX, getEndPoint().y() + deltaY));
+    int distX = getEndPoint().x() - getStartPoint().x();
+    int distY = getEndPoint().y() - getStartPoint().y();
+
+    setStartPoint(QPoint(deltaX, deltaY));
+    setEndPoint(QPoint(deltaX + distX,deltaY + distY));
 }
