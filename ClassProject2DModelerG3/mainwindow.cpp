@@ -255,7 +255,14 @@ void MainWindow::on_actionAddLine_triggered()
         {
             Shape *newShape = addLineWindow->GetShape();
             vector<Shape*> currentShapes = renderArea->GetShapes();
-            newShape->setID(currentShapes.size() + 1);
+            if(currentShapes.size() == 0)
+            {
+                newShape->setID(1);
+            }
+            else
+            {
+                newShape->setID(currentShapes[currentShapes.size() - 1]->getID() + 1);
+            }
             currentShapes.push_back(newShape);
             renderArea->SetShapes(currentShapes);
 
@@ -285,7 +292,14 @@ void MainWindow::on_actionAddPolyline_triggered()
         {
             Shape *newShape = addPolylineWindow->GetShape();
             vector<Shape*> currentShapes = renderArea->GetShapes();
-            newShape->setID(currentShapes.size() + 1);
+            if(currentShapes.size() == 0)
+            {
+                newShape->setID(1);
+            }
+            else
+            {
+                newShape->setID(currentShapes[currentShapes.size() - 1]->getID() + 1);
+            }
             currentShapes.push_back(newShape);
             renderArea->SetShapes(currentShapes);
 
@@ -315,7 +329,14 @@ void MainWindow::on_actionAddPolygon_triggered()
         {
             Shape *newShape = addPolygonWindow->GetShape();
             vector<Shape*> currentShapes = renderArea->GetShapes();
-            newShape->setID(currentShapes.size() + 1);
+            if(currentShapes.size() == 0)
+            {
+                newShape->setID(1);
+            }
+            else
+            {
+                newShape->setID(currentShapes[currentShapes.size() - 1]->getID() + 1);
+            }
             currentShapes.push_back(newShape);
             renderArea->SetShapes(currentShapes);
 
@@ -345,7 +366,14 @@ void MainWindow::on_actionAddRectangle_triggered()
         {
             Shape *newShape = addRectangleWindow->GetShape();
             vector<Shape*> currentShapes = renderArea->GetShapes();
-            newShape->setID(currentShapes.size() + 1);
+            if(currentShapes.size() == 0)
+            {
+                newShape->setID(1);
+            }
+            else
+            {
+                newShape->setID(currentShapes[currentShapes.size() - 1]->getID() + 1);
+            }
             currentShapes.push_back(newShape);
             renderArea->SetShapes(currentShapes);
 
@@ -375,7 +403,14 @@ void MainWindow::on_actionAddEllipse_triggered()
         {
             Shape *newShape = addEllipseWindow->GetShape();
             vector<Shape*> currentShapes = renderArea->GetShapes();
-            newShape->setID(currentShapes.size() + 1);
+            if(currentShapes.size() == 0)
+            {
+                newShape->setID(1);
+            }
+            else
+            {
+                newShape->setID(currentShapes[currentShapes.size() - 1]->getID() + 1);
+            }
             currentShapes.push_back(newShape);
             renderArea->SetShapes(currentShapes);
 
@@ -405,7 +440,14 @@ void MainWindow::on_actionAddText_triggered()
         {
             Shape *newShape = addTextWindow->GetShape();
             vector<Shape*> currentShapes = renderArea->GetShapes();
-            newShape->setID(currentShapes.size() + 1);
+            if(currentShapes.size() == 0)
+            {
+                newShape->setID(1);
+            }
+            else
+            {
+                newShape->setID(currentShapes[currentShapes.size() - 1]->getID() + 1);
+            }
             currentShapes.push_back(newShape);
             renderArea->SetShapes(currentShapes);
 
