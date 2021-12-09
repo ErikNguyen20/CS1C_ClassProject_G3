@@ -39,6 +39,16 @@ MainWindow::MainWindow(QWidget *parent) :
     renderArea = new RenderArea(ui->renderCanvas);
     renderArea->show();
     renderArea->update();
+    ui->textEdit->setDisabled(true);
+    ui->textEdit_2->setDisabled(true);
+    ui->comboBox->setDisabled(true);
+    ui->pushButton->setDisabled(true);
+    ui->pushButton_2->setDisabled(true);
+    ui->actionAddLine->setDisabled(true);
+    ui->actionAddPolyline->setDisabled(true);
+    ui->actionAddPolygon->setDisabled(true);
+    ui->actionAddEllipse->setDisabled(true);
+    ui->actionAddText->setDisabled(true);
 
     setWindowTitle(DEFAULT_WINDOW_NAME);
 }
@@ -211,7 +221,16 @@ void MainWindow::on_actionNew_triggered()
 
 void MainWindow::Login()
 {
-    //Add code to enable ui features.
+    ui->textEdit->setDisabled(false);
+    ui->textEdit_2->setDisabled(false);
+    ui->comboBox->setDisabled(false);
+    ui->pushButton->setDisabled(false);
+    ui->pushButton_2->setDisabled(false);
+    ui->actionAddLine->setDisabled(false);
+    ui->actionAddPolyline->setDisabled(false);
+    ui->actionAddPolygon->setDisabled(false);
+    ui->actionAddEllipse->setDisabled(false);
+    ui->actionAddText->setDisabled(false);
 }
 
 void MainWindow::on_actionTestimonials_triggered()
