@@ -64,7 +64,14 @@ void addEllipseDetails::on_buttonBox_accepted()
     }
     else
     {
-        newEllipse = new Ellipse(0, origin, semiMajorAxis, semiMinorAxis, qtPenColor, penWidth, qtPenStyle, qtPenCapStyle, qtPenJoinStyle, qtBrushColor, qtBrushStyle);
+        if(semiMajorAxis == semiMinorAxis)
+        {
+            newEllipse = new Circle(0, origin, semiMajorAxis, qtPenColor, penWidth, qtPenStyle, qtPenCapStyle, qtPenJoinStyle, qtBrushColor, qtBrushStyle);
+        }
+        else
+        {
+            newEllipse = new Ellipse(0, origin, semiMajorAxis, semiMinorAxis, qtPenColor, penWidth, qtPenStyle, qtPenCapStyle, qtPenJoinStyle, qtBrushColor, qtBrushStyle);
+        }
     }
 }
 

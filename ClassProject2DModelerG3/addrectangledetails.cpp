@@ -64,7 +64,14 @@ void addRectangleDetails::on_buttonBox_accepted()
     }
     else
     {
-        newRectangle = new Rectangle(0, origin, length, width, qtPenColor, penWidth, qtPenStyle, qtPenCapStyle, qtPenJoinStyle, qtBrushColor, qtBrushStyle);
+        if(length == width)
+        {
+            newRectangle = new Square(0, origin, length, qtPenColor, penWidth, qtPenStyle, qtPenCapStyle, qtPenJoinStyle, qtBrushColor, qtBrushStyle);
+        }
+        else
+        {
+            newRectangle = new Rectangle(0, origin, length, width, qtPenColor, penWidth, qtPenStyle, qtPenCapStyle, qtPenJoinStyle, qtBrushColor, qtBrushStyle);
+        }
     }
 }
 
