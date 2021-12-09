@@ -77,7 +77,7 @@ public:
         for (iterator pos = p + 1; pos != end(); pos++) {
             *(pos - 1) = *pos;
         }
-        delete (end() - 1);
+//        delete (end() - 1);
         size_v--;
         return p;
     }

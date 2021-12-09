@@ -7,7 +7,9 @@
 #include <QTextStream>
 #include <QFile>
 #include <QMessageBox>
+#include <QStringList>
 #include "functions.h"
+#include <QDebug>
 
 
 /******************** CONSTANTS ********************/
@@ -105,6 +107,20 @@ void MainWindow::on_actionOpen_triggered()
 
                 statusBar()->showMessage("Successfully opened file.");
                 file.close();
+
+                ui->comboBox->clear();
+                QStringList idAndNameList;
+                QString idAndName;
+                for(int i = 0; i < newObjects.size(); i++)
+                {
+                    idAndName = QString::number(newObjects[i]->getID());
+                    idAndName = idAndName + ' ';
+                    idAndName = idAndName + newObjects[i]->getShapeStypeString();
+
+                    idAndNameList.append(idAndName);
+                }
+                ui->comboBox->addItems(idAndNameList);
+
             }
             else
             {
@@ -186,6 +202,7 @@ void MainWindow::on_actionNew_triggered()
     vector<Shape*> emptyVector;
     renderArea->SetShapes(emptyVector);
     currentFilePath.clear();
+    ui->comboBox->clear();
     setWindowTitle(DEFAULT_WINDOW_NAME);
 }
 
@@ -222,6 +239,12 @@ void MainWindow::on_actionAddLine_triggered()
             newShape->setID(currentShapes.size() + 1);
             currentShapes.push_back(newShape);
             renderArea->SetShapes(currentShapes);
+
+            QString idAndName = QString::number(currentShapes[currentShapes.size() - 1]->getID());
+            idAndName = idAndName + ' ';
+            idAndName = idAndName + currentShapes[currentShapes.size() - 1]->getShapeStypeString();
+            ui->comboBox->addItem(idAndName);
+
             if(!needsSave)
             {
                 setWindowTitle('*'+windowTitle());
@@ -246,6 +269,12 @@ void MainWindow::on_actionAddPolyline_triggered()
             newShape->setID(currentShapes.size() + 1);
             currentShapes.push_back(newShape);
             renderArea->SetShapes(currentShapes);
+
+            QString idAndName = QString::number(currentShapes[currentShapes.size() - 1]->getID());
+            idAndName = idAndName + ' ';
+            idAndName = idAndName + currentShapes[currentShapes.size() - 1]->getShapeStypeString();
+            ui->comboBox->addItem(idAndName);
+
             if(!needsSave)
             {
                 setWindowTitle('*'+windowTitle());
@@ -270,6 +299,12 @@ void MainWindow::on_actionAddPolygon_triggered()
             newShape->setID(currentShapes.size() + 1);
             currentShapes.push_back(newShape);
             renderArea->SetShapes(currentShapes);
+
+            QString idAndName = QString::number(currentShapes[currentShapes.size() - 1]->getID());
+            idAndName = idAndName + ' ';
+            idAndName = idAndName + currentShapes[currentShapes.size() - 1]->getShapeStypeString();
+            ui->comboBox->addItem(idAndName);
+
             if(!needsSave)
             {
                 setWindowTitle('*'+windowTitle());
@@ -294,6 +329,12 @@ void MainWindow::on_actionAddRectangle_triggered()
             newShape->setID(currentShapes.size() + 1);
             currentShapes.push_back(newShape);
             renderArea->SetShapes(currentShapes);
+
+            QString idAndName = QString::number(currentShapes[currentShapes.size() - 1]->getID());
+            idAndName = idAndName + ' ';
+            idAndName = idAndName + currentShapes[currentShapes.size() - 1]->getShapeStypeString();
+            ui->comboBox->addItem(idAndName);
+
             if(!needsSave)
             {
                 setWindowTitle('*'+windowTitle());
@@ -318,6 +359,12 @@ void MainWindow::on_actionAddEllipse_triggered()
             newShape->setID(currentShapes.size() + 1);
             currentShapes.push_back(newShape);
             renderArea->SetShapes(currentShapes);
+
+            QString idAndName = QString::number(currentShapes[currentShapes.size() - 1]->getID());
+            idAndName = idAndName + ' ';
+            idAndName = idAndName + currentShapes[currentShapes.size() - 1]->getShapeStypeString();
+            ui->comboBox->addItem(idAndName);
+
             if(!needsSave)
             {
                 setWindowTitle('*'+windowTitle());
@@ -342,6 +389,12 @@ void MainWindow::on_actionAddText_triggered()
             newShape->setID(currentShapes.size() + 1);
             currentShapes.push_back(newShape);
             renderArea->SetShapes(currentShapes);
+
+            QString idAndName = QString::number(currentShapes[currentShapes.size() - 1]->getID());
+            idAndName = idAndName + ' ';
+            idAndName = idAndName + currentShapes[currentShapes.size() - 1]->getShapeStypeString();
+            ui->comboBox->addItem(idAndName);
+
             if(!needsSave)
             {
                 setWindowTitle('*'+windowTitle());
@@ -369,3 +422,27 @@ void MainWindow::closeEvent(QCloseEvent*)
         needsSave = false;
     }
 }
+
+void MainWindow::on_pushButton_clicked()
+{
+    vector<Shape*> currentShapes = renderArea->GetShapes();
+    if(currentShapes.size() > 0)
+    {
+        currentShapes.erase(currentShapes.begin() + ui->comboBox->currentIndex());
+        ui->comboBox->removeItem(ui->comboBox->currentIndex());
+        renderArea->SetShapes(currentShapes);
+    }
+
+}
+
+void MainWindow::on_pushButton_2_clicked()
+{
+    vector<Shape*> currentShapes = renderArea->GetShapes();
+    if(currentShapes.size() > 0)
+    {
+        currentShapes[ui->comboBox->currentIndex()]->move(ui->textEdit->toPlainText().toInt(), ui->textEdit_2->toPlainText().toInt());
+        renderArea->SetShapes(currentShapes);
+    }
+
+}
+

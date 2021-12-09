@@ -8,6 +8,7 @@
 #include <QTextStream>
 #include <QFile>
 #include <QRegularExpression>
+#define throw(ParserException)
 
 using std::endl;
 

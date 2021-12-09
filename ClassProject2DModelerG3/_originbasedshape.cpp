@@ -16,5 +16,5 @@ QPoint OriginBasedShape::getOrigin() const
 // Draw() functions are defined by the individual shape classes
 void OriginBasedShape::move(int deltaX, int deltaY)
 {
-    setOrigin(QPoint(getOrigin().x() + deltaX, getOrigin().y() + deltaY));
+    setOrigin(QPoint(deltaX, deltaY));
 }

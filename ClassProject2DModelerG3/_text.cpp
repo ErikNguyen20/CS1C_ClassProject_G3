@@ -99,6 +99,6 @@ void Text::draw() const
 }
 void Text::move(int deltaX, int deltaY)
 {
-    origin.setX(origin.x() + deltaX);
-    origin.setY(origin.y() + deltaY);
+    origin.setX(deltaX);
+    origin.setY(deltaY);
 }
