@@ -44,5 +44,9 @@ void Rectangle::draw() const
     getPainter()->setPen(newPen);
     getPainter()->setBrush(newBrush);
     getPainter()->drawRect(getOrigin().x(),getOrigin().y(),getLength(),getWidth());
+
+    QString idName = "ID: " + QString::number(getID());
+    getPainter()->setPen(Qt::black);
+    getPainter()->drawText(getOrigin().x(),(getOrigin().y() - 15), 100, 50, Qt::AlignLeft, idName);
 }
 // Move() function is defined by OriginBasedShape

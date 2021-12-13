@@ -96,6 +96,16 @@ void Text::draw() const
     getPainter()->setFont(newFont);
 
     getPainter()->drawText(getOrigin().x(),getOrigin().y(),getLength(),getWidth(),getTextAlign(),getTextString());
+
+    newFont.setFamily("Arial");
+    newFont.setWeight(QFont::Normal);
+    newFont.setStyle(QFont::StyleNormal);
+    newFont.setPointSize(9);
+    QString idName = "ID: " + QString::number(getID());
+    getPainter()->setPen(Qt::black);
+    getPainter()->setFont(newFont);
+    getPainter()->drawText(getOrigin().x() + 15,(getOrigin().y() - 15), 100, 50, Qt::AlignLeft, idName);
+
 }
 void Text::move(int deltaX, int deltaY)
 {

@@ -61,6 +61,10 @@ void Polyline::draw() const
 
     getPainter()->setPen(newPen);
     getPainter()->drawPolyline(pointVector.begin(),getPointCount());
+
+    QString idName = "ID: " + QString::number(getID());
+    getPainter()->setPen(Qt::black);
+    getPainter()->drawText(pointVector[0].x(),(pointVector[1].y() - 15), 100, 50, Qt::AlignLeft, idName);
 }
 void Polyline::move(int deltaX, int deltaY)
 {

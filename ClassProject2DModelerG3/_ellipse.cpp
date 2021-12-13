@@ -43,5 +43,16 @@ void Ellipse::draw() const
     getPainter()->setPen(newPen);
     getPainter()->setBrush(newBrush);
     getPainter()->drawEllipse(getOrigin(),getSemiMajor(),getSemiMinor());
+
+    QString idName = "ID: " + QString::number(getID());
+    getPainter()->setPen(Qt::black);
+    if(getSemiMajor() == getSemiMinor())
+    {
+        getPainter()->drawText(getOrigin().x() - getSemiMajor(),(getOrigin().y() - getSemiMajor()), 100, 50, Qt::AlignLeft, idName);
+    }
+    else
+    {
+        getPainter()->drawText(getOrigin().x() - getSemiMajor(),(getOrigin().y() - ( 0.75 * getSemiMajor())), 100, 50, Qt::AlignLeft, idName);
+    }
 }
 // Move() function is defined by OriginBasedShape

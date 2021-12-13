@@ -46,5 +46,9 @@ void Polygon::draw() const
     getPainter()->setPen(newPen);
     getPainter()->setBrush(newBrush);
     getPainter()->drawPolygon(pointVector.begin(), getPointCount());
+
+    QString idName = "ID: " + QString::number(getID());
+    getPainter()->setPen(Qt::black);
+    getPainter()->drawText(pointVector[0].x(),(pointVector[1].y() - 15), 100, 50, Qt::AlignLeft, idName);
 }
 // Move() function is defined by Polyline
