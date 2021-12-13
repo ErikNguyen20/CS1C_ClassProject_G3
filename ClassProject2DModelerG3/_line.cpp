@@ -45,6 +45,10 @@ void Line::draw() const
 
     getPainter()->setPen(newPen);
     getPainter()->drawLine(getStartPoint(), getEndPoint());
+
+    QString idName = "ID: " + QString::number(getID());
+    getPainter()->setPen(Qt::black);
+    getPainter()->drawText(getStartPoint().x(),(getEndPoint().y() - 15), 100, 50, Qt::AlignLeft, idName);
 }
 
 void Line::move(int deltaX, int deltaY)
