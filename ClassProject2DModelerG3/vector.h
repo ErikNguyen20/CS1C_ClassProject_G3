@@ -1,44 +1,128 @@
-﻿// a vector which approximates the stl vector
-
+﻿
 #include <algorithm>
 using std::copy;
 
 #ifndef VECTOR_H
 #define VECTOR_H
 
+//! Templated Vector Class
+/*! A vector class that approximates the STL vector. */
 template<typename T>
 class vector
 {
 private:
+    //! A private variable data member.
+    /*! Contains the number of elements in the vector. */
     int size_v; // the size
+
+    //! A private variable data member.
+    /*! Pointer to a dynamically allocated array on the heap. */
     T* elem; // a pointer to the array of elements
+
+    //! A private instance datamember.
+    /*! Contains the capacity of the vector. */
     int space; // size+free_space (capacity)
 
 public:
+    //! Default Constructor
+    /*! Constructs a new vector object. */
     vector(); // default constructor
+
+    //! Alternate Constructor
+    /*! Constructs a new vector object.
+        \param s an integer argument for size.
+    */
     explicit vector(int s); // alternate constructor
+
+    //! Copy Constructor
+    /*! Constructs a new vector object, copying the contents from the other vector.
+        \param vector& an lvalue vector.
+    */
     vector(const vector&); // copy constructor
+
+    //! Copy Assignment
+    /*! Copies the contents of one vector to the other.
+        \param vector& an lvalue vector.
+    */
     vector& operator=(const vector&); // copy assignment
+
+    //! Move Constructor
+    /*! Constructs a new vector object, moving the contents from the other vector.
+        \param vector&& an rvalue vector.
+    */
     vector(vector&&); // move constructor
+
+    //! Move Assignment
+    /*! Moves the contents of one vector to the other.
+        \param vector&& an rvalue vector.
+    */
     vector& operator=(vector&&); // move assignment
+
+    //! Destructor
+    /*! Destructs the vector object. */
     ~vector(); // destructor
+
+    //! Overloaded Subscript Operator
+    /*! Allows for access of a particular element.
+        \param n an integer index.
+        \return The element at a particular index.
+    */
     T& operator[] (int n); // access: return reference
+
+    //! Overloaded Subscript Operator
+    /*! Allows for access of a particular element.
+        \param n an integer index.
+        \return A constant reference to the element at a particualr index.
+    */
     const T& operator[] (int n) const; // access: return reference
+
+    //! Member function that returns the size of the vector.
+    /*!
+        \return An integer size of the vector.
+    */
     int size() const; // the current size
+
+    //! Member function that returns the capacity of the vector.
+    /*!
+        \return An integer capacity of the vector.
+    */
     int capacity() const; // current available space
+
+    //! Member function that resizes the vector based on the parameter.
+    /*!
+        \param newsize an integer argument for size.
+    */
     void resize(int newsize); // grow
 
+    //! Member function that adds an element to the end of the vector.
+    /*!
+        \param val a value that is added to the back of the vector.
+    */
     void push_back(T val); // add element
+
+    //! Member function that reserves more space for the vector.
+    /*!
+        \param newalloc an integer capacity of the vector.
+    */
     void reserve(int newalloc); // get more space
     using iterator = T*;
     using const_iterator = const T*;
 
+    //! The begin iterator.
+    /*!
+        \return Iterator to the first element.
+    */
     iterator begin() { // points to first element
         if (size_v == 0) {
             return nullptr;
         }
         return &elem[0];
     }
+
+    //! The begin const_iterator.
+    /*!
+        \return Constant iterator to the first element.
+    */
     const_iterator begin() const {
         if (size_v == 0) {
             return nullptr;
@@ -46,6 +130,10 @@ public:
         return &elem[0];
     }
     
+    //! The end iterator.
+    /*!
+        \return Iterator to one past the last element.
+    */
     iterator end() { // points to one beyond the last element
         if (size_v == 0) {
             return nullptr;
@@ -53,12 +141,22 @@ public:
         return &elem[size_v];
     }
     
+    //! The end const_iterator.
+    /*!
+        \return Constant iterator to one past the last element.
+    */
     const_iterator end() const {
         if (size_v == 0) {
             return nullptr;
         }
         return &elem[size_v];
     }
+
+    //! Insert a new element at the iterator.
+    /*!
+        \param p an iterator pointing to the insertion position.
+        \param v an element being inserted into the vector.
+    */
     iterator insert(iterator p, const T& v) { // insert a new element v before p
         if (size_v == space) {
             return nullptr;
@@ -66,10 +164,16 @@ public:
         for (iterator pos = p + 1; pos != end(); pos++) {
             *(pos + 1) = *pos;
         }
-        elem[p] = v;
+        *p = v;
         size_v++;
         return nullptr;
     }
+
+    //! Remove an element at the iterator.
+    /*!
+        \param p an iterator pointing to the deletion position.
+        \return The iterator.
+    */
     iterator erase(iterator p) { // remove element pointed to by p
         if (p == end()) {
             return p;
@@ -103,7 +207,7 @@ vector<T>& vector<T>::operator=(const vector& v)
 {
     T *p = new T[v.size_v];
     copy(v.elem, v.elem + v.size_v, p);
-    delete elem;
+    delete[] elem;
     elem = p;
     size_v = v.size_v;
     return *this;
