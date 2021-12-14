@@ -44,7 +44,7 @@ public:
     Square& operator= (const Square&) = delete;
 
     //! Destructor
-    /*! Destructs the ellipse object. */
+    /*! Destructs the square object. */
     ~Square();
 
     //! Member function that sets the length of the rectangle.

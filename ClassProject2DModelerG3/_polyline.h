@@ -56,7 +56,7 @@ public:
     Polyline& operator= (const Polyline&) = delete;
 
     //! Destructor
-    /*! Destructs the line object. */
+    /*! Destructs the polyline object. */
     ~Polyline();
 
     //! Member function that adds a point to the polyline.
@@ -110,11 +110,11 @@ public:
     QString getShapeStypeString() const override {return "Polyline";}
 
 protected:
-    //! A private variable data member.
+    //! A protected variable data member.
     /*! Contains a vector of QPoints representing the polyline. */
     vector<QPoint> pointVector;
 
-    //! A private variable data member.
+    //! A protected variable data member.
     /*! Contains the number of points on the polyline. */
     int pointCount;
 };

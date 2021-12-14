@@ -52,7 +52,7 @@ public:
     Text(QString text);
 
     //! Destructor
-    /*! Destructs the ellipse object. */
+    /*! Destructs the text object. */
     ~Text();
 
     //! Member function that sets the origin point.

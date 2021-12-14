@@ -45,7 +45,7 @@ public:
     Rectangle& operator= (const Rectangle&) = delete;
 
     //! Destructor
-    /*! Destructs the ellipse object. */
+    /*! Destructs the rectangle object. */
     virtual ~Rectangle();
 
     //! Member function that sets the length of the rectangle.
@@ -95,11 +95,11 @@ public:
     QString getShapeStypeString() const override {return "Rectangle";}
     
 protected:
-    //! A private variable data member.
+    //! A protected variable data member.
     /*! Contains the integer length of the rectangle. */
     int length; //make int
 
-    //! A private variable data member.
+    //! A protected variable data member.
     /*! Contains the integer width of the rectangle. */
     int width;  //make int
 };
