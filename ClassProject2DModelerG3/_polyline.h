@@ -93,13 +93,13 @@ public:
 
     //! Member function that returns the perimeter of the shape.
     /*!
-        \return a double for the perimeter of the shape.
+        \return A double for the perimeter of the shape.
     */
     double perimeter() const override;
 
     //! Member function that returns the area of the shape.
     /*!
-        \return a double for the area of the shape.
+        \return A double for the area of the shape.
     */
     double area() const override;
 

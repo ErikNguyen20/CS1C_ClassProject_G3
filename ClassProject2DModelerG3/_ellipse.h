@@ -62,13 +62,13 @@ public:
 
     //! Member function that returns the semi major axis size.
     /*!
-        \return an integer for the semi major axis size.
+        \return An integer for the semi major axis size.
     */
     int getSemiMajor() const;
 
     //! Member function that returns the semi minor axis size.
     /*!
-        \return an integer for the semi minor axis size.
+        \return An integer for the semi minor axis size.
     */
     int getSemiMinor() const;
 
@@ -78,13 +78,13 @@ public:
 
     //! Member function that returns the perimeter of the shape.
     /*!
-        \return a double for the perimeter of the shape.
+        \return A double for the perimeter of the shape.
     */
     double perimeter() const override;
 
     //! Member function that returns the area of the shape.
     /*!
-        \return a double for the area of the shape.
+        \return A double for the area of the shape.
     */
     double area() const override;
 
