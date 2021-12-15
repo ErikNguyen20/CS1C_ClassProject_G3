@@ -205,45 +205,26 @@ public:
     QString getShapeStypeString() const override {return "Text";}
 
 private:
-    //! A private variable data member.
-    /*! Contains the origin point of the text. */
-    QPoint origin;  // top left corner
 
-    //! A private variable data member.
-    /*! Contains the integer length of the text. */
-    int length; //make int
+    QPoint origin;                  /*!< Contains the origin point of the text. */
 
-    //! A private variable data member.
-    /*! Contains the integer width of the text. */
-    int width;  //make int
+    int length;                     /*!< Contains the integer length of the text. */
 
-    //! A private variable data member.
-    /*! Contains the QString of the text. */
-    QString textString;
+    int width;                      /*!< Contains the integer width of the text. */
 
-    //! A private variable data member.
-    /*! Contains the enum color of the text. */
-    Qt::GlobalColor textColor;
+    QString textString;             /*!< Contains the QString of the text. */
 
-    //! A private variable data member.
-    /*! Contains the enum alignmet of the text. */
-    Qt::AlignmentFlag textAlign;
+    Qt::GlobalColor textColor;      /*!< Contains the enum color of the text. */
 
-    //! A private variable data member.
-    /*! Contains the integer text point size of the text. */
-    int textPointSize;
+    Qt::AlignmentFlag textAlign;    /*!< Contains the enum alignmet of the text. */
 
-    //! A private variable data member.
-    /*! Contains the QString text font family of the text. */
-    QString textFontFam;
+    int textPointSize;              /*!< Contains the integer text point size of the text. */
 
-    //! A private variable data member.
-    /*! Contains the enum text font style of the text. */
-    QFont::Style textFontStyle; //Use QPoint Style enum
+    QString textFontFam;            /*!< Contains the QString text font family of the text. */
 
-    //! A private variable data member.
-    /*! Contains the enum text font weight of the text. */
-    QFont::Weight textFontWeight;
+    QFont::Style textFontStyle;     /*!< Contains the enum text font style of the text. */
+
+    QFont::Weight textFontWeight;   /*!< Contains the enum text font weight of the text. */
 };
 
 #endif // _TEXT_H

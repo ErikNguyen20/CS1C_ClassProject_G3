@@ -7,7 +7,7 @@
 #include "vector.h"
 #include "shapemaster.h"
 
-//! Render Area Class
+//! RenderArea Class
 /*! Class that uses QPainter to render an area on a widget. */
 class RenderArea : public QWidget
 {
@@ -53,9 +53,7 @@ protected:
     void paintEvent(QPaintEvent *event) override;
 
 private:
-    //! A private variable data member.
-    /*! Contains the shapes currently rendered by the render area object. */
-    vector<Shape*> shapes;
+    vector<Shape*> shapes; /*!< Contains the shapes currently rendered by the render area object. */
 
 };
 

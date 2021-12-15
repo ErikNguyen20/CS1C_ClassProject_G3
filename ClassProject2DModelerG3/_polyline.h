@@ -110,13 +110,10 @@ public:
     QString getShapeStypeString() const override {return "Polyline";}
 
 protected:
-    //! A protected variable data member.
-    /*! Contains a vector of QPoints representing the polyline. */
-    vector<QPoint> pointVector;
 
-    //! A protected variable data member.
-    /*! Contains the number of points on the polyline. */
-    int pointCount;
+    vector<QPoint> pointVector; /*!< Contains a vector of QPoints representing the polyline. */
+
+    int pointCount;             /*!< Contains the number of points on the polyline. */
 };
 
 #endif // _POLYLINE_H

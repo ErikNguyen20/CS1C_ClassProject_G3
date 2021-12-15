@@ -95,13 +95,10 @@ public:
     QString getShapeStypeString() const override {return "Rectangle";}
     
 protected:
-    //! A protected variable data member.
-    /*! Contains the integer length of the rectangle. */
-    int length; //make int
 
-    //! A protected variable data member.
-    /*! Contains the integer width of the rectangle. */
-    int width;  //make int
+    int length; /*!< Contains the integer length of the rectangle. */
+
+    int width;  /*!< Contains the integer width of the rectangle. */
 };
 
 #endif // _RECTANGLE_H

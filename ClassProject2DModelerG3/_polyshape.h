@@ -142,33 +142,19 @@ public:
 
 private:
     // PEN PROPERTIES
-    //! A private variable data member.
-    /*! Contains the enum pen color of the shape. */
-    Qt::GlobalColor penColor;
+    Qt::GlobalColor penColor;       /*!< Contains the enum pen color of the shape. */
 
-    //! A private variable data member.
-    /*! Contains the integer pen width of the shape. */
-    int penWidth;
+    int penWidth;                   /*!< Contains the integer pen width of the shape. */
 
-    //! A private variable data member.
-    /*! Contains the enum pen style of the shape. */
-    Qt::PenStyle penStyle;
+    Qt::PenStyle penStyle;          /*!< Contains the enum pen style of the shape. */
 
-    //! A private variable data member.
-    /*! Contains the enum pen cap style of the shape. */
-    Qt::PenCapStyle penCapStyle;
+    Qt::PenCapStyle penCapStyle;    /*!< Contains the enum pen cap style of the shape. */
 
-    //! A private variable data member.
-    /*! Contains the enum pen join style of the shape. */
-    Qt::PenJoinStyle penJoinStyle;
+    Qt::PenJoinStyle penJoinStyle;  /*!< Contains the enum pen join style of the shape. */
 
     // BRUSH PROPERTIES
-    //! A private variable data member.
-    /*! Contains the enum brush color of the shape. */
-    Qt::GlobalColor brushColor;
+    Qt::GlobalColor brushColor;     /*!< Contains the enum brush color of the shape. */
 
-    //! A private variable data member.
-    /*! Contains the enum brush style of the shape. */
-    Qt::BrushStyle brushStyle;
+    Qt::BrushStyle brushStyle;      /*!< Contains the enum brush style of the shape. */
 };
 #endif // _POLYSHAPE_H

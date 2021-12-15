@@ -114,13 +114,10 @@ public:
     QString getShapeStypeString() const override {return "Line";}
 
 private:
-    //! A private variable data member.
-    /*! Contains the QPoint position of the starting point. */
-    QPoint startPoint;
 
-    //! A private variable data member.
-    /*! Contains the QPoint position of the ending point. */
-    QPoint endPoint;
+    QPoint startPoint; /*!< Contains the QPoint position of the starting point. */
+
+    QPoint endPoint;   /*!< Contains the QPoint position of the ending point. */
 };
 
 #endif // _LINE_H

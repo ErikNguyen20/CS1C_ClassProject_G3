@@ -11,17 +11,9 @@ template<typename T>
 class vector
 {
 private:
-    //! A private variable data member.
-    /*! Contains the number of elements in the vector. */
-    int size_v; // the size
-
-    //! A private variable data member.
-    /*! Pointer to a dynamically allocated array on the heap. */
-    T* elem; // a pointer to the array of elements
-
-    //! A private instance datamember.
-    /*! Contains the capacity of the vector. */
-    int space; // size+free_space (capacity)
+    int size_v; /*!< Contains the number of elements in the vector. */
+    T* elem;    /*!< Pointer to a dynamically allocated array on the heap. */
+    int space;  /*!< Contains the capacity of the vector. */
 
 public:
     //! Default Constructor

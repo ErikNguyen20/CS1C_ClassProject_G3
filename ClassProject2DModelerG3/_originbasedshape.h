@@ -64,9 +64,7 @@ public:
     */
     QPoint getOrigin() const;
 private:
-    //! A private variable data member.
-    /*! Contains the QPoint origin point of the shape. */
-    QPoint origin;  // top left corner
+    QPoint origin;  /*!< Contains the QPoint origin point of the shape. */
 };
 
 #endif // _ORIGINBASEDSHAPE_H

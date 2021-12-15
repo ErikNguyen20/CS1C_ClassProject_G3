@@ -95,13 +95,10 @@ public:
     QString getShapeStypeString() const override  {return "Ellipse";}
     
 protected:
-    //! A protected variable data member.
-    /*! Contains the integer size of the semi major axis. */
-    int a;      // semi-major axis <- make int
 
-    //! A protected variable data member.
-    /*! Contains the integer size of the semi minor axis. */
-    int b;      // semi-minor axis <- make int
+    int a; /*!< Contains the integer size of the semi major axis. */
+
+    int b; /*!< Contains the integer size of the semi minor axis. */
 };
 
 #endif // _ELLIPSE_H
